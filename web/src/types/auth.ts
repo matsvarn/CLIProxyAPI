@@ -8,6 +8,8 @@ export interface LoginCredentials {
   apiBase: string;
   managementKey: string;
   rememberPassword?: boolean;
+  /** 后端托管面板的本地受信任会话（CPA_TRUST_LOCAL_PANEL=1），managementKey 可为空。 */
+  trustedLocal?: boolean;
 }
 
 // 认证状态
@@ -19,6 +21,8 @@ export interface AuthState {
   serverVersion: string | null;
   serverBuildDate: string | null;
   supportsPlugin: boolean;
+  /** 本地受信任会话标记；不持久化，密钥也未保存。 */
+  trustedLocal?: boolean;
 }
 
 // 连接状态

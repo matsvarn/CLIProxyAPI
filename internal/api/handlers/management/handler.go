@@ -61,6 +61,7 @@ type Handler struct {
 	pluginStoreHTTPClient   pluginstore.HTTPDoer
 	pluginStoreRateLimiter  *pluginstore.GitHubRateLimiter
 	pluginReleases          pluginReleaseCache
+	trustLocalPanel         bool
 }
 
 type configReloadSnapshot struct {
@@ -81,6 +82,7 @@ func NewHandler(cfg *config.Config, configFilePath string, manager *coreauth.Man
 		tokenStore:          sdkAuth.GetTokenStore(),
 		allowRemoteOverride: envSecret != "",
 		envSecret:           envSecret,
+		trustLocalPanel:     strings.TrimSpace(os.Getenv("CPA_TRUST_LOCAL_PANEL")) == "1",
 	}
 	h.startAttemptCleanup()
 	return h
@@ -285,6 +287,13 @@ func (h *Handler) Middleware() gin.HandlerFunc {
 		}
 		if provided == "" {
 			provided = c.GetHeader("X-Management-Key")
+		}
+
+		// CPA_TRUST_LOCAL_PANEL=1 lets the panel served by this binary call the
+		// management API keyless, but only for same-origin loopback requests.
+		if h.trustLocalPanel && localClient && isTrustedLocalPanelRequest(c.Request) {
+			c.Next()
+			return
 		}
 
 		allowed, statusCode, errMsg := h.AuthenticateManagementKey(clientIP, localClient, provided)

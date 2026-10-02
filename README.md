@@ -326,3 +326,22 @@ This is a tool built with Tauri 2 + Vue 3 for managing multiple OpenAI Codex des
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Local custom build
+
+`scripts/install-local.sh` builds the bundled `web/` management UI, embeds it into the Go binary, and installs a launchd agent (`dev.local.cliproxyapi`) that runs the local build with `CPA_TRUST_LOCAL_PANEL=1`, which lets the panel served by this binary use the management API without a key from the same loopback origin. It stops the Homebrew `cliproxyapi` service first (the formula is left installed).
+
+Update flow:
+
+```bash
+git fetch upstream && git rebase upstream/main
+git subtree pull --prefix web upstream-ui main
+./scripts/install-local.sh
+```
+
+Rollback:
+
+```bash
+launchctl bootout gui/$(id -u)/dev.local.cliproxyapi
+brew services start cliproxyapi
+```

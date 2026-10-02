@@ -60,3 +60,10 @@ go build -o test-output ./cmd/server && rm test-output # Verify compile (REQUIRE
 - Avoid wall-clock `time.Sleep` in TTL, expiration, ordering, or cache-eviction unit tests due to platform timer granularity (e.g. Windows default timer resolution of ~15.6ms) and CI jitter under load; prefer controllable clocks (`nowFunc` / mock clock), explicit timestamp manipulation, or deterministic synchronization primitives.
 - Note: if modifying features that involve CLIProxyAPIHome, check if corresponding updates are needed in the CLIProxyAPIHome repository.
 - Endpoints under the `/v0/management` base URL are deprecated and no longer maintained. For any feature changes, do not modify endpoints under `/v0/management` unless necessary to fix compilation errors.
+
+## Local custom build (this fork)
+
+- `scripts/install-local.sh` builds `web/` (`bun install --frozen-lockfile && bun run build`), embeds `web/dist/index.html` as `internal/managementasset/panel/management.html` (gitignored, `//go:embed`), builds `~/.local/bin/cliproxyapi` with version ldflags, installs launchd agent `dev.local.cliproxyapi` (`CPA_TRUST_LOCAL_PANEL=1`), stops the Homebrew service, and waits for port 8317.
+- Update flow: `git fetch upstream && git rebase upstream/main`, `git subtree pull --prefix web upstream-ui main`, rerun `scripts/install-local.sh`.
+- Rollback: `launchctl bootout gui/$(id -u)/dev.local.cliproxyapi && brew services start cliproxyapi`.
+- `CPA_TRUST_LOCAL_PANEL=1` enables keyless management API only for same-origin loopback requests (`internal/api/handlers/management/local_panel_trust.go`); the management key still works everywhere.

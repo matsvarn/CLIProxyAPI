@@ -105,6 +105,9 @@ func runAutoUpdater(ctx context.Context) {
 }
 
 func autoUpdateSkipReason(cfg *config.Config) (string, bool) {
+	if _, embedded := EmbeddedPanel(); embedded {
+		return "embedded control panel in use", true
+	}
 	if cfg == nil {
 		return "config not yet available", true
 	}

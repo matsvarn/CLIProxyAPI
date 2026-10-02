@@ -314,6 +314,7 @@ export function MainLayout() {
   const location = useLocation();
 
   const logout = useAuthStore((state) => state.logout);
+  const trustedLocal = useAuthStore((state) => state.trustedLocal);
   const connectionStatus = useAuthStore((state) => state.connectionStatus);
   const apiBase = useAuthStore((state) => state.apiBase);
   const supportsPlugin = useAuthStore((state) => state.supportsPlugin);
@@ -1139,7 +1140,13 @@ export function MainLayout() {
               </div>
             )}
           </div>
-          <Button variant="ghost" size="sm" onClick={logout} title={t('header.logout')}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={logout}
+            disabled={trustedLocal}
+            title={t(trustedLocal ? 'header.local_trusted_session' : 'header.logout')}
+          >
             {headerIcons.logout}
           </Button>
         </div>

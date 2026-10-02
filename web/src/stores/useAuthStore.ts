@@ -14,6 +14,7 @@ import { useConfigStore } from './useConfigStore';
 import { useModelsStore } from './useModelsStore';
 import { useQuotaStore } from './useQuotaStore';
 import { detectApiBaseFromLocation, normalizeApiBase } from '@/utils/connection';
+import { shouldProbeTrustedLocalHere } from '@/utils/trustedLocal';
 
 interface AuthStoreState extends AuthState {
   connectionStatus: ConnectionStatus;
@@ -40,6 +41,7 @@ export const useAuthStore = create<AuthStoreState>()(
       serverVersion: null,
       serverBuildDate: null,
       supportsPlugin: false,
+      trustedLocal: false,
       connectionStatus: 'disconnected',
 
       // 恢复会话并自动登录
@@ -84,6 +86,22 @@ export const useAuthStore = create<AuthStoreState>()(
             }
           }
 
+          // 后端托管的面板（CPA_TRUST_LOCAL_PANEL=1）：探测一次无密钥请求，
+          // 200 则直接进入本地受信任会话；失败则照常显示登录页。
+          if (shouldProbeTrustedLocalHere(resolvedBase)) {
+            try {
+              await get().login({
+                apiBase: resolvedBase,
+                managementKey: '',
+                rememberPassword: false,
+                trustedLocal: true,
+              });
+              return true;
+            } catch {
+              return false;
+            }
+          }
+
           return false;
         })();
 
@@ -95,6 +113,7 @@ export const useAuthStore = create<AuthStoreState>()(
         const apiBase = normalizeApiBase(credentials.apiBase);
         const managementKey = credentials.managementKey.trim();
         const rememberPassword = credentials.rememberPassword ?? get().rememberPassword ?? false;
+        const trustedLocal = credentials.trustedLocal === true;
 
         try {
           set({
@@ -102,6 +121,7 @@ export const useAuthStore = create<AuthStoreState>()(
             serverVersion: null,
             serverBuildDate: null,
             supportsPlugin: false,
+            trustedLocal: false,
           });
           useConfigStore.getState().clearCache();
           useModelsStore.getState().clearCache();
@@ -135,6 +155,7 @@ export const useAuthStore = create<AuthStoreState>()(
             apiBase,
             managementKey,
             rememberPassword,
+            trustedLocal,
             connectionStatus: 'connected',
           });
           if (rememberPassword) {
@@ -162,6 +183,7 @@ export const useAuthStore = create<AuthStoreState>()(
           serverVersion: null,
           serverBuildDate: null,
           supportsPlugin: false,
+          trustedLocal: false,
           connectionStatus: 'disconnected',
         });
         localStorage.removeItem('isLoggedIn');
@@ -169,9 +191,9 @@ export const useAuthStore = create<AuthStoreState>()(
 
       // 检查认证状态
       checkAuth: async () => {
-        const { managementKey, apiBase } = get();
+        const { managementKey, apiBase, trustedLocal } = get();
 
-        if (!managementKey || !apiBase) {
+        if (!apiBase || (!managementKey && !trustedLocal)) {
           return false;
         }
 

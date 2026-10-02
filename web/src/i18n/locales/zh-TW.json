@@ -91,7 +91,8 @@
   },
   "header": {
     "refresh_all": "全部重新整理",
-    "logout": "登出"
+    "logout": "登出",
+    "local_trusted_session": "本機受信任會話"
   },
   "connection": {
     "status": "連線狀態:"

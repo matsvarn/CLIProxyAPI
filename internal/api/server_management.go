@@ -313,6 +313,11 @@ func (s *Server) serveManagementControlPanel(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
+	if panel, ok := managementasset.EmbeddedPanel(); ok {
+		c.Header("Cache-Control", "no-cache")
+		c.Data(http.StatusOK, "text/html; charset=utf-8", panel)
+		return
+	}
 	filePath := managementasset.FilePath(s.configFilePath)
 	if strings.TrimSpace(filePath) == "" {
 		c.AbortWithStatus(http.StatusNotFound)

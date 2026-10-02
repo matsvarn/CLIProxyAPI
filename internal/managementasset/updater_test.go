@@ -110,11 +110,19 @@ func TestAutoUpdateSkipReason(t *testing.T) {
 		},
 	}
 
+	// When the binary embeds the control panel, auto-update is always skipped
+	// regardless of configuration, so every case expects the embedded reason.
+	_, embedded := EmbeddedPanel()
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			wantReason, wantSkip := tt.wantReason, tt.wantSkip
+			if embedded {
+				wantReason, wantSkip = "embedded control panel in use", true
+			}
 			gotReason, gotSkip := autoUpdateSkipReason(tt.cfg)
-			if gotReason != tt.wantReason || gotSkip != tt.wantSkip {
-				t.Fatalf("autoUpdateSkipReason() = (%q, %t), want (%q, %t)", gotReason, gotSkip, tt.wantReason, tt.wantSkip)
+			if gotReason != wantReason || gotSkip != wantSkip {
+				t.Fatalf("autoUpdateSkipReason() = (%q, %t), want (%q, %t)", gotReason, gotSkip, wantReason, wantSkip)
 			}
 		})
 	}

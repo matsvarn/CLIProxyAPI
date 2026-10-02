@@ -91,7 +91,8 @@
   },
   "header": {
     "refresh_all": "Refresh All",
-    "logout": "Logout"
+    "logout": "Logout",
+    "local_trusted_session": "Local trusted session"
   },
   "connection": {
     "status": "Connection Status:"
