@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Collapsible } from '@/components/ui/Collapsible';
 import { formatPercent } from '@/utils/format';
 import { TRAFFIC_BUCKET_MINUTES, type TrafficWindow } from '../types';
 import { axisMax } from '../utils';
@@ -76,18 +75,6 @@ export function ThroughputChart({ traffic }: ThroughputChartProps) {
   return (
     <figure className={styles.chart}>
       {/* 两条序列 → 图例常驻，并直接带上数值（浅色主题下绿色对比度偏低，数值即为补偿） */}
-      <figcaption className={styles.legend}>
-        <span className={styles.legendItem}>
-          <span className={`${styles.legendSwatch} ${styles.swatchSuccess}`} aria-hidden="true" />
-          {t('stats.success')}
-          <b className={styles.legendValue}>{totalSuccess.toLocaleString()}</b>
-        </span>
-        <span className={styles.legendItem}>
-          <span className={`${styles.legendSwatch} ${styles.swatchFailure}`} aria-hidden="true" />
-          {t('stats.failure')}
-          <b className={styles.legendValue}>{totalFailure.toLocaleString()}</b>
-        </span>
-      </figcaption>
 
       <div className={styles.plot}>
         <div className={styles.yAxis} aria-hidden="true">
@@ -228,33 +215,6 @@ export function ThroughputChart({ traffic }: ThroughputChartProps) {
         ))}
       </div>
 
-      <Collapsible className={styles.tableToggle} label={t('dashboard.traffic_table')}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th scope="col">{t('dashboard.traffic_table_window')}</th>
-              <th scope="col">{t('stats.success')}</th>
-              <th scope="col">{t('stats.failure')}</th>
-              <th scope="col">{t('dashboard.success_rate')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {buckets.map((bucket, index) => {
-              const bucketTotal = bucket.success + bucket.failed;
-              return (
-                <tr key={bucket.time ?? index}>
-                  <th scope="row">{bucketRangeLabel(bucket.time, index, buckets.length)}</th>
-                  <td>{bucket.success.toLocaleString()}</td>
-                  <td>{bucket.failed.toLocaleString()}</td>
-                  <td>
-                    {bucketTotal > 0 ? formatPercent((bucket.success / bucketTotal) * 100) : '—'}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Collapsible>
     </figure>
   );
 }

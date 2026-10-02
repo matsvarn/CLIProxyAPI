@@ -13,7 +13,13 @@ import { useTranslation } from 'react-i18next';
 import { authFilesApi } from '@/services/api';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { IconSearch, IconX } from '@/components/ui/icons';
+import {
+  IconEye,
+  IconEyeOff,
+  IconRefreshCw,
+  IconSearch,
+  IconX,
+} from '@/components/ui/icons';
 import { Select } from '@/components/ui/Select';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useHeaderRefresh } from '@/hooks/useHeaderRefresh';
@@ -22,8 +28,8 @@ import { useRevealGroup } from '@/hooks/motion';
 import { useAuthStore, usePrivacyStore, useQuotaStore, useThemeStore } from '@/stores';
 import type { AuthFileItem, ResolvedTheme } from '@/types';
 import { getQuotaCacheKey } from '@/utils/quota/identity';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { ProviderTabs } from '@/features/authFiles/components/ProviderTabs';
-import { QuotaHeader } from './components/QuotaHeader';
 import { QuotaCard } from './components/QuotaCard';
 import { QuotaLedger } from './components/QuotaLedger';
 import { QuotaSummaryStrip } from './components/QuotaSummaryStrip';
@@ -81,6 +87,7 @@ export function QuotaPage() {
   );
   const [view, setView] = useState<QuotaView>(() => readQuotaUiState()?.view ?? 'ledger');
   const showEmails = usePrivacyStore((state) => state.showEmails);
+  const toggleShowEmails = usePrivacyStore((state) => state.toggleShowEmails);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -360,13 +367,47 @@ export function QuotaPage() {
 
   return (
     <div className={styles.page} ref={revealRef}>
-      <QuotaHeader
-        totalCount={entries.length}
-        loadedCount={loadedCount}
-        attentionCount={attentionCount}
-        refreshing={loading || batchLoading}
-        disableControls={disableControls}
-        onRefreshAll={handleRefreshAll}
+      <PageHeader
+        title={t('quota_management.title')}
+        meta={
+          <>
+            <span>{t('quota_management.meta_credentials', { count: entries.length })}</span>
+            <span aria-hidden="true">·</span>
+            <span>{t('quota_management.meta_loaded', { count: loadedCount })}</span>
+            {attentionCount > 0 && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span className={styles.metaAttention}>
+                  {t('quota_management.meta_attention', { count: attentionCount })}
+                </span>
+              </>
+            )}
+          </>
+        }
+        actions={
+          <>
+            <Button
+              variant="ghost"
+              onClick={toggleShowEmails}
+              aria-pressed={showEmails}
+              title={t('quota_management.show_emails_hint')}
+            >
+              {showEmails ? <IconEye size={14} /> : <IconEyeOff size={14} />}
+              {t(showEmails ? 'quota_management.hide_emails' : 'quota_management.show_emails')}
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleRefreshAll}
+              disabled={disableControls || loading || batchLoading}
+            >
+              <IconRefreshCw
+                size={14}
+                className={loading || batchLoading ? styles.spinning : undefined}
+              />
+              {t('quota_management.refresh_all_credentials')}
+            </Button>
+          </>
+        }
       />
 
       <section className={styles.workbench}>

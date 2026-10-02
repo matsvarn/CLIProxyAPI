@@ -298,38 +298,6 @@
   white-space: nowrap;
 }
 
-/* ---------- 数据表 ---------- */
-
-.tableToggle {
-  font-size: 13px;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-
-  th,
-  td {
-    padding: 5px $spacing-sm;
-    text-align: right;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-secondary);
-  }
-
-  thead th {
-    color: var(--text-tertiary);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  tbody th[scope='row'] {
-    text-align: left;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-}
 
 /* ---------- 无数据占位 ---------- */
 
@@ -337,10 +305,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
-  padding: $spacing-xl;
-  border-radius: $radius-lg;
-  border: 1px dashed var(--border-primary);
-  background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+  padding: $spacing-xl 0;
   text-align: center;
 }
 

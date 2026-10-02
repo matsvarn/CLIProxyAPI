@@ -235,3 +235,20 @@
     gap: 16px;
   }
 }
+
+.metaAttention {
+  color: var(--error-color);
+}
+
+.spinning {
+  animation: quota-spin 1s linear infinite;
+}
+
+@keyframes quota-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

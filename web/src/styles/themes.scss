@@ -103,31 +103,31 @@
   --floating-surface: #ffffff;
   --floating-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
 
-  --text-primary: #2d2a26;
-  --text-secondary: #6d6760;
-  --text-tertiary: #a29c95;
-  --text-quaternary: #c0bab3;
+  --text-primary: #16171a;
+  --text-secondary: #55585e;
+  --text-tertiary: #8a8d93;
+  --text-quaternary: #b6b9bf;
   --text-muted: var(--text-tertiary);
 
-  --border-color: #e5e5e5;
+  --border-color: #e6e7e9;
   --border-secondary: var(--border-color);
-  --border-primary: #d9d9d9;
-  --border-hover: #cccccc;
+  --border-primary: #d9dadd;
+  --border-hover: #c4c6c9;
 
-  --primary-color: #8b8680;
-  --primary-hover: #7f7a74;
-  --primary-active: #726d67;
+  --primary-color: #16171a;
+  --primary-hover: #000000;
+  --primary-active: #2a2c30;
   --primary-contrast: #ffffff;
 
-  --success-color: #10b981;
+  --success-color: #2e9e70;
   --quota-medium-color: #e0aa14;
-  --warning-color: #c65746;
-  --error-color: #c65746;
+  --warning-color: #b9872c;
+  --error-color: #d64540;
   --danger-color: var(--error-color);
   --info-color: var(--primary-color);
 
-  --warning-bg: rgba(198, 87, 70, 0.12);
-  --warning-border: rgba(198, 87, 70, 0.35);
+  --warning-bg: rgba(185, 135, 44, 0.12);
+  --warning-border: rgba(185, 135, 44, 0.35);
   --warning-text: var(--warning-color);
 
   --success-badge-bg: #d1fae5;
@@ -164,55 +164,55 @@
 
 // 深色主题（#191919）
 [data-theme='dark'] {
-  // 极简暖灰：深色模式（提升对比度与层级）
-  --bg-secondary: #151412; // 页面背景
-  --bg-primary: #1d1b18; // 容器/卡片背景
-  --bg-tertiary: #262320; // hover/次级背景
-  --bg-hover: #2e2a26;
-  --bg-quinary: #191714;
-  --bg-error-light: rgba(198, 87, 70, 0.18);
-  --floating-surface: #2a2723;
+  // Achromatic near-black canvas; tonal layering, hairlines, no warm tint.
+  --bg-secondary: #0b0c0d; // 页面背景
+  --bg-primary: #111214; // 容器/卡片背景
+  --bg-tertiary: #18191b; // hover/次级背景
+  --bg-hover: #1d1e21;
+  --bg-quinary: #0e0f10;
+  --bg-error-light: rgba(229, 84, 75, 0.1);
+  --floating-surface: #18191b;
   --floating-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
 
-  --text-primary: #f6f4f1;
-  --text-secondary: #c9c3bb;
-  --text-tertiary: #9c958d;
-  --text-quaternary: #6f6962;
+  --text-primary: #f2f3f4;
+  --text-secondary: #b4b7bd;
+  --text-tertiary: #7d8188;
+  --text-quaternary: #55585e;
   --text-muted: var(--text-tertiary);
 
-  --border-color: #3a3530;
+  --border-color: #222327;
   --border-secondary: var(--border-color);
-  --border-primary: #4a453f;
-  --border-hover: #5a544d;
+  --border-primary: #2c2d31;
+  --border-hover: #3a3b40;
 
-  --primary-color: #8b8680;
-  --primary-hover: #9a948e;
-  --primary-active: #a6a099;
-  --primary-contrast: #ffffff;
+  --primary-color: #f2f3f4;
+  --primary-hover: #ffffff;
+  --primary-active: #d9dadc;
+  --primary-contrast: #0b0c0d;
 
-  --success-color: #10b981;
-  --quota-medium-color: #ffd862;
-  --warning-color: #c65746;
-  --error-color: #c65746;
+  --success-color: #3fb27f;
+  --quota-medium-color: #d6a03a;
+  --warning-color: #d6a03a;
+  --error-color: #e5544b;
   --danger-color: var(--error-color);
   --info-color: var(--primary-color);
 
-  --warning-bg: rgba(198, 87, 70, 0.22);
-  --warning-border: rgba(198, 87, 70, 0.45);
-  --warning-text: #f1b0a6;
+  --warning-bg: rgba(214, 160, 58, 0.12);
+  --warning-border: rgba(214, 160, 58, 0.35);
+  --warning-text: #d6a03a;
 
-  --success-badge-bg: rgba(6, 78, 59, 0.3);
-  --success-badge-text: #6ee7b7;
-  --success-badge-border: #059669;
+  --success-badge-bg: rgba(63, 178, 127, 0.14);
+  --success-badge-text: #3fb27f;
+  --success-badge-border: rgba(63, 178, 127, 0.35);
 
-  --failure-badge-bg: rgba(198, 87, 70, 0.24);
-  --failure-badge-text: #f1b0a6;
-  --failure-badge-border: rgba(198, 87, 70, 0.5);
+  --failure-badge-bg: rgba(229, 84, 75, 0.14);
+  --failure-badge-text: #e5544b;
+  --failure-badge-border: rgba(229, 84, 75, 0.35);
 
-  --count-badge-bg: rgba(139, 134, 128, 0.28);
-  --count-badge-text: var(--primary-active);
+  --count-badge-bg: rgba(255, 255, 255, 0.08);
+  --count-badge-text: var(--text-secondary);
 
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+  --shadow: none;
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
 
   --radius-md: 8px;
@@ -221,8 +221,8 @@
   --primary-8: color-mix(in srgb, var(--primary-color) 8%, transparent);
   --primary-10: color-mix(in srgb, var(--primary-color) 10%, transparent);
   --primary-30: color-mix(in srgb, var(--primary-color) 30%, transparent);
-  --amber-color: #f59e0b;
-  --amber-text: #fcd34d;
+  --amber-color: #d6a03a;
+  --amber-text: #d6a03a;
   --amber-10: color-mix(in srgb, var(--amber-color) 14%, transparent);
   --amber-30: color-mix(in srgb, var(--amber-color) 38%, transparent);
   --destructive-color: var(--error-color);
@@ -234,10 +234,9 @@
 
   --glass-border: color-mix(in srgb, var(--border-color) 55%, transparent);
 
-  // 深色卡面上 #10b981 亮度超出 OKLCH 0.48–0.67 区间，且与失败色的色盲分离度不足，
-  // 因此深色单独降一档。三套主题均已通过对比度/色盲/亮度校验。
-  --viz-success: #0fae78;
-  --viz-failure: #cf4b3a;
+  // 语义色只用于状态点/计量/错误文本。
+  --viz-success: #3fb27f;
+  --viz-failure: #e5544b;
 }
 
 @media (max-width: 768px),

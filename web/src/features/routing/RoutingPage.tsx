@@ -9,6 +9,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconAlertTriangle, IconEye, IconEyeOff } from '@/components/ui/icons';
+import { Button } from '@/components/ui/Button';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { StatStrip } from '@/components/layout/StatStrip';
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
 import { configApi } from '@/services/api/config';
 import { logsApi } from '@/services/api/logs';
@@ -151,24 +154,21 @@ export function RoutingPage() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.copy}>
-          <h1 className={styles.title}>{t('routing.title')}</h1>
-          <p className={styles.meta}>{metaLine}</p>
-        </div>
-        <div className={styles.actions}>
-          <button
-            type="button"
-            className={styles.ghostAction}
+      <PageHeader
+        title={t('routing.title')}
+        meta={metaLine}
+        actions={
+          <Button
+            variant="ghost"
             onClick={toggleShowEmails}
             aria-pressed={showEmails}
             title={t('quota_management.show_emails_hint')}
           >
             {showEmails ? <IconEyeOff size={14} /> : <IconEye size={14} />}
             {t(showEmails ? 'quota_management.hide_emails' : 'quota_management.show_emails')}
-          </button>
-        </div>
-      </header>
+          </Button>
+        }
+      />
 
       {!affinity && (
         <div className={styles.callout} role="status">
@@ -181,36 +181,38 @@ export function RoutingPage() {
         <h2 className={styles.panelTitle}>{t('routing.settings_title')}</h2>
 
         <div className={styles.settingRow}>
-          <div className={styles.settingLabel}>
-            {t('routing.affinity_label')}
-            <ToggleSwitch
-              checked={affinity}
-              disabled={saving !== null}
-              ariaLabel={t('routing.affinity_label')}
-              onChange={(value) => void save('affinity', () => configApi.updateSessionAffinity(value))}
-            />
+          <div className={styles.settingCopy}>
+            <span className={styles.settingLabel}>{t('routing.affinity_label')}</span>
+            <span className={styles.settingHint}>{t('routing.affinity_hint')}</span>
           </div>
-          <p className={styles.settingHint}>{t('routing.affinity_hint')}</p>
+          <ToggleSwitch
+            checked={affinity}
+            disabled={saving !== null}
+            ariaLabel={t('routing.affinity_label')}
+            onChange={(value) => void save('affinity', () => configApi.updateSessionAffinity(value))}
+          />
         </div>
 
         <div className={styles.settingRow}>
-          <div className={styles.settingLabel}>
-            {t('routing.subagents_label')}
-            <ToggleSwitch
-              checked={subagents}
-              disabled={saving !== null || !affinity}
-              ariaLabel={t('routing.subagents_label')}
-              onChange={(value) =>
-                void save('subagents', () => configApi.updateSessionAffinitySubagents(value))
-              }
-            />
+          <div className={styles.settingCopy}>
+            <span className={styles.settingLabel}>{t('routing.subagents_label')}</span>
+            <span className={styles.settingHint}>{t('routing.subagents_hint')}</span>
           </div>
-          <p className={styles.settingHint}>{t('routing.subagents_hint')}</p>
+          <ToggleSwitch
+            checked={subagents}
+            disabled={saving !== null || !affinity}
+            ariaLabel={t('routing.subagents_label')}
+            onChange={(value) =>
+              void save('subagents', () => configApi.updateSessionAffinitySubagents(value))
+            }
+          />
         </div>
 
         <div className={styles.settingRow}>
-          <div className={styles.settingLabel}>{t('routing.ttl_label')}</div>
-          <p className={styles.settingHint}>{t('routing.ttl_hint')}</p>
+          <div className={styles.settingCopy}>
+            <span className={styles.settingLabel}>{t('routing.ttl_label')}</span>
+            <span className={styles.settingHint}>{t('routing.ttl_hint')}</span>
+          </div>
           <div className={styles.segmented} role="group" aria-label={t('routing.ttl_label')}>
             {TTL_PRESETS.map((preset) => (
               <button
@@ -245,8 +247,10 @@ export function RoutingPage() {
         </div>
 
         <div className={styles.settingRow}>
-          <div className={styles.settingLabel}>{t('routing.strategy_label')}</div>
-          <p className={styles.settingHint}>{t('routing.strategy_hint')}</p>
+          <div className={styles.settingCopy}>
+            <span className={styles.settingLabel}>{t('routing.strategy_label')}</span>
+            <span className={styles.settingHint}>{t('routing.strategy_hint')}</span>
+          </div>
           <div className={styles.segmented} role="group" aria-label={t('routing.strategy_label')}>
             {STRATEGIES.map((option) => (
               <button
@@ -261,7 +265,7 @@ export function RoutingPage() {
               </button>
             ))}
           </div>
-          <p className={styles.settingHint}>
+          <p className={styles.strategyDesc}>
             {t(`routing.strategy_${strategy.replace(/-/g, '_')}_desc`)}
           </p>
         </div>
@@ -282,41 +286,43 @@ export function RoutingPage() {
         </div>
       ) : (
         <section className={styles.panel} aria-label={t('routing.activity_aria')}>
-          <h2 className={styles.panelTitle}>{t('routing.activity_title')}</h2>
-          <p className={styles.panelDesc}>
-            {oldestEventMs === null
-              ? t('routing.activity_source_none', { limit: INITIAL_LOG_LIMIT })
-              : t('routing.activity_source', {
-                  count: events.length,
-                  since: formatInstantShort(oldestEventMs),
-                })}
-          </p>
+          <div className={styles.panelHead}>
+            <h2 className={styles.panelTitle}>{t('routing.activity_title')}</h2>
+            <span className={styles.panelMeta}>
+              {oldestEventMs === null
+                ? t('routing.activity_source_none', { limit: INITIAL_LOG_LIMIT })
+                : t('routing.activity_source', {
+                    count: events.length,
+                    since: formatInstantShort(oldestEventMs),
+                  })}
+            </span>
+          </div>
           {logsError && <p className={styles.panelDesc}>{logsError}</p>}
 
-          <div className={styles.statsRow}>
-            <div className={styles.statTile}>
-              <span className={styles.statLabel}>{t('routing.stat_hit_rate')}</span>
-              <span className={styles.statValue}>
-                {summary.hitRate === null ? '—' : `${Math.round(summary.hitRate * 100)}%`}
-              </span>
-              <span className={styles.statHint}>{t('routing.stat_hit_rate_hint')}</span>
-            </div>
-            <div className={styles.statTile}>
-              <span className={styles.statLabel}>{t('routing.stat_hits')}</span>
-              <span className={styles.statValue}>{summary.hits}</span>
-              <span className={styles.statHint}>{t('routing.stat_hits_hint')}</span>
-            </div>
-            <div className={styles.statTile}>
-              <span className={styles.statLabel}>{t('routing.stat_binds')}</span>
-              <span className={styles.statValue}>{summary.binds}</span>
-              <span className={styles.statHint}>{t('routing.stat_binds_hint')}</span>
-            </div>
-            <div className={styles.statTile}>
-              <span className={styles.statLabel}>{t('routing.stat_rebinds')}</span>
-              <span className={styles.statValue}>{summary.rebinds}</span>
-              <span className={styles.statHint}>{t('routing.stat_rebinds_hint')}</span>
-            </div>
-          </div>
+          <StatStrip
+            cells={[
+              {
+                label: t('routing.stat_hit_rate'),
+                value: summary.hitRate === null ? '—' : `${Math.round(summary.hitRate * 100)}%`,
+                hint: t('routing.stat_hit_rate_hint'),
+              },
+              {
+                label: t('routing.stat_hits'),
+                value: summary.hits,
+                hint: t('routing.stat_hits_hint'),
+              },
+              {
+                label: t('routing.stat_binds'),
+                value: summary.binds,
+                hint: t('routing.stat_binds_hint'),
+              },
+              {
+                label: t('routing.stat_rebinds'),
+                value: summary.rebinds,
+                hint: t('routing.stat_rebinds_hint'),
+              },
+            ]}
+          />
 
           {summary.accounts.length === 0 ? (
             <p className={styles.empty}>{t('routing.activity_empty')}</p>

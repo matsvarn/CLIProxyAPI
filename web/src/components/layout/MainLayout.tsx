@@ -22,10 +22,8 @@ import {
   IconSidebarConfig,
   IconSidebarDashboard,
   IconSidebarLogs,
-  IconSidebarOauth,
   IconSidebarPlugins,
   IconSidebarProviders,
-  IconSidebarQuickStart,
   IconSidebarQuota,
   IconSlidersHorizontal,
   IconSidebarStore,
@@ -47,7 +45,6 @@ import {
   resolvePluginAssetURL,
   type PluginResourceEntry,
 } from '@/features/plugins/pluginResources';
-import { APIKEY_FUN_DISPLAY_NAME, hasApiKeyFunConfig } from '@/features/providers/sponsor';
 import { triggerHeaderRefresh } from '@/hooks/useHeaderRefresh';
 import { LANGUAGE_LABEL_KEYS, LANGUAGE_ORDER } from '@/utils/constants';
 import { isSupportedLanguage } from '@/utils/language';
@@ -56,10 +53,8 @@ import type { Theme } from '@/types';
 
 const sidebarIcons: Record<string, ReactNode> = {
   dashboard: <IconSidebarDashboard size={18} />,
-  quickStart: <IconSidebarQuickStart size={18} />,
   aiProviders: <IconSidebarProviders size={18} />,
   authFiles: <IconSidebarAuthFiles size={18} />,
-  oauth: <IconSidebarOauth size={18} />,
   quota: <IconSidebarQuota size={18} />,
   routing: <IconSlidersHorizontal size={18} />,
   plugins: <IconSidebarPlugins size={18} />,
@@ -77,6 +72,7 @@ interface SidebarNavLinkItem {
   label?: string;
   meta?: string;
   badge?: number;
+  badgeDanger?: boolean;
   badgeLabel?: string;
   icon: ReactNode;
 }
@@ -97,7 +93,6 @@ const NAV_TOOLTIP_VIEWPORT_MARGIN = 8;
 
 interface SidebarNavGroup {
   id: string;
-  labelKey: string;
   items: SidebarNavItem[];
 }
 
@@ -321,7 +316,6 @@ export function MainLayout() {
 
   const fetchConfig = useConfigStore((state) => state.fetchConfig);
   const clearCache = useConfigStore((state) => state.clearCache);
-  const config = useConfigStore((state) => state.config);
 
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
@@ -330,7 +324,9 @@ export function MainLayout() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [authFilesCount, setAuthFilesCount] = useState<number | null>(null);
+  const [authFilesStats, setAuthFilesStats] = useState<{ count: number; problems: number } | null>(
+    null
+  );
   const [railTooltip, setRailTooltip] = useState<{
     targetID: string;
     label: string;
@@ -353,7 +349,6 @@ export function MainLayout() {
   const headerRef = useRef<HTMLElement | null>(null);
 
   const fullBrandName = 'CLI Proxy API Management Center';
-  const abbrBrandName = t('title.abbr');
   const isLogsPage = location.pathname.startsWith('/logs');
   const isPluginResourcePage = location.pathname.startsWith('/plugin-pages');
   const showSidebarLabels = !sidebarCollapsed || sidebarOpen;
@@ -504,17 +499,22 @@ export function MainLayout() {
   const loadAuthFilesCount = useCallback(async () => {
     const requestID = ++authFilesCountRequestRef.current;
     if (connectionStatus !== 'connected') {
-      setAuthFilesCount(null);
+      setAuthFilesStats(null);
       return;
     }
 
     try {
       const response = await authFilesApi.list();
       if (requestID !== authFilesCountRequestRef.current) return;
-      setAuthFilesCount(Array.isArray(response?.files) ? response.files.length : null);
+      const files = Array.isArray(response?.files) ? response.files : [];
+      setAuthFilesStats({
+        count: files.length,
+        problems: files.filter((file) => file.unavailable === true || file.status === 'error')
+          .length,
+      });
     } catch {
       if (requestID !== authFilesCountRequestRef.current) return;
-      setAuthFilesCount(null);
+      setAuthFilesStats(null);
     }
   }, [connectionStatus]);
 
@@ -586,19 +586,9 @@ export function MainLayout() {
       })
     : [];
 
-  const isApiKeyFunConfigured = hasApiKeyFunConfig(config);
-  const quickStartNavItem: SidebarNavLinkItem = {
-    path: '/quick-start',
-    label: isApiKeyFunConfigured ? APIKEY_FUN_DISPLAY_NAME : undefined,
-    labelKey: isApiKeyFunConfigured ? undefined : 'nav.quick_start',
-    metaKey: 'nav_meta.quick_start',
-    icon: sidebarIcons.quickStart,
-  };
-
   const navGroups: SidebarNavGroup[] = [
     {
-      id: 'operate',
-      labelKey: 'nav_groups.operate',
+      id: 'main',
       items: [
         {
           path: '/',
@@ -606,54 +596,17 @@ export function MainLayout() {
           metaKey: 'nav_meta.dashboard',
           icon: sidebarIcons.dashboard,
         },
-        ...(!isApiKeyFunConfigured ? [quickStartNavItem] : []),
-      ],
-    },
-    {
-      id: 'gateway',
-      labelKey: 'nav_groups.gateway',
-      items: [
         {
-          path: '/ai-providers',
-          labelKey: 'nav.ai_providers',
-          metaKey: 'nav_meta.ai_providers',
-          icon: sidebarIcons.aiProviders,
-        },
-        {
-          path: '/auth-files',
-          labelKey: 'nav.auth_files',
-          metaKey: 'nav_meta.auth_files',
-          badge: authFilesCount ?? undefined,
-          badgeLabel:
-            typeof authFilesCount === 'number'
-              ? t('sidebar.auth_files_count', { count: authFilesCount })
-              : undefined,
-          icon: sidebarIcons.authFiles,
-        },
-        {
-          path: '/oauth',
-          labelKey: 'nav.oauth',
-          metaKey: 'nav_meta.oauth',
-          icon: sidebarIcons.oauth,
+          path: '/quota',
+          labelKey: 'nav.quota_management',
+          metaKey: 'nav_meta.quota_management',
+          icon: sidebarIcons.quota,
         },
         {
           path: '/routing',
           labelKey: 'nav.routing',
           metaKey: 'nav_meta.routing',
           icon: sidebarIcons.routing,
-        },
-        ...(isApiKeyFunConfigured ? [quickStartNavItem] : []),
-      ],
-    },
-    {
-      id: 'observe',
-      labelKey: 'nav_groups.observe',
-      items: [
-        {
-          path: '/quota',
-          labelKey: 'nav.quota_management',
-          metaKey: 'nav_meta.quota_management',
-          icon: sidebarIcons.quota,
         },
         {
           path: '/logs',
@@ -664,36 +617,31 @@ export function MainLayout() {
       ],
     },
     {
-      id: 'control',
-      labelKey: 'nav_groups.control',
+      id: 'manage',
       items: [
+        {
+          path: '/auth-files',
+          labelKey: 'nav.auth_files',
+          metaKey: 'nav_meta.auth_files',
+          badge: authFilesStats?.count,
+          badgeDanger: (authFilesStats?.problems ?? 0) > 0,
+          badgeLabel:
+            authFilesStats && authFilesStats.problems > 0
+              ? t('sidebar.auth_files_problems', { count: authFilesStats.problems })
+              : undefined,
+          icon: sidebarIcons.authFiles,
+        },
+        {
+          path: '/ai-providers',
+          labelKey: 'nav.ai_providers',
+          metaKey: 'nav_meta.ai_providers',
+          icon: sidebarIcons.aiProviders,
+        },
         {
           path: '/config',
           labelKey: 'nav.config_management',
           metaKey: 'nav_meta.config_management',
           icon: sidebarIcons.config,
-        },
-        ...(supportsPlugin
-          ? [
-              {
-                path: '/plugins',
-                labelKey: 'nav.plugins',
-                metaKey: 'nav_meta.plugins',
-                icon: sidebarIcons.plugins,
-              },
-              {
-                path: '/plugin-store',
-                labelKey: 'nav.plugin_store',
-                metaKey: 'nav_meta.plugin_store',
-                icon: sidebarIcons.pluginStore,
-              },
-            ]
-          : []),
-        {
-          path: '/system',
-          labelKey: 'nav.system_info',
-          metaKey: 'nav_meta.system_info',
-          icon: sidebarIcons.system,
         },
       ],
     },
@@ -701,11 +649,35 @@ export function MainLayout() {
       ? [
           {
             id: 'plugin-pages',
-            labelKey: 'nav_groups.plugin_pages',
             items: pluginPageNavItems,
           },
         ]
       : []),
+  ];
+
+  const bottomNavItems: SidebarNavLinkItem[] = [
+    ...(supportsPlugin
+      ? [
+          {
+            path: '/plugins',
+            labelKey: 'nav.plugins',
+            metaKey: 'nav_meta.plugins',
+            icon: sidebarIcons.plugins,
+          },
+          {
+            path: '/plugin-store',
+            labelKey: 'nav.plugin_store',
+            metaKey: 'nav_meta.plugin_store',
+            icon: sidebarIcons.pluginStore,
+          },
+        ]
+      : []),
+    {
+      path: '/system',
+      labelKey: 'nav.system_info',
+      metaKey: 'nav_meta.system_info',
+      icon: sidebarIcons.system,
+    },
   ];
   const navItems = navGroups.flatMap((group) => flattenNavItems(group.items));
   const navOrder = navItems.map((item) => item.path);
@@ -847,11 +819,11 @@ export function MainLayout() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [hideRailTooltip]);
 
-  const renderNavBadge = (badge?: number, badgeLabel?: string) =>
+  const renderNavBadge = (badge?: number, badgeDanger?: boolean, badgeLabel?: string) =>
     typeof badge === 'number' ? (
       <>
         {badge > 0 ? (
-          <span className="nav-badge" aria-hidden="true">
+          <span className={`nav-badge ${badgeDanger ? 'nav-badge-danger' : ''}`} aria-hidden="true">
             {badge}
           </span>
         ) : null}
@@ -903,10 +875,10 @@ export function MainLayout() {
             <span className="nav-text">
               <span className="nav-label">{itemLabel}</span>
             </span>
-            {renderNavBadge(item.badge, item.badgeLabel)}
+            {renderNavBadge(item.badge, item.badgeDanger, item.badgeLabel)}
           </>
         ) : (
-          renderNavBadge(item.badge)
+          renderNavBadge(item.badge, item.badgeDanger)
         )}
       </NavLink>
     );
@@ -985,8 +957,6 @@ export function MainLayout() {
         isPluginResourcePage ? 'plugin-resource-shell' : ''
       }`}
     >
-      <div className="top-gradient-blur" aria-hidden="true" />
-
       <header className="main-header" ref={headerRef}>
         <button
           type="button"
@@ -1024,132 +994,6 @@ export function MainLayout() {
           </Button>
         </div>
 
-        <div className="header-actions floating-actions">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleRefreshAll}
-            title={t('header.refresh_all')}
-          >
-            {headerIcons.refresh}
-          </Button>
-          <div className={`language-menu ${languageMenuOpen ? 'open' : ''}`} ref={languageMenuRef}>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguageMenu}
-              title={t('language.switch')}
-              aria-label={t('language.switch')}
-              aria-haspopup="menu"
-              aria-expanded={languageMenuOpen}
-            >
-              {headerIcons.language}
-            </Button>
-            {languageMenuOpen && (
-              <div
-                className="notification entering language-menu-popover"
-                role="menu"
-                aria-label={t('language.switch')}
-              >
-                {LANGUAGE_ORDER.map((lang) => (
-                  <button
-                    key={lang}
-                    type="button"
-                    className={`language-menu-option ${language === lang ? 'active' : ''}`}
-                    onClick={() => handleLanguageSelect(lang)}
-                    role="menuitemradio"
-                    aria-checked={language === lang}
-                  >
-                    <span>{t(LANGUAGE_LABEL_KEYS[lang])}</span>
-                    {language === lang ? <span className="language-menu-check">✓</span> : null}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className={`theme-menu ${themeMenuOpen ? 'open' : ''}`} ref={themeMenuRef}>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleThemeMenu}
-              title={t('theme.switch')}
-              aria-label={t('theme.switch')}
-              aria-haspopup="menu"
-              aria-expanded={themeMenuOpen}
-            >
-              {theme === 'auto'
-                ? headerIcons.autoTheme
-                : theme === 'dark'
-                  ? headerIcons.moon
-                  : theme === 'white'
-                    ? headerIcons.whiteTheme
-                    : headerIcons.sun}
-            </Button>
-            {themeMenuOpen && (
-              <div
-                className="notification entering theme-menu-popover"
-                role="menu"
-                aria-label={t('theme.switch')}
-              >
-                {THEME_CARDS.map((tc) => (
-                  <button
-                    key={tc.key}
-                    type="button"
-                    className={`theme-card ${theme === tc.key ? 'active' : ''}`}
-                    onClick={() => handleThemeSelect(tc.key)}
-                    role="menuitemradio"
-                    aria-checked={theme === tc.key}
-                  >
-                    <div
-                      className="theme-card-preview"
-                      style={{
-                        background: tc.colors.bg,
-                        border: `1px solid ${tc.colors.border}`,
-                      }}
-                    >
-                      <div
-                        className="theme-card-header"
-                        style={{
-                          background: tc.colors.card,
-                          borderBottom: `1px solid ${tc.colors.border}`,
-                        }}
-                      />
-                      <div className="theme-card-body">
-                        <div
-                          className="theme-card-sidebar"
-                          style={{
-                            background: tc.colors.card,
-                            borderRight: `1px solid ${tc.colors.border}`,
-                          }}
-                        />
-                        <div className="theme-card-content" style={{ background: tc.colors.bg }}>
-                          <div
-                            className="theme-card-line"
-                            style={{ background: tc.colors.textMuted }}
-                          />
-                          <div
-                            className="theme-card-line short"
-                            style={{ background: tc.colors.textMuted }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <span className="theme-card-label">{t(tc.labelKey)}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={logout}
-            disabled={trustedLocal}
-            title={t(trustedLocal ? 'header.local_trusted_session' : 'header.logout')}
-          >
-            {headerIcons.logout}
-          </Button>
-        </div>
       </header>
 
       <div className="main-body">
@@ -1167,27 +1011,167 @@ export function MainLayout() {
         >
           <div className="sidebar-header">
             <div className="sidebar-brand" title={fullBrandName}>
-              <img src={INLINE_LOGO_JPEG} alt="CPAMC logo" className="sidebar-brand-logo" />
+              <img src={INLINE_LOGO_JPEG} alt="" className="sidebar-brand-logo" />
               {showSidebarLabels && (
                 <span className="sidebar-brand-text">
-                  <span className="sidebar-brand-title">{abbrBrandName}</span>
-                  <span className="sidebar-brand-subtitle">{t('sidebar.subtitle')}</span>
+                  <span className="sidebar-brand-title">{t('title.brand')}</span>
                 </span>
               )}
             </div>
           </div>
 
           <div className="nav-section">
-            {navGroups.map((group, idx) => (
+            {navGroups.map((group) => (
               <div className="nav-group" key={group.id}>
-                {showSidebarLabels ? (
-                  <div className="nav-group-label">{t(group.labelKey)}</div>
-                ) : (
-                  idx > 0 && <div className="nav-group-divider" aria-hidden="true" />
-                )}
                 {group.items.map((item) => renderNavItem(item))}
               </div>
             ))}
+          </div>
+
+          <div className="sidebar-bottom">
+            <div className="nav-group">
+              {bottomNavItems.map((item) => renderNavItem(item))}
+            </div>
+            <div className="sidebar-footer">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="sidebar-footer-btn"
+                onClick={handleRefreshAll}
+                title={t('header.refresh_all')}
+                aria-label={t('header.refresh_all')}
+              >
+                {headerIcons.refresh}
+              </Button>
+              <div
+                className={`language-menu ${languageMenuOpen ? 'open' : ''}`}
+                ref={languageMenuRef}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="sidebar-footer-btn"
+                  onClick={toggleLanguageMenu}
+                  title={t('language.switch')}
+                  aria-label={t('language.switch')}
+                  aria-haspopup="menu"
+                  aria-expanded={languageMenuOpen}
+                >
+                  {headerIcons.language}
+                </Button>
+                {languageMenuOpen && (
+                  <div
+                    className="notification entering language-menu-popover sidebar-popover"
+                    role="menu"
+                    aria-label={t('language.switch')}
+                  >
+                    {LANGUAGE_ORDER.map((lang) => (
+                      <button
+                        key={lang}
+                        type="button"
+                        className={`language-menu-option ${language === lang ? 'active' : ''}`}
+                        onClick={() => handleLanguageSelect(lang)}
+                        role="menuitemradio"
+                        aria-checked={language === lang}
+                      >
+                        <span>{t(LANGUAGE_LABEL_KEYS[lang])}</span>
+                        {language === lang ? (
+                          <span className="language-menu-check">✓</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className={`theme-menu ${themeMenuOpen ? 'open' : ''}`} ref={themeMenuRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="sidebar-footer-btn"
+                  onClick={toggleThemeMenu}
+                  title={t('theme.switch')}
+                  aria-label={t('theme.switch')}
+                  aria-haspopup="menu"
+                  aria-expanded={themeMenuOpen}
+                >
+                  {theme === 'auto'
+                    ? headerIcons.autoTheme
+                    : theme === 'dark'
+                      ? headerIcons.moon
+                      : theme === 'white'
+                        ? headerIcons.whiteTheme
+                        : headerIcons.sun}
+                </Button>
+                {themeMenuOpen && (
+                  <div
+                    className="notification entering theme-menu-popover sidebar-popover"
+                    role="menu"
+                    aria-label={t('theme.switch')}
+                  >
+                    {THEME_CARDS.map((tc) => (
+                      <button
+                        key={tc.key}
+                        type="button"
+                        className={`theme-card ${theme === tc.key ? 'active' : ''}`}
+                        onClick={() => handleThemeSelect(tc.key)}
+                        role="menuitemradio"
+                        aria-checked={theme === tc.key}
+                      >
+                        <div
+                          className="theme-card-preview"
+                          style={{
+                            background: tc.colors.bg,
+                            border: `1px solid ${tc.colors.border}`,
+                          }}
+                        >
+                          <div
+                            className="theme-card-header"
+                            style={{
+                              background: tc.colors.card,
+                              borderBottom: `1px solid ${tc.colors.border}`,
+                            }}
+                          />
+                          <div className="theme-card-body">
+                            <div
+                              className="theme-card-sidebar"
+                              style={{
+                                background: tc.colors.card,
+                                borderRight: `1px solid ${tc.colors.border}`,
+                              }}
+                            />
+                            <div
+                              className="theme-card-content"
+                              style={{ background: tc.colors.bg }}
+                            >
+                              <div
+                                className="theme-card-line"
+                                style={{ background: tc.colors.textMuted }}
+                              />
+                              <div
+                                className="theme-card-line short"
+                                style={{ background: tc.colors.textMuted }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <span className="theme-card-label">{t(tc.labelKey)}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="sidebar-footer-btn"
+                onClick={logout}
+                disabled={trustedLocal}
+                title={t(trustedLocal ? 'header.local_trusted_session' : 'header.logout')}
+                aria-label={t(trustedLocal ? 'header.local_trusted_session' : 'header.logout')}
+              >
+                {headerIcons.logout}
+              </Button>
+            </div>
           </div>
         </aside>
 
