@@ -29,6 +29,7 @@
   justify-content: space-between;
   gap: 12px;
   min-width: 0;
+  border-bottom: 1px solid var(--border-color);
 
   > :first-child {
     flex: 1 1 auto;

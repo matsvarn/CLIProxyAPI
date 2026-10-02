@@ -1564,7 +1564,9 @@
     "ledger_more_other": "+{{count}} more",
     "meta_credentials_one": "{{count}} account",
     "meta_credentials_other": "{{count}} accounts",
-    "refresh_quota_tooltip": "Refresh quota"
+    "refresh_quota_tooltip": "Refresh quota",
+    "ledger_use_reset": "Use reset · {{count}}",
+    "ledger_reset": "Reset"
   },
   "plugin_management": {
     "title": "Plugin Management",

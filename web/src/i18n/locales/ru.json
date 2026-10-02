@@ -1580,7 +1580,9 @@
     "meta_credentials_few": "{{count}} аккаунта",
     "meta_credentials_many": "{{count}} аккаунтов",
     "meta_credentials_other": "{{count}} аккаунтов",
-    "refresh_quota_tooltip": "Обновить квоту"
+    "refresh_quota_tooltip": "Обновить квоту",
+    "ledger_use_reset": "Сбросить · {{count}}",
+    "ledger_reset": "Сбросить"
   },
   "plugin_management": {
     "title": "Управление плагинами",

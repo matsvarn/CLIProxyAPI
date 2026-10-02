@@ -191,11 +191,11 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
-  padding: 18px 0 6px;
+  padding: 28px 0 8px;
+}
 
-  &:first-child {
-    padding-top: 4px;
-  }
+.ledgerSection:first-child .ledgerSectionHead {
+  padding-top: 4px;
 }
 
 .ledgerProvider {
@@ -211,7 +211,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) repeat(3, minmax(160px, 1fr)) auto;
+  grid-template-columns: minmax(220px, 1.2fr) repeat(3, minmax(160px, 1fr)) 150px;
   gap: 12px;
   align-items: center;
   padding: 14px 0;
@@ -330,6 +330,8 @@
   align-items: center;
   gap: 6px;
   justify-self: end;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .actionGhost {
@@ -345,6 +347,33 @@
   background: transparent;
   color: var(--text-tertiary);
   font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.actionText {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
 

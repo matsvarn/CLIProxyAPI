@@ -599,16 +599,18 @@ export function AuthFilesPage() {
 
 
       <section className={styles.workbench} aria-label={t('auth_files.title_section')}>
-        <ProviderTabs
-          types={existingTypes}
+        <div className={styles.tabsWrap}>
+          <ProviderTabs
+            types={existingTypes}
           counts={typeCounts}
           active={normalizedFilter}
           resolvedTheme={resolvedTheme}
           onChange={(type) => {
             setFilter(type);
             setPage(1);
-          }}
-        />
+            }}
+          />
+        </div>
 
         <AuthFilesToolbar
           search={search}

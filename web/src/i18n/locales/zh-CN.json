@@ -1559,7 +1559,9 @@
     "ledger_more_other": "+{{count}} 更多",
     "meta_credentials_one": "{{count}} 个账户",
     "meta_credentials_other": "{{count}} 个账户",
-    "refresh_quota_tooltip": "刷新额度"
+    "refresh_quota_tooltip": "刷新额度",
+    "ledger_use_reset": "使用重置 · {{count}}",
+    "ledger_reset": "重置"
   },
   "plugin_management": {
     "title": "插件管理",

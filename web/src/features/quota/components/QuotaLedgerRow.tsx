@@ -7,11 +7,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconRefreshCw } from '@/components/ui/icons';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { maskEmails } from '@/utils/maskEmails';
 import { resolveQuotaErrorMessage } from '@/utils/quota';
 import { getQuotaDisplayName } from '@/utils/quota/identity';
 import { formatInstantShort, formatRelativeInstant } from '@/utils/quota/relativeTime';
-import { getTypeLabel } from '@/features/authFiles/constants';
+import { quotaPlanLabel } from '../planLabel';
 import type { LedgerWindow } from '../ledgerModel';
 import type { QuotaFileEntry } from '../logic';
 import { QUOTA_ADAPTERS, type QuotaCardState } from '../providers';
@@ -28,8 +29,8 @@ const meterClass = (remaining: number | null): string => {
   return styles.fillLow;
 };
 
-/** Plan/subscription line under the filename; falls back to the provider label. */
-const planLabelFor = (entry: QuotaFileEntry, quota: QuotaCardState | undefined): string | null => {
+/** Raw plan id from the quota state; display labels go through quotaPlanLabel. */
+const rawPlanFor = (entry: QuotaFileEntry, quota: QuotaCardState | undefined): string | null => {
   if (!quota || quota.status !== 'success') return null;
   const state = quota as unknown as Record<string, unknown>;
   switch (entry.type) {
@@ -122,7 +123,14 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
   );
 
   const displayName = getQuotaDisplayName(entry.file);
-  const planLabel = planLabelFor(entry, quota) ?? getTypeLabel(t, entry.type);
+  // Line 1 is always the filename alone; the display name may append an
+  // identity part ("file.json · user@mail") which belongs on line 2.
+  const identitySuffix = displayName.startsWith(entry.file.name)
+    ? displayName.slice(entry.file.name.length)
+    : '';
+  const maskedIdentitySuffix = showEmails ? identitySuffix : maskEmails(identitySuffix);
+  const planLabel = quotaPlanLabel(t, entry.type, rawPlanFor(entry, quota));
+  const secondaryLine = `${planLabel ?? ''}${maskedIdentitySuffix}`.replace(/^\s*·\s*/, '') || null;
   const visibleWindows = expanded ? windows : windows.slice(0, VISIBLE_WINDOWS);
   const hiddenCount = windows.length - VISIBLE_WINDOWS;
 
@@ -143,11 +151,15 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
       <div className={styles.rowIdentity}>
         <span
           className={styles.rowName}
-          title={showEmails ? displayName : maskEmails(displayName)}
+          title={showEmails ? entry.file.name : maskEmails(entry.file.name)}
         >
-          {showEmails ? displayName : maskEmails(displayName)}
+          {showEmails ? entry.file.name : maskEmails(entry.file.name)}
         </span>
-        <span className={styles.rowPlan}>{planLabel}</span>
+        {secondaryLine && (
+          <span className={styles.rowPlan} title={secondaryLine}>
+            {secondaryLine}
+          </span>
+        )}
       </div>
 
       {status === 'idle' ? (
@@ -202,25 +214,29 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
             Boolean(claudeReset.message)) && (
           <button
             type="button"
-            className={styles.actionGhost}
+            className={styles.actionText}
             disabled={claudeReset.blocked}
             onClick={claudeReset.confirm}
-            title={t(`claude_reset.${claudeReset.buttonLabel}`)}
+            title={t('claude_reset.scope')}
             aria-label={t(`claude_reset.${claudeReset.buttonLabel}`)}
           >
-            <IconRefreshCw size={13} className={claudeReset.busy ? styles.spinning : undefined} />
+            {claudeReset.busy ? <LoadingSpinner size={12} /> : null}
+            {typeof claudeReset.count === 'number' && claudeReset.count > 0
+              ? t('quota_management.ledger_use_reset', { count: claudeReset.count })
+              : t(`claude_reset.${claudeReset.buttonLabel}`)}
           </button>
         )}
         {showReset && (
           <button
             type="button"
-            className={styles.actionGhost}
+            className={styles.actionText}
             onClick={onReset}
             disabled={!canRefresh || loading || resetting}
-            title={t('codex_quota.reset_button')}
+            title={t('codex_quota.reset_tooltip', { defaultValue: t('codex_quota.reset_button') })}
             aria-label={t('codex_quota.reset_button')}
           >
-            <IconRefreshCw size={13} className={resetting ? styles.spinning : undefined} />
+            {resetting ? <LoadingSpinner size={12} /> : null}
+            {t('quota_management.ledger_reset')}
           </button>
         )}
         <button

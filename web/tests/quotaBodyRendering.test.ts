@@ -82,7 +82,7 @@ describe('CodexQuotaBody', () => {
     ['pro', 'Pro 20x', 'elitePlanValue'],
     ['prolite', 'Pro 5x', 'premiumPlanValue'],
     ['team', 'Team', 'codexPlanValue'],
-    ['self_serve_business_usage_based', 'self_serve_business_usage_based', 'codexPlanValue'],
+    ['self_serve_business_usage_based', 'Self Serve Business Usage Based', 'codexPlanValue'],
   ])('preserves the label and badge for %s', (planType, label, className) => {
     const markup = renderToStaticMarkup(
       createElement(CodexQuotaBody, { quota: { ...quota, planType }, classes })
