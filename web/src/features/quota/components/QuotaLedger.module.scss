@@ -1,0 +1,418 @@
+/* ============================================================
+ * 额度账本视图：汇总条 + 无卡片列表行。
+ * 颜色只消费既有主题 token，阈值与 QuotaMeter 一致（≥70 / ≥30）。
+ * ============================================================ */
+
+/* ---------- 汇总条：一个描边容器内等分列 ---------- */
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.stripCell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px 16px;
+  border-left: 1px solid var(--border-color);
+
+  &:first-child {
+    border-left: 0;
+  }
+}
+
+.stripHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.stripIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  flex: 0 0 auto;
+}
+
+.stripIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.stripName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stripCount {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.stripWindowLabel {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: none;
+}
+
+.stripFigure {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.stripValue {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.stripCapacity {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* 分段水位：每凭证一段，未报告 = 空轨道。 */
+.segments {
+  display: flex;
+  gap: 4px;
+  height: 6px;
+}
+
+.segment {
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  overflow: hidden;
+}
+
+.segmentFill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.fillHigh {
+  background: var(--viz-success);
+}
+
+.fillMedium {
+  background: var(--quota-medium-color);
+}
+
+.fillLow {
+  background: var(--viz-failure);
+}
+
+.stripReset {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+.stripDivider {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
+  margin: 4px 0 0;
+}
+
+.stripOtherRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stripOtherLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stripOtherValue {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.stripToggle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 11.5px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+/* ---------- 账本列表 ---------- */
+
+.ledger {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ledgerSection {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ledgerSectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 18px 0 6px;
+
+  &:first-child {
+    padding-top: 4px;
+  }
+}
+
+.ledgerProvider {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.ledgerCount {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) repeat(3, minmax(160px, 1fr)) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
+  min-width: 0;
+}
+
+.rowIdentity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowName {
+  font-family: $font-mono, ui-monospace, monospace;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowPlan {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowWindows {
+  grid-column: 2 / -2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.rowWindowsExpanded {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+
+  .windowCell {
+    flex: 0 1 220px;
+  }
+}
+
+.windowCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.windowTop {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.windowLabel {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.windowPercent {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.meterTrack {
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  overflow: hidden;
+}
+
+.meterFill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 360ms ease;
+}
+
+.windowReset {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.rowMore {
+  grid-column: 2 / -2;
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 11.5px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: end;
+}
+
+.actionGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.spinning {
+  animation: ledger-spin 0.9s linear infinite;
+}
+
+@keyframes ledger-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rowNote {
+  grid-column: 2 / -2;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.rowError {
+  grid-column: 2 / -2;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--danger-color);
+  overflow-wrap: anywhere;
+}
+
+.skeletonBar {
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  animation: ledger-pulse 1.4s ease-in-out infinite;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes ledger-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinning,
+  .skeletonBar {
+    animation: none;
+  }
+
+  .meterFill {
+    transition: none;
+  }
+}
