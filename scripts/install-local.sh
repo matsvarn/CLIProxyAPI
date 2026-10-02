@@ -68,6 +68,10 @@ if brew services list 2>/dev/null | grep -qE '^cliproxyapi\s+started'; then
 fi
 
 launchctl bootout "gui/$(id -u)/$PLIST_LABEL" 2>/dev/null || true
+for _ in $(seq 1 50); do
+  launchctl print "gui/$(id -u)/$PLIST_LABEL" &>/dev/null || break
+  sleep 0.2
+done
 launchctl bootstrap "gui/$(id -u)" "$PLIST"
 
 echo "==> Waiting for 127.0.0.1:8317"
