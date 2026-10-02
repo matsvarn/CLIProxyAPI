@@ -67,3 +67,11 @@ Never commit real management keys, provider credentials, auth files, or other se
 Use Conventional Commits, such as `feat(providers): add a provider` or `fix(auth-files): preserve disabled actions`. Keep changes focused. Pull requests should include a summary, linked issue when applicable, backend version/reproduction details for integration work, UI screenshots or notes when relevant, and verification results.
 
 Maintain shared repository guidance in `AGENTS.md`. When updating it, synchronize the local `CLAUDE.md` to identical content if present; `CLAUDE.md` is currently ignored and untracked, so shared guidance must not depend on it. Keep guidance aligned with source and configuration rather than duplicating long implementation details.
+
+## Local fork (custom-ui branch)
+
+- Remote `upstream` = router-for-me/Cli-Proxy-API-Management-Center; work lives on `custom-ui`.
+- Sync: `git fetch upstream && git rebase upstream/main`, then `bun run verify`.
+- Install into the Homebrew CLIProxyAPI: `bun run build && cp dist/index.html /opt/homebrew/etc/static/management.html` (served at http://127.0.0.1:8317/management.html, no restart needed).
+- `management.disable-auto-update-panel: true` is set in `/opt/homebrew/etc/cliproxyapi.conf` so the backend never overwrites the custom panel. Upstream original is kept at `/opt/homebrew/etc/static/management.html.upstream-v1.25.2`.
+- Management key: `~/.cli-proxy-api/management-key.txt`.
