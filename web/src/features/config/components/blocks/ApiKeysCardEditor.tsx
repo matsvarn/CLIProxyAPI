@@ -149,7 +149,10 @@ function ScopedApiKeysCardEditor({
   return (
     <div className="form-group" style={{ marginBottom: 0 }}>
       <div className={styles.blockHeaderRow}>
-        <label style={{ margin: 0 }}>{t('config_management.visual.api_keys.label')}</label>
+        <label style={{ margin: 0 }}>
+          {t('config_management.visual.api_keys.label')}
+          <code className={styles.yamlKey}>api-keys</code>
+        </label>
         <Button size="sm" onClick={openAddModal} disabled={disabled}>
           {t('config_management.visual.api_keys.add')}
         </Button>
@@ -162,7 +165,6 @@ function ScopedApiKeysCardEditor({
           {apiKeys.map((key, index) => (
             <div key={renderApiKeyIds[index] ?? `${key}-${index}`} className="item-row">
               <div className="item-meta">
-                <div className="pill">#{index + 1}</div>
                 <div className="item-title">
                   {names[nameFingerprints[index]] ??
                     t('config_management.visual.api_keys.input_label')}
@@ -171,7 +173,7 @@ function ScopedApiKeysCardEditor({
               </div>
               <div className="item-actions">
                 <Button
-                  variant="secondary"
+                  variant="ghost"
                   size="sm"
                   onClick={() => handleCopy(key)}
                   disabled={disabled}
@@ -179,7 +181,7 @@ function ScopedApiKeysCardEditor({
                   {t('common.copy')}
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="ghost"
                   size="sm"
                   onClick={() => openEditModal(renderApiKeyIds[index] ?? '')}
                   disabled={disabled}
@@ -200,7 +202,6 @@ function ScopedApiKeysCardEditor({
         </div>
       )}
 
-      <div className="hint">{t('config_management.visual.api_keys.hint')}</div>
 
       <Modal
         open={modalOpen}

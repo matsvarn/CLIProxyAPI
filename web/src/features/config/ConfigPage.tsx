@@ -30,7 +30,9 @@ import { findConfigFieldById } from './searchIndex';
 import { shouldReloadVisualDraft, useConfigDocument } from './hooks/useConfigDocument';
 import { useFieldJump } from './hooks/useFieldJump';
 import { useSourceSearch } from './hooks/useSourceSearch';
-import { ConfigHeader } from './components/ConfigHeader';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { Button } from '@/components/ui/Button';
+import { IconRefreshCw } from '@/components/ui/icons';
 import { ConfigSearch } from './components/ConfigSearch';
 import { ConfigTabs } from './components/ConfigTabs';
 import { DiffModal } from './components/DiffModal';
@@ -301,11 +303,48 @@ export function ConfigPage() {
 
   return (
     <div className={styles.page} ref={revealRef}>
-      <ConfigHeader
-        meta={headerMeta}
-        reloadDisabled={doc.loading || doc.saving}
-        reloading={doc.loading}
-        onReload={doc.handleReload}
+      <PageHeader
+        title={t('config_management.title')}
+        meta={
+          <>
+            {headerMeta.map((segment, index) => (
+              <span key={segment.key}>
+                {index > 0 ? <span aria-hidden="true"> · </span> : null}
+                <span
+                  className={
+                    segment.tone === 'warning'
+                      ? styles.metaWarning
+                      : segment.tone === 'error'
+                        ? styles.metaError
+                        : undefined
+                  }
+                >
+                  {segment.count !== undefined
+                    ? t(segment.labelKey, { count: segment.count })
+                    : t(segment.labelKey)}
+                </span>
+              </span>
+            ))}
+          </>
+        }
+        actions={
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={doc.handleReload}
+              disabled={doc.loading || doc.saving}
+            >
+              <IconRefreshCw size={14} className={doc.loading ? styles.spinning : undefined} />
+              {t('config_management.reload')}
+            </Button>
+            <ModeSwitch
+              mode={mode}
+              disabled={doc.saving || doc.loading || doc.diffModalOpen || doc.recoveryRequired}
+              onChange={handleModeChange}
+            />
+          </>
+        }
       />
 
       {doc.error && (
@@ -325,11 +364,6 @@ export function ConfigPage() {
         ) : (
           <SourceSearchBar search={sourceSearch} disabled={disableControls || doc.loading} />
         )}
-        <ModeSwitch
-          mode={mode}
-          disabled={doc.saving || doc.loading || doc.diffModalOpen || doc.recoveryRequired}
-          onChange={handleModeChange}
-        />
       </div>
 
       {mode === 'visual' ? (

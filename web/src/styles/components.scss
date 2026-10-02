@@ -69,6 +69,20 @@
     width: 100%;
   }
 
+  white-space: nowrap;
+
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+    min-width: 0;
+  }
+
+  > span svg {
+    flex-shrink: 0;
+  }
+
   &.btn-sm {
     height: 26px;
     padding: 0 10px;
@@ -84,11 +98,13 @@
 .input,
 textarea {
   width: 100%;
-  border: 1px solid var(--border-color);
-  border-radius: $radius-md;
-  padding: 10px 12px;
-  background-color: var(--bg-secondary);
+  min-height: 32px;
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  padding: 6px 10px;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
+  font-size: 13px;
   transition:
     border-color $transition-fast,
     box-shadow $transition-fast;

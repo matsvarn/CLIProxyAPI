@@ -12,7 +12,6 @@ import {
   type ProviderRecentUsageMap,
 } from '@/components/providers/utils';
 import type { OpenAIProviderConfig } from '@/types';
-import { ProviderHeaderCard } from './components/ProviderHeaderCard';
 import { ProviderCategoryList } from './components/ProviderCategoryList';
 import { ProviderResourcePanel } from './components/ProviderResourcePanel';
 import type { ProviderPanelControls } from './components/ProviderResourcePanel';
@@ -30,6 +29,9 @@ import {
   type ProvidersWorkbenchUiState,
 } from './uiState';
 import type { ProviderBrand, ProviderResource, ProviderSortBy, SortDir } from './types';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { Button } from '@/components/ui/Button';
+import { IconLoader2, IconPlus, IconRefreshCw } from '@/components/ui/icons';
 import styles from './ProvidersWorkbenchPage.module.scss';
 
 type SheetMode = 'detail' | 'create' | 'edit';
@@ -45,18 +47,7 @@ interface ProvidersWorkbenchPageProps {
   fixedBrand?: ProviderBrand;
 }
 
-const formatDateTime = (iso: string, locale?: string) => {
-  try {
-    const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return iso;
-    return new Intl.DateTimeFormat(locale, {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(date);
-  } catch {
-    return iso;
-  }
-};
+
 
 const matchesFilter = (r: ProviderResource, normalized: string): boolean => {
   if (!normalized) return true;
@@ -98,7 +89,7 @@ const getResourceRecentSuccess = (
 };
 
 export function ProvidersWorkbenchPage({ fixedBrand }: ProvidersWorkbenchPageProps = {}) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const connectionStatus = useAuthStore((s) => s.connectionStatus);
   const { showNotification, showConfirmation } = useNotificationStore();
 
@@ -256,28 +247,11 @@ export function ProvidersWorkbenchPage({ fixedBrand }: ProvidersWorkbenchPagePro
     updateActiveFilterState,
   ]);
 
-  const totalResources = useMemo(
-    () => groups.reduce((sum, g) => sum + g.resources.length, 0),
-    [groups]
-  );
-
-  const totalActive = useMemo(
-    () => groups.reduce((sum, g) => sum + g.resources.filter((r) => !r.disabled).length, 0),
-    [groups]
-  );
-
-  const providerFamilies = useMemo(
-    () => groups.filter((g) => g.resources.length > 0).length,
-    [groups]
-  );
   const quickStartResource = useMemo(
     () => (fixedBrand === 'apikeyFun' && activeGroup ? (activeGroup.resources[0] ?? null) : null),
     [activeGroup, fixedBrand]
   );
 
-  const updatedAtLabel = workbench.snapshot
-    ? formatDateTime(workbench.snapshot.fetchedAt, i18n.language)
-    : t('providersPage.modelCatalog.notLoaded');
   const headerTitle =
     fixedBrand === 'apikeyFun'
       ? quickStartResource
@@ -387,18 +361,14 @@ export function ProvidersWorkbenchPage({ fixedBrand }: ProvidersWorkbenchPagePro
   if (!activeGroup) {
     return (
       <div className={styles.page}>
-        <ProviderHeaderCard
-          title={headerTitle}
-          totalActive={0}
-          totalResources={0}
-          providerFamilies={0}
-          updatedAtLabel={updatedAtLabel}
-          isFetching={workbench.isFetching}
-          onRefresh={() => void handleRefresh()}
-          onNew={() => {}}
-          isNewDisabled
-          showNewAction={!fixedBrand}
-          showSummary={fixedBrand !== 'apikeyFun'}
+        <PageHeader
+          title={headerTitle ?? t('providersPage.header.title')}
+          description={t('providersPage.header.description')}
+          actions={
+            <Button variant="ghost" size="sm" disabled aria-label={t('providersPage.actions.refresh')} title={t('providersPage.actions.refresh')}>
+              <IconRefreshCw size={15} />
+            </Button>
+          }
         />
         {errorBanner}
       </div>
@@ -407,20 +377,37 @@ export function ProvidersWorkbenchPage({ fixedBrand }: ProvidersWorkbenchPagePro
 
   return (
     <div className={styles.page}>
-      <ProviderHeaderCard
-        title={headerTitle}
-        totalActive={totalActive}
-        totalResources={totalResources}
-        providerFamilies={providerFamilies}
-        updatedAtLabel={updatedAtLabel}
-        isFetching={workbench.isFetching}
-        isNewDisabled={disableMutations}
-        showNewAction={!fixedBrand}
-        showSummary={fixedBrand !== 'apikeyFun'}
-        newLabel={t('providersPage.actions.new')}
-        variant={fixedBrand === 'apikeyFun' ? 'quickStart' : undefined}
-        onRefresh={() => void handleRefresh()}
-        onNew={openCreate}
+      <PageHeader
+        title={headerTitle ?? t('providersPage.header.title')}
+        description={fixedBrand ? undefined : t('providersPage.header.description')}
+        actions={
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void handleRefresh()}
+              disabled={workbench.isFetching}
+              aria-label={
+                workbench.isFetching
+                  ? t('providersPage.actions.syncing')
+                  : t('providersPage.actions.refresh')
+              }
+              title={t('providersPage.actions.refresh')}
+            >
+              {workbench.isFetching ? (
+                <IconLoader2 size={15} className={styles.spinning} />
+              ) : (
+                <IconRefreshCw size={15} />
+              )}
+            </Button>
+            {!fixedBrand ? (
+              <Button variant="primary" onClick={openCreate} disabled={disableMutations}>
+                <IconPlus size={14} />
+                {t('providersPage.actions.add_key')}
+              </Button>
+            ) : null}
+          </>
+        }
       />
 
       {errorBanner}

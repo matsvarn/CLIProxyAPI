@@ -57,7 +57,6 @@
     "unsaved_changes_message": "你有未儲存的變更，離開後將遺失這些變更。確定要離開嗎？"
   },
   "title": {
-    "login": "CLI Proxy API Management Center",
     "abbr": "CPAMC",
     "brand": "CLIProxyAPI"
   },
@@ -66,17 +65,14 @@
     "subtitle": "管理中心"
   },
   "login": {
-    "subtitle": "連線至 CLI Proxy API v8 或更新版本",
     "connection_current": "目前位址",
-    "connection_auto_hint": "系統將自動使用目前存取位址進行連線",
-    "custom_connection_label": "自訂連線位址:",
-    "custom_connection_placeholder": "例如: https://example.com:8317",
-    "custom_connection_hint": "預設使用目前存取位址，若需要可手動輸入其他位址。",
-    "remember_password_label": "記住密碼",
-    "management_key_label": "管理金鑰:",
+    "custom_connection_label": "連線地址",
+    "custom_connection_placeholder": "https://example.com:8317",
+    "remember_password_label": "在此裝置上記住",
+    "management_key_label": "管理密鑰",
     "management_key_placeholder": "請輸入管理金鑰",
-    "submit_button": "登入",
-    "submitting": "連線中...",
+    "submit_button": "連線",
+    "submitting": "連線中…",
     "error_backend_detail": "後端返回",
     "error_required": "請填寫完整的連線資訊",
     "error_invalid": "連線失敗，請檢查服務位址、管理介面和管理金鑰",
@@ -88,7 +84,8 @@
     "error_legacy_backend": "目前後端可使用 v0 管理介面，但不支援 v8。請將 CLIProxyAPI 升級至 v8 或更新版本後再使用此管理頁面。",
     "error_server": "後端處理管理介面時發生錯誤，請查看服務日誌",
     "error_cors": "跨域請求被阻擋，請檢查伺服器設定",
-    "error_ssl": "SSL/TLS 憑證驗證失敗"
+    "error_ssl": "SSL/TLS 憑證驗證失敗",
+    "brand_title": "CLIProxyAPI"
   },
   "header": {
     "refresh_all": "全部重新整理",
@@ -156,7 +153,8 @@
     "runtime_disabled": "關閉",
     "col_provider": "提供商",
     "col_accounts": "帳戶",
-    "col_requests": "請求"
+    "col_requests": "請求",
+    "stat_accounts_unavailable_other": "{{count}} 個不可用"
   },
   "basic_settings": {
     "debug_enable": "啟用除錯模式",
@@ -172,19 +170,14 @@
     "routing_strategy_fill_first": "fill-first（優先填充）"
   },
   "auth_files": {
-    "title": "驗證檔案管理",
-    "meta_total": "{{count}} 個憑證",
-    "meta_active": "{{count}} 個啟用",
-    "meta_problem": "{{count}} 個異常",
+    "title": "帳戶",
     "empty_title": "還沒有憑證",
-    "empty_desc": "上傳認證檔案，或透過 OAuth 連接一個提供商開始使用。",
     "empty_oauth_link": "前往 OAuth 登入",
     "no_results_clear": "清除篩選",
     "title_section": "驗證檔案",
     "upload_button": "上傳檔案",
     "delete_all_button": "刪除全部",
     "search_empty_title": "沒有符合的設定檔",
-    "search_empty_desc": "請調整篩選條件或清空搜尋關鍵字再試一次。",
     "file_size": "大小",
     "file_modified": "修改時間",
     "card_select": "選取驗證檔案 {{name}}",
@@ -278,7 +271,6 @@
     "problem_filter_problem": "問題",
     "problem_filter_disabled": "停用",
     "display_options_label": "顯示選項",
-    "compact_mode_label": "簡略模式",
     "sort_label": "排序",
     "sort_default": "預設",
     "sort_az": "A-Z 名稱",
@@ -386,7 +378,17 @@
     "quota_refresh_single": "重新整理配額",
     "quota_refresh_hint": "僅重新整理該驗證檔案的配額",
     "quota_refresh_success": "已重新整理「{{name}}」的配額",
-    "quota_refresh_failed": "重新整理「{{name}}」的配額失敗：{{message}}"
+    "quota_refresh_failed": "重新整理「{{name}}」的配額失敗：{{message}}",
+    "meta_accounts": "{{count}} 個帳戶",
+    "meta_accounts_other": "{{count}} 個帳戶",
+    "refresh_status": "重新整理狀態",
+    "connect_account": "連接帳戶",
+    "row_status_active": "正常",
+    "row_status_problem": "需要處理",
+    "row_status_disabled": "已停用",
+    "advanced_section": "進階",
+    "meta_problem_one": "{{count}} 個需處理",
+    "meta_problem_other": "{{count}} 個需處理"
   },
   "antigravity_subscription": {
     "plan_unknown": "未知",
@@ -739,7 +741,7 @@
     "devin_oauth_retry_hint": "伺服器可能仍在等待授權。請先取消本次登入，再重新開始。",
     "devin_oauth_title": "Devin OAuth",
     "devin_oauth_button": "開始 Devin 登入",
-    "devin_oauth_hint": "透過瀏覽器 OAuth 登入 Devin / Cognition，自動儲存認證檔案。需要 CLI Proxy API v7.3.1 或更新版本，請在五分鐘內完成授權。",
+    "devin_oauth_hint": "Devin 瀏覽器 OAuth（需要 v7.3.1+），請於五分鐘內完成。",
     "devin_oauth_url_label": "授權連結：",
     "devin_copy_link": "複製連結",
     "devin_open_link": "開啟連結",
@@ -747,7 +749,7 @@
     "devin_oauth_status_success": "Devin 認證成功！",
     "devin_oauth_status_error": "Devin 認證失敗：",
     "devin_oauth_start_error": "啟動 Devin OAuth 失敗：",
-    "devin_callback_hint": "遠端伺服器：即使瀏覽器無法開啟迴路位址，也請從網址列複製最終的完整 /devin/callback?… URL，保留原有連接埠、http/https、code 和 state。提交後請繼續等待認證完成。",
+    "devin_callback_hint": "若重新導向至 /devin/callback，請在此貼上完整 URL。",
     "devin_callback_placeholder": "http://127.0.0.1:<伺服器連接埠>/devin/callback?code=...&state=...",
     "devin_callback_invalid": "請貼上完整的 http/https 回呼 URL，包含 state 和授權碼或錯誤資訊。",
     "devin_callback_state_mismatch": "此回呼不屬於目前的 Devin 登入。請使用本次授權的最終 URL，不要重複使用舊回呼。",
@@ -757,7 +759,7 @@
     "other_login_methods": "其他登入方式",
     "codex_oauth_title": "Codex OAuth",
     "codex_oauth_button": "開始 Codex 登入",
-    "codex_oauth_hint": "透過 OAuth 流程登入 Codex 服務，自動取得並儲存驗證檔案。",
+    "codex_oauth_hint": "Codex 瀏覽器 OAuth，憑證自動儲存。",
     "codex_oauth_url_label": "授權連結:",
     "codex_open_link": "開啟連結",
     "codex_copy_link": "複製連結",
@@ -768,7 +770,7 @@
     "codex_oauth_polling_error": "檢查驗證狀態失敗:",
     "anthropic_oauth_title": "Anthropic OAuth",
     "anthropic_oauth_button": "開始 Anthropic 登入",
-    "anthropic_oauth_hint": "透過 OAuth 流程登入 Anthropic（Claude）服務，自動取得並儲存驗證檔案。",
+    "anthropic_oauth_hint": "Anthropic（Claude）瀏覽器 OAuth，自動儲存。",
     "anthropic_oauth_url_label": "授權連結:",
     "anthropic_open_link": "開啟連結",
     "anthropic_copy_link": "複製連結",
@@ -779,7 +781,7 @@
     "anthropic_oauth_polling_error": "檢查驗證狀態失敗:",
     "antigravity_oauth_title": "Antigravity OAuth",
     "antigravity_oauth_button": "開始 Antigravity 登入",
-    "antigravity_oauth_hint": "透過 OAuth 流程登入 Antigravity（Google 帳號）服務，自動取得並儲存驗證檔案。",
+    "antigravity_oauth_hint": "Google（Antigravity）帳戶瀏覽器 OAuth。",
     "antigravity_oauth_url_label": "授權連結:",
     "antigravity_open_link": "開啟連結",
     "antigravity_copy_link": "複製連結",
@@ -790,7 +792,7 @@
     "antigravity_oauth_polling_error": "檢查驗證狀態失敗:",
     "meta_oauth_title": "Muse (Meta) OAuth",
     "meta_oauth_button": "使用 Muse 登入",
-    "meta_oauth_hint": "開啟授權連結，如有提示請輸入裝置碼。授權完成後將自動取得並儲存驗證檔案。",
+    "meta_oauth_hint": "裝置碼登入；憑證自動儲存。",
     "meta_oauth_url_label": "授權連結:",
     "meta_open_link": "開啟連結",
     "meta_copy_link": "複製連結",
@@ -801,9 +803,9 @@
     "meta_oauth_polling_error": "檢查驗證狀態失敗:",
     "device_code_label": "裝置碼:",
     "device_code_copy": "複製裝置碼",
-    "kimi_ai_oauth_title": "Kimi 國際站（kimi.ai）",
+    "kimi_ai_oauth_title": "Kimi 國際站 (kimi.ai)",
     "kimi_ai_oauth_button": "登入 Kimi 國際站",
-    "kimi_ai_oauth_hint": "透過裝置授權登入 kimi.ai 國際站，自動儲存獨立的 kimi-ai 驗證檔案。中國站與國際站帳號不互通。",
+    "kimi_ai_oauth_hint": "kimi.ai 國際站帳戶裝置碼登入。",
     "kimi_ai_oauth_url_label": "授權連結:",
     "kimi_ai_open_link": "開啟連結",
     "kimi_ai_copy_link": "複製連結",
@@ -812,10 +814,9 @@
     "kimi_ai_oauth_status_error": "驗證失敗:",
     "kimi_ai_oauth_start_error": "啟動 Kimi 國際站登入失敗:",
     "kimi_ai_oauth_polling_error": "檢查驗證狀態失敗:",
-    "kimi_oauth_title": "Kimi 中國站（kimi.com）",
+    "kimi_oauth_title": "Kimi 中國站 (kimi.com)",
     "kimi_oauth_button": "登入 Kimi 中國站",
-    "kimi_sign_up_button": "立即註冊",
-    "kimi_oauth_hint": "透過裝置授權登入 kimi.com 中國站，自動取得並儲存驗證檔案。國際站帳號請使用獨立的 kimi.ai 登入入口。",
+    "kimi_oauth_hint": "kimi.com 中國站帳戶裝置碼登入。",
     "kimi_oauth_url_label": "授權連結:",
     "kimi_open_link": "開啟連結",
     "kimi_copy_link": "複製連結",
@@ -826,7 +827,7 @@
     "kimi_oauth_polling_error": "檢查驗證狀態失敗:",
     "xai_oauth_title": "xAI OAuth",
     "xai_oauth_button": "開始 xAI 登入",
-    "xai_oauth_hint": "透過 OAuth 流程登入 xAI Grok 服務，自動取得並儲存驗證檔案。",
+    "xai_oauth_hint": "xAI Grok 瀏覽器 OAuth，自動儲存。",
     "xai_oauth_url_label": "授權連結:",
     "xai_open_link": "開啟連結",
     "xai_copy_link": "複製連結",
@@ -900,7 +901,10 @@
     "iflow_cookie_result_expired": "到期時間",
     "iflow_cookie_result_path": "儲存路徑",
     "iflow_cookie_result_type": "類型",
-    "remote_access_disabled": "遠端存取不支援此登入方式，請從本地（localhost）存取"
+    "remote_access_disabled": "遠端存取不支援此登入方式，請從本地（localhost）存取",
+    "page_title": "連接帳戶",
+    "page_description": "登入服務商並將其帳戶加入配額池。",
+    "back_to_accounts": "返回帳戶"
   },
   "stats": {
     "success": "成功",
@@ -1219,20 +1223,16 @@
       },
       "sections": {
         "common": {
-          "title": "常用",
-          "description": "最常調整的設定項，與完整分區共享同一份資料"
+          "title": "常用"
         },
         "connectivity": {
-          "title": "接入與認證",
-          "description": "服務位址、連接埠、認證目錄與 API 金鑰"
+          "title": "接入與認證"
         },
         "logging": {
-          "title": "日誌與診斷",
-          "description": "除錯、日誌輸出與使用統計"
+          "title": "日誌與診斷"
         },
         "advanced": {
           "title": "進階與實驗",
-          "description": "請求標頭偽裝、簽章快取、外掛來源等不常修改的設定",
           "plugins_title": "外掛",
           "antigravity_title": "Antigravity",
           "devin_title": "Devin",
@@ -1264,7 +1264,7 @@
           "panel_repo": "面板儲存庫"
         },
         "auth": {
-          "auth_dir": "OAuth 驗證檔案目錄（oauth.auth-dir）",
+          "auth_dir": "OAuth 驗證檔案目錄",
           "auth_dir_hint": "存放驗證檔案的目錄路徑（支援 ~）"
         },
         "system": {
@@ -1278,7 +1278,7 @@
           "plugins_enabled_desc": "啟用標準動態庫插件載入；具體插件實例仍在插件管理頁啟停",
           "plugin_store_sources": "第三方插件源",
           "plugin_store_sources_desc": "追加插件商店 registry 源；內建官方源始終保留",
-          "plugin_store_sources_label": "插件源 registry URL（plugins.store-sources）",
+          "plugin_store_sources_label": "插件源 registry URL",
           "plugin_store_sources_placeholder": "https://example.com/cliproxy-plugins/registry.json",
           "plugin_store_sources_hint": "每列一個 registry.json URL，儲存時會過濾空列",
           "plugin_store_auth": "插件商店認證規則",
@@ -1313,12 +1313,12 @@
           "redis_usage_retention_hint": "RESP 介面 LPOP/RPOP 用量佇列的記憶體保留時間，最大 3600 秒",
           "antigravity_sensitive_words": "敏感詞混淆",
           "antigravity_sensitive_words_desc": "在 Antigravity 系統提示詞的匹配項中插入零寬字元，降低上游精確關鍵詞匹配",
-          "antigravity_sensitive_words_label": "OAuth 敏感詞（oauth.providers.antigravity.sensitive-words）",
+          "antigravity_sensitive_words_label": "OAuth 敏感詞",
           "antigravity_sensitive_words_placeholder": "proxy",
           "antigravity_sensitive_words_hint": "每項填寫一個詞或短語；匹配不分大小寫，儲存時移除空項，少於 2 個字元的項目會被後端忽略",
           "devin_sensitive_words": "Devin 系統提示詞敏感詞",
           "devin_sensitive_words_desc": "僅處理 Devin 系統提示詞：含設定詞的整行會被刪除，剩餘系統提示詞再進行混淆；一般訊息和工具參數不會被修改",
-          "devin_sensitive_words_label": "OAuth 敏感詞（oauth.providers.devin.sensitive-words）",
+          "devin_sensitive_words_label": "OAuth 敏感詞",
           "devin_sensitive_words_placeholder": "敏感短語",
           "devin_sensitive_words_hint": "每項填寫一個詞或短語。請謹慎設定：命中內容會導致整行系統提示詞被刪除；儲存時移除空項",
           "antigravity_signature_cache": "啟用 Antigravity 簽名快取",
@@ -1343,7 +1343,6 @@
         },
         "network": {
           "title": "網路設定",
-          "description": "代理、重試和路由設定",
           "proxy_url": "代理 URL",
           "proxy_url_sponsor_hint": "沒有合適的代理？",
           "request_retry": "請求重試次數",
@@ -1375,11 +1374,10 @@
           "disable_cooling_desc": "全域停用驗證/模型失敗後的冷卻視窗",
           "session_affinity": "會話黏性路由",
           "ws_auth": "WebSocket 驗證",
-          "ws_auth_desc": "啟用 AI Studio WebSocket 連線驗證（oauth.providers.aistudio.ws-auth）"
+          "ws_auth_desc": "啟用 AI Studio WebSocket 連線驗證"
         },
         "quota": {
           "title": "配額回退",
-          "description": "配額耗盡時的回退策略",
           "switch_project": "切換專案",
           "switch_project_desc": "配額耗盡時自動切換到其他專案",
           "switch_preview_model": "切換預覽模型",
@@ -1388,7 +1386,6 @@
         },
         "streaming": {
           "title": "串流傳輸設定",
-          "description": "Keepalive 與 bootstrap 重試設定",
           "keepalive_seconds": "Keepalive 秒數",
           "keepalive_hint": "設定為 0、負整數或留空表示停用 keepalive",
           "bootstrap_retries": "Bootstrap 重試次數",
@@ -1399,7 +1396,6 @@
         },
         "payload": {
           "title": "Payload 設定",
-          "description": "預設值、原始 JSON 規則、覆寫規則與篩選規則",
           "default_rules": "預設規則",
           "default_rules_desc": "當請求中未指定參數時，使用這些預設值",
           "default_raw_rules": "預設 Raw 規則",
@@ -1413,11 +1409,10 @@
         }
       },
       "api_keys": {
-        "label": "用戶端 API 金鑰（access.api-keys）",
+        "label": "用戶端 API 金鑰",
         "add": "新增 API 金鑰",
         "generate": "產生",
         "empty": "暫無 API 金鑰",
-        "hint": "每個條目代表一個 API 金鑰（與「API 金鑰管理」頁面樣式一致）",
         "edit_title": "編輯 API 金鑰",
         "add_title": "新增 API 金鑰",
         "input_label": "API 金鑰",
@@ -1515,6 +1510,16 @@
         "update": "更新",
         "add": "新增"
       }
+    },
+    "tabs_short": {
+      "common": "常用",
+      "connectivity": "存取",
+      "network": "網路",
+      "logging": "日誌",
+      "quota": "配額回退",
+      "streaming": "串流",
+      "advanced": "進階",
+      "payload": "負載"
     }
   },
   "quota_management": {
@@ -1525,10 +1530,10 @@
     "search_clear": "清除搜尋",
     "title": "額度",
     "description": "集中查看 OAuth 配額與剩餘情況",
-    "refresh_all_credentials": "重新整理全部憑證",
+    "refresh_all_credentials": "重新整理",
     "sort_label": "排序",
-    "sort_default": "預設",
-    "sort_soonest": "最快恢復優先",
+    "sort_default": "預設排序",
+    "sort_soonest": "最快恢復",
     "meta_loaded": "{{count}} 個已載入",
     "meta_attention": "{{count}} 個需關注",
     "empty_title": "暫無可查配額的憑證",
@@ -1579,11 +1584,11 @@
     "summary_credentials_other": "{{count}} 個憑證",
     "ledger_more_other": "+{{count}} 更多",
     "meta_credentials_one": "{{count}} 個帳戶",
-    "meta_credentials_other": "{{count}} 個帳戶"
+    "meta_credentials_other": "{{count}} 個帳戶",
+    "refresh_quota_tooltip": "重新整理額度"
   },
   "plugin_management": {
     "title": "插件管理",
-    "description": "查看已發現和已註冊的插件，管理實例開關、設定欄位和資源入口。",
     "refresh": "重新整理",
     "load_failed": "載入插件失敗",
     "config_load_failed": "讀取插件設定失敗",
@@ -1910,9 +1915,7 @@
     },
     "header": {
       "title": "AI 提供商",
-      "activeResources": "{{active}}/{{total}} 個活躍資源",
-      "providerFamilies": "{{count}} 個提供商家族",
-      "updatedAt": "更新於 {{time}}"
+      "description": "上游 API 金鑰和相容端點。"
     },
     "actions": {
       "refresh": "重新整理",
@@ -1925,13 +1928,10 @@
       "save": "儲存",
       "create": "建立",
       "enable": "啟用",
-      "disable": "停用"
+      "disable": "停用",
+      "add_key": "新增金鑰"
     },
-    "categories": {
-      "title": "提供商",
-      "quickFill": "快速接入",
-      "activeCount": "{{active}}/{{total}} 活躍"
-    },
+    "categories": {},
     "providerNames": {
       "meta": "Muse (Meta)",
       "gemini": "Gemini",
@@ -2229,7 +2229,7 @@
     "affinity_off": "親和關閉",
     "affinity_off_warning": "工作階段親和已關閉 — 提示快取可能跨帳號失效。",
     "settings_aria": "路由設定",
-    "settings_title": "設定",
+    "settings_title": "親和性",
     "affinity_label": "工作階段親和",
     "affinity_hint": "讓每個會話固定在同一上游帳號上，使提示快取保持熱態。",
     "subagents_label": "子代理親和",
@@ -2273,6 +2273,11 @@
     "kind_bind": "新綁定",
     "kind_rebind": "重綁定",
     "activity_source": "來自最近 {{count}} 條親和事件 · 自 {{since}} 起",
-    "activity_source_none": "正在掃描最近 {{limit}} 行日誌"
+    "activity_source_none": "正在掃描最近 {{limit}} 行日誌",
+    "strategy_short_round_robin": "輪詢",
+    "strategy_short_weighted_round_robin": "加權",
+    "strategy_short_fill_first": "填滿優先",
+    "sessions_show_all": "顯示全部（{{count}}）",
+    "sessions_show_less": "收起"
   }
 }

@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Collapsible } from '@/components/ui/Collapsible';
 import { Input } from '@/components/ui/Input';
-import { CONFIG_TAB_ICONS, SECTION_INDEX_LABELS } from '../../constants';
+
 import type { ConfigSectionProps } from '../../types';
 import { SectionCard } from '../SectionCard';
 import {
@@ -19,7 +19,6 @@ import { getValidationMessage } from '../blocks/shared';
 import { StringListEditor } from '../blocks/StringListEditor';
 import { SectionDiscovery } from './SectionDiscovery';
 
-const Icon = CONFIG_TAB_ICONS.connectivity;
 
 /** 01 接入与认证：服务地址、端口、认证目录、API 密钥 + TLS / 远程管理折叠组。 */
 export function SectionConnectivity({
@@ -36,10 +35,6 @@ export function SectionConnectivity({
 
   return (
     <SectionCard
-      indexLabel={SECTION_INDEX_LABELS.connectivity}
-      icon={<Icon size={16} />}
-      title={t('config_management.visual.sections.connectivity.title')}
-      description={t('config_management.visual.sections.connectivity.description')}
       animateIn={animateIn}
     >
       <FieldStack>

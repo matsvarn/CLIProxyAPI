@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/Input';
@@ -15,7 +16,6 @@ import {
   IconRefreshCw,
   IconSearch,
   IconSettings,
-  IconShield,
 } from '@/components/ui/icons';
 import { useHeaderRefresh } from '@/hooks/useHeaderRefresh';
 import { pluginStoreApi } from '@/services/api';
@@ -986,19 +986,12 @@ export function PluginStorePage() {
   return (
     <div className={styles.page}>
       {/* ── Page Header ── */}
-      <div className={styles.pageHeader}>
-        <h1 className={styles.title}>{t('plugin_store.title')}</h1>
-        <p className={styles.description}>{t('plugin_store.description')}</p>
-      </div>
+      <PageHeader title={t('plugin_store.title')} />
 
-      {/* ── Security Banner ── */}
-      <div className={styles.securityBanner} role="note">
-        <IconShield size={20} />
-        <div className={styles.securityBannerText}>
-          <strong>{t('plugin_store.security_banner_title')}</strong>
-          <p>{t('plugin_store.security_banner_text')}</p>
-        </div>
-      </div>
+      <p className={styles.notice} role="note">
+        <i className={styles.noticeDot} aria-hidden="true" />
+        {t('plugin_store.security_banner_title')}: {t('plugin_store.security_banner_text')}
+      </p>
 
       {/* ── Alerts ── */}
       {error ? (
@@ -1031,7 +1024,7 @@ export function PluginStorePage() {
       ) : null}
 
       {data && !data.pluginsEnabled ? (
-        <div className={styles.warningBox}>{t('plugin_store.global_disabled_hint')}</div>
+        <p className={styles.notice} role="note"><i className={styles.noticeDot} aria-hidden="true" />{t('plugin_store.global_disabled_hint')}</p>
       ) : null}
 
       {restartNames.length > 0 ? (

@@ -230,13 +230,6 @@ export function ProviderSheet({
       open={state.open}
       onClose={onClose}
       size={descriptor.sheetSize}
-      eyebrow={
-        state.mode === 'detail'
-          ? t('providersPage.detail.title')
-          : state.mode === 'create'
-            ? t('providersPage.form.createEyebrow')
-            : t('providersPage.form.editEyebrow')
-      }
       title={titleText}
       description={t('providersPage.table.description', {
         route:

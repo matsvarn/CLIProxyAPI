@@ -1,6 +1,7 @@
 import { useDeferredValue, useEffect, useMemo, useReducer, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -399,30 +400,96 @@ export function LogsPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>{t('logs.title')}</h1>
-        <div className={styles.tabBar} role="group" aria-label={t('logs.title')}>
-          <button
-            type="button"
-            className={`${styles.tabItem} ${activeTab === 'logs' ? styles.tabActive : ''}`}
-            aria-pressed={activeTab === 'logs'}
-            onClick={() => setActiveTab('logs')}
-          >
-            {t('logs.log_content')}
-          </button>
-          <button
-            type="button"
-            className={`${styles.tabItem} ${activeTab === 'errors' ? styles.tabActive : ''}`}
-            aria-pressed={activeTab === 'errors'}
-            onClick={() => {
-              setFullscreenLogs(false);
-              setActiveTab('errors');
-            }}
-          >
-            {t('logs.error_logs_modal_title')}
-          </button>
-        </div>
-      </header>
+      <PageHeader
+        title={t('logs.title')}
+        actions={
+          <>
+            <div className={styles.tabBar} role="group" aria-label={t('logs.title')}>
+              <button
+                type="button"
+                className={`${styles.tabItem} ${activeTab === 'logs' ? styles.tabActive : ''}`}
+                aria-pressed={activeTab === 'logs'}
+                onClick={() => setActiveTab('logs')}
+              >
+                {t('logs.log_content')}
+              </button>
+              <button
+                type="button"
+                className={`${styles.tabItem} ${activeTab === 'errors' ? styles.tabActive : ''}`}
+                aria-pressed={activeTab === 'errors'}
+                onClick={() => {
+                  setFullscreenLogs(false);
+                  setActiveTab('errors');
+                }}
+              >
+                {t('logs.error_logs_modal_title')}
+              </button>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className={styles.actionButton}
+              aria-pressed={autoRefresh}
+              aria-label={t('logs.reading_enabled')}
+              title={t('logs.reading_enabled')}
+              onClick={() => setAutoRefresh(!autoRefresh)}
+              disabled={autoRefreshDisabled}
+            >
+              <IconTimer size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => loadLogs(false)}
+              disabled={refreshDisabled}
+              className={styles.actionButton}
+              title={t('logs.refresh_button')}
+              aria-label={t('logs.refresh_button')}
+            >
+              <IconRefreshCw size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={downloadLogs}
+              disabled={logBuffer.buffer.length === 0}
+              className={styles.actionButton}
+              title={t('logs.download_cached')}
+              aria-label={t('logs.download_cached')}
+            >
+              <IconDownload size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearLogs}
+              disabled={clearDisabled}
+              className={styles.actionButton}
+              title={t('logs.clear_button')}
+              aria-label={t('logs.clear_button')}
+            >
+              <IconTrash2 size={15} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setFullscreenLogs((prev) => !prev)}
+              className={styles.actionButton}
+              aria-pressed={fullscreenLogs}
+              aria-label={
+                fullscreenLogs ? t('logs.exit_fullscreen_button') : t('logs.fullscreen_button')
+              }
+              title={
+                fullscreenLogs ? t('logs.exit_fullscreen_button') : t('logs.fullscreen_button')
+              }
+            >
+              <span className={styles.buttonContent}>
+                {fullscreenLogs ? <IconMinimize2 size={15} /> : <IconMaximize2 size={15} />}
+              </span>
+            </Button>
+          </>
+        }
+      />
 
       <div className={styles.content}>
         {activeTab === 'logs' && (
@@ -685,70 +752,7 @@ export function LogsPage() {
                 </div>
               </Modal>
 
-              <div className={styles.toolbar}>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => loadLogs(false)}
-                  disabled={refreshDisabled}
-                  className={styles.actionButton}
-                  title={t('logs.refresh_button')}
-                  aria-label={t('logs.refresh_button')}
-                >
-                  <IconRefreshCw size={16} />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className={styles.actionButton}
-                  aria-pressed={autoRefresh}
-                  aria-label={t('logs.reading_enabled')}
-                  title={t('logs.reading_enabled')}
-                  onClick={() => setAutoRefresh(!autoRefresh)}
-                  disabled={autoRefreshDisabled}
-                >
-                  <IconTimer size={16} />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={downloadLogs}
-                  disabled={logBuffer.buffer.length === 0}
-                  className={styles.actionButton}
-                  title={t('logs.download_cached')}
-                  aria-label={t('logs.download_cached')}
-                >
-                  <IconDownload size={16} />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearLogs}
-                  disabled={clearDisabled}
-                  className={styles.actionButton}
-                  title={t('logs.clear_button')}
-                  aria-label={t('logs.clear_button')}
-                >
-                  <IconTrash2 size={16} />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setFullscreenLogs((prev) => !prev)}
-                  className={styles.actionButton}
-                  aria-pressed={fullscreenLogs}
-                  aria-label={
-                    fullscreenLogs ? t('logs.exit_fullscreen_button') : t('logs.fullscreen_button')
-                  }
-                  title={
-                    fullscreenLogs ? t('logs.exit_fullscreen_button') : t('logs.fullscreen_button')
-                  }
-                >
-                  <span className={styles.buttonContent}>
-                    {fullscreenLogs ? <IconMinimize2 size={16} /> : <IconMaximize2 size={16} />}
-                  </span>
-                </Button>
-              </div>
+
             </div>
 
             <div className={styles.viewerArea}>

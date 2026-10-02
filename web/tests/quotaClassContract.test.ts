@@ -17,7 +17,6 @@ import { QUOTA_CLASS_KEYS, bindQuotaClasses } from '@/features/quota/types';
 
 const HOSTS = {
   'QuotaBody.module.scss': 'src/features/quota/components/QuotaBody.module.scss',
-  'AuthFileQuota.module.scss': 'src/features/authFiles/components/AuthFileQuota.module.scss',
 } as const;
 
 const readHost = (path: string) => Bun.file(new URL(`../${path}`, import.meta.url)).text();

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import type { VisualConfigValues } from '@/types/visualConfig';
-import { CONFIG_TAB_ICONS, SECTION_INDEX_LABELS } from '../../constants';
+
 import type { ConfigSectionProps } from '../../types';
 import { SectionCard } from '../SectionCard';
 import {
@@ -13,10 +13,9 @@ import {
   FieldStack,
   ToggleRow,
 } from '../fields/FieldPrimitives';
-import { ProxyUrlField, SponsorHintSpacer } from '../fields/sharedFields';
+import { ProxyUrlField } from '../fields/sharedFields';
 import { getValidationMessage } from '../blocks/shared';
 
-const Icon = CONFIG_TAB_ICONS.network;
 
 /** 02 网络配置：代理、重试、路由策略、图像生成开关与网络行为开关。 */
 export function SectionNetwork({
@@ -61,10 +60,6 @@ export function SectionNetwork({
 
   return (
     <SectionCard
-      indexLabel={SECTION_INDEX_LABELS.network}
-      icon={<Icon size={16} />}
-      title={t('config_management.visual.sections.network.title')}
-      description={t('config_management.visual.sections.network.description')}
       animateIn={animateIn}
     >
       <FieldStack>
@@ -73,7 +68,6 @@ export function SectionNetwork({
           <FieldAnchor fieldId="requestRetry">
             <Input
               label={t('config_management.visual.sections.network.request_retry')}
-              topExtra={<SponsorHintSpacer />}
               type="number"
               placeholder="3"
               value={values.requestRetry}
@@ -85,7 +79,6 @@ export function SectionNetwork({
           <FieldAnchor fieldId="maxRetryCredentials">
             <Input
               label={t('config_management.visual.sections.network.max_retry_credentials')}
-              topExtra={<SponsorHintSpacer />}
               type="number"
               placeholder="0"
               value={values.maxRetryCredentials}

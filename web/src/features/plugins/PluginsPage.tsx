@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { StatStrip } from '@/components/layout/StatStrip';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/Input';
@@ -455,63 +457,37 @@ export function PluginsPage() {
   return (
     <div className={styles.page}>
       {/* ── Page Header ── */}
-      <div className={styles.pageHeader}>
-        <h1 className={styles.title}>{t('plugin_management.title')}</h1>
-        <p className={styles.description}>{t('plugin_management.description')}</p>
-      </div>
+      <PageHeader title={t('plugin_management.title')} />
 
       {/* ── Alerts ── */}
       {error ? <div className={styles.errorBox}>{error}</div> : null}
 
       {data && !data.pluginsEnabled ? (
-        <div className={styles.warningBox}>{t('plugin_management.global_disabled_hint')}</div>
+        <p className={styles.notice} role="note"><i className={styles.noticeDot} aria-hidden="true" />{t('plugin_management.global_disabled_hint')}</p>
       ) : null}
 
       {/* ── Status Bar ── */}
       {data ? (
-        <div className={styles.statusBar}>
-          <div className={styles.statusPill}>
-            <span
-              className={`${styles.statusDot} ${
-                data.pluginsEnabled ? styles.statusDotOn : styles.statusDotOff
-              }`}
-            />
-            <span className={styles.statusLabel}>{t('plugin_management.global_status')}</span>
-            <span className={styles.statusValue}>
-              {data.pluginsEnabled
+        <StatStrip
+          cells={[
+            {
+              label: t('plugin_management.global_status'),
+              value: data.pluginsEnabled
                 ? t('plugin_management.global_enabled')
-                : t('plugin_management.global_disabled')}
-            </span>
-          </div>
-
-          <span className={styles.statusDivider} />
-
-          <div className={styles.statusPill}>
-            <span className={styles.statusLabel}>{t('plugin_management.plugins_dir')}</span>
-            <span
-              className={`${styles.statusValue} ${styles.statusPathValue}`}
-              title={data.pluginsDir || 'plugins'}
-            >
-              {data.pluginsDir || 'plugins'}
-            </span>
-          </div>
-
-          <span className={styles.statusDivider} />
-
-          <div className={styles.statusPill}>
-            <span className={styles.statusLabel}>{t('plugin_management.discovered')}</span>
-            <span className={styles.statusValue}>{pluginStats.discovered}</span>
-          </div>
-
-          <span className={styles.statusDivider} />
-
-          <div className={styles.statusPill}>
-            <span className={styles.statusLabel}>{t('plugin_management.effective')}</span>
-            <span className={styles.statusValue}>
-              {pluginStats.effective}/{pluginStats.registered}
-            </span>
-          </div>
-        </div>
+                : t('plugin_management.global_disabled'),
+              danger: !data.pluginsEnabled,
+            },
+            {
+              label: t('plugin_management.plugins_dir'),
+              value: <span className={styles.monoValue}>{data.pluginsDir || 'plugins'}</span>,
+            },
+            { label: t('plugin_management.discovered'), value: pluginStats.discovered },
+            {
+              label: t('plugin_management.effective'),
+              value: `${pluginStats.effective}/${pluginStats.registered}`,
+            },
+          ]}
+        />
       ) : null}
 
       {/* ── Toolbar ── */}

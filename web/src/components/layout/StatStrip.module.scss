@@ -19,11 +19,18 @@
 }
 
 .label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
   font-size: 12px;
   color: var(--text-tertiary);
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.labelTrailing {
+  color: var(--error-color);
 }
 
 .value {

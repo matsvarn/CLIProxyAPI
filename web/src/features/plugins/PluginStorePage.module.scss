@@ -855,3 +855,21 @@
     gap: $spacing-md;
   }
 }
+
+.notice {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.noticeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--warning-color);
+  flex: none;
+  transform: translateY(-1px);
+}

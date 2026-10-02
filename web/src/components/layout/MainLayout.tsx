@@ -623,8 +623,8 @@ export function MainLayout() {
           path: '/auth-files',
           labelKey: 'nav.auth_files',
           metaKey: 'nav_meta.auth_files',
-          badge: authFilesStats?.count,
-          badgeDanger: (authFilesStats?.problems ?? 0) > 0,
+          badge: authFilesStats && authFilesStats.problems > 0 ? authFilesStats.problems : undefined,
+          badgeDanger: true,
           badgeLabel:
             authFilesStats && authFilesStats.problems > 0
               ? t('sidebar.auth_files_problems', { count: authFilesStats.problems })

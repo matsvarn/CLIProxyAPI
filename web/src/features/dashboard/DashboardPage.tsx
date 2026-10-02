@@ -69,16 +69,13 @@ export function DashboardPage() {
       : '1h';
 
   const accountProblems = credentials ? credentials.disabled + credentials.unavailable : 0;
-  const accountsValue = credentials ? (
-    <>
-      {credentials.active.toLocaleString()} / {credentials.total.toLocaleString()}
-      {accountProblems > 0 && (
-        <span className={styles.valueDanger}> · {accountProblems.toLocaleString()}</span>
-      )}
-    </>
-  ) : (
-    DASH
-  );
+  const accountsValue = credentials
+    ? `${credentials.active.toLocaleString()} / ${credentials.total.toLocaleString()}`
+    : DASH;
+  const accountsTrailing =
+    accountProblems > 0
+      ? t('dashboard.stat_accounts_unavailable', { count: accountProblems })
+      : undefined;
 
   const configRows: Array<{ label: string; value: React.ReactNode; mono?: boolean }> = [
     { label: t('dashboard.runtime_routing'), value: routingStrategy },
@@ -127,7 +124,11 @@ export function DashboardPage() {
             label: t('dashboard.success_rate'),
             value: traffic.successRate === null ? DASH : formatPercent(traffic.successRate),
           },
-          { label: t('dashboard.stat_accounts'), value: accountsValue, danger: false },
+          {
+            label: t('dashboard.stat_accounts'),
+            value: accountsValue,
+            labelTrailing: accountsTrailing,
+          },
           {
             label: t('dashboard.stat_models'),
             value: counts.models === null ? DASH : counts.models.toLocaleString(),

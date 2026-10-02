@@ -17,7 +17,7 @@ describe('ConfigTabs accessibility', () => {
       })
     );
     const accessibleLabel = [
-      i18n.t('config_management.visual.sections.streaming.title'),
+      i18n.t('config_management.tabs_short.streaming'),
       i18n.t('config_management.meta_errors', { count: 2 }),
       i18n.t('config_management.status_dirty_short'),
     ].join(', ');

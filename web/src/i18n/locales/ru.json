@@ -57,7 +57,6 @@
     "unsaved_changes_message": "У вас есть несохранённые изменения. Если вы уйдёте, они будут потеряны. Выйти?"
   },
   "title": {
-    "login": "Центр управления CLI Proxy API",
     "abbr": "CPAMC",
     "brand": "CLIProxyAPI"
   },
@@ -66,17 +65,14 @@
     "subtitle": "Центр управления"
   },
   "login": {
-    "subtitle": "Подключение к CLI Proxy API v8 или новее",
     "connection_current": "Текущий URL",
-    "connection_auto_hint": "Система автоматически использует текущий URL для подключения",
-    "custom_connection_label": "Пользовательский URL подключения:",
-    "custom_connection_placeholder": "Напр.: https://example.com:8317",
-    "custom_connection_hint": "По умолчанию используется текущий URL. При необходимости замените его.",
-    "remember_password_label": "Запомнить пароль",
-    "management_key_label": "Ключ управления:",
+    "custom_connection_label": "Адрес подключения",
+    "custom_connection_placeholder": "https://example.com:8317",
+    "remember_password_label": "Запомнить на этом устройстве",
+    "management_key_label": "Ключ управления",
     "management_key_placeholder": "Введите ключ управления",
-    "submit_button": "Войти",
-    "submitting": "Подключение...",
+    "submit_button": "Подключиться",
+    "submitting": "Подключение…",
     "error_backend_detail": "Ответ сервера",
     "error_required": "Пожалуйста, заполните все данные подключения",
     "error_invalid": "Подключение не удалось, проверьте адрес сервера, Management API и ключ управления",
@@ -88,7 +84,8 @@
     "error_legacy_backend": "Этот сервер поддерживает Management API v0, но не v8. Обновите CLIProxyAPI до v8 или новее, чтобы использовать эту страницу управления.",
     "error_server": "Backend не смог обработать запрос управления, проверьте журналы сервера",
     "error_cors": "Блокировка CORS, проверьте конфигурацию сервера",
-    "error_ssl": "Ошибка проверки SSL/TLS сертификата"
+    "error_ssl": "Ошибка проверки SSL/TLS сертификата",
+    "brand_title": "CLIProxyAPI"
   },
   "header": {
     "refresh_all": "Обновить всё",
@@ -156,7 +153,11 @@
     "runtime_disabled": "Выкл",
     "col_provider": "Провайдер",
     "col_accounts": "Аккаунты",
-    "col_requests": "Запросы"
+    "col_requests": "Запросы",
+    "stat_accounts_unavailable_one": "{{count}} недоступен",
+    "stat_accounts_unavailable_few": "{{count}} недоступно",
+    "stat_accounts_unavailable_many": "{{count}} недоступно",
+    "stat_accounts_unavailable_other": "{{count}} недоступно"
   },
   "basic_settings": {
     "debug_enable": "Включить режим отладки",
@@ -172,19 +173,14 @@
     "routing_strategy_fill_first": "fill-first (приоритет)"
   },
   "auth_files": {
-    "title": "Управление файлами авторизации",
-    "meta_total": "{{count}} учётных данных",
-    "meta_active": "{{count}} активно",
-    "meta_problem": "{{count}} с проблемами",
+    "title": "Аккаунты",
     "empty_title": "Учётных данных пока нет",
-    "empty_desc": "Загрузите файл аутентификации или подключите провайдера через OAuth.",
     "empty_oauth_link": "Подключить через OAuth",
     "no_results_clear": "Сбросить фильтры",
     "title_section": "Файлы авторизации",
     "upload_button": "Загрузить файл",
     "delete_all_button": "Удалить всё",
     "search_empty_title": "Файлы не найдены",
-    "search_empty_desc": "Попробуйте изменить фильтры или очистить строку поиска.",
     "file_size": "Размер",
     "file_modified": "Изменён",
     "card_select": "Выбрать файл авторизации {{name}}",
@@ -284,7 +280,6 @@
     "problem_filter_problem": "Пробл.",
     "problem_filter_disabled": "Откл.",
     "display_options_label": "Параметры отображения",
-    "compact_mode_label": "Компактный режим",
     "sort_label": "Сортировка",
     "sort_default": "По умолчанию",
     "sort_az": "A-Z Имя",
@@ -392,7 +387,21 @@
     "quota_refresh_single": "Обновить квоту",
     "quota_refresh_hint": "Обновить квоту только для этих учётных данных",
     "quota_refresh_success": "Квота для \"{{name}}\" обновлена",
-    "quota_refresh_failed": "Не удалось обновить квоту для \"{{name}}\": {{message}}"
+    "quota_refresh_failed": "Не удалось обновить квоту для \"{{name}}\": {{message}}",
+    "meta_accounts_one": "{{count}} аккаунт",
+    "meta_accounts_few": "{{count}} аккаунта",
+    "meta_accounts_many": "{{count}} аккаунтов",
+    "meta_accounts_other": "{{count}} аккаунтов",
+    "refresh_status": "Обновить статус",
+    "connect_account": "Подключить аккаунт",
+    "row_status_active": "Активен",
+    "row_status_problem": "Требует внимания",
+    "row_status_disabled": "Отключён",
+    "advanced_section": "Дополнительно",
+    "meta_problem_one": "{{count}} требует внимания",
+    "meta_problem_other": "{{count}} требуют внимания",
+    "meta_problem_few": "{{count}} требуют внимания",
+    "meta_problem_many": "{{count}} требуют внимания"
   },
   "antigravity_subscription": {
     "plan_unknown": "Неизвестно",
@@ -745,7 +754,7 @@
     "devin_oauth_retry_hint": "Сервер может всё ещё ожидать авторизацию. Отмените эту попытку входа перед новой.",
     "devin_oauth_title": "Devin OAuth",
     "devin_oauth_button": "Войти в Devin",
-    "devin_oauth_hint": "Войдите в Devin / Cognition через OAuth в браузере для сохранения файла аутентификации. Требуется CLI Proxy API v7.3.1 или новее; завершите авторизацию в течение пяти минут.",
+    "devin_oauth_hint": "OAuth в браузере для Devin (нужна версия v7.3.1+); завершите за пять минут.",
     "devin_oauth_url_label": "URL авторизации:",
     "devin_copy_link": "Копировать ссылку",
     "devin_open_link": "Открыть ссылку",
@@ -753,7 +762,7 @@
     "devin_oauth_status_success": "Аутентификация Devin успешна!",
     "devin_oauth_status_error": "Ошибка аутентификации Devin:",
     "devin_oauth_start_error": "Не удалось запустить Devin OAuth:",
-    "devin_callback_hint": "Удалённый сервер: скопируйте полный конечный URL /devin/callback?… из адресной строки, даже если локальный адрес недоступен. Сохраните порт, http/https, code и state без изменений. Отправьте URL здесь и дождитесь завершения аутентификации.",
+    "devin_callback_hint": "Если происходит переход на /devin/callback, вставьте полный URL сюда.",
     "devin_callback_placeholder": "http://127.0.0.1:<порт-сервера>/devin/callback?code=...&state=...",
     "devin_callback_invalid": "Вставьте полный URL обратного вызова http/https со state и кодом авторизации или ошибкой.",
     "devin_callback_state_mismatch": "Этот обратный вызов не относится к текущему входу в Devin. Используйте конечный URL этой попытки, а не старый URL.",
@@ -763,7 +772,7 @@
     "other_login_methods": "Другие способы входа",
     "codex_oauth_title": "Codex OAuth",
     "codex_oauth_button": "Начать вход Codex",
-    "codex_oauth_hint": "Выполните вход в сервис Codex через OAuth и автоматически получите/сохраните файлы авторизации.",
+    "codex_oauth_hint": "OAuth в браузере для Codex; файл сохраняется автоматически.",
     "codex_oauth_url_label": "URL авторизации:",
     "codex_open_link": "Открыть ссылку",
     "codex_copy_link": "Скопировать ссылку",
@@ -774,7 +783,7 @@
     "codex_oauth_polling_error": "Не удалось проверить статус аутентификации:",
     "anthropic_oauth_title": "Anthropic OAuth",
     "anthropic_oauth_button": "Начать вход Anthropic",
-    "anthropic_oauth_hint": "Выполните вход в сервис Anthropic (Claude) через OAuth и автоматически получите/сохраните файлы авторизации.",
+    "anthropic_oauth_hint": "OAuth в браузере для Anthropic (Claude); сохраняется автоматически.",
     "anthropic_oauth_url_label": "URL авторизации:",
     "anthropic_open_link": "Открыть ссылку",
     "anthropic_copy_link": "Скопировать ссылку",
@@ -785,7 +794,7 @@
     "anthropic_oauth_polling_error": "Не удалось проверить статус аутентификации:",
     "antigravity_oauth_title": "Antigravity OAuth",
     "antigravity_oauth_button": "Начать вход Antigravity",
-    "antigravity_oauth_hint": "Выполните вход в сервис Antigravity (Google) через OAuth и автоматически получите/сохраните файлы авторизации.",
+    "antigravity_oauth_hint": "OAuth в браузере через аккаунт Google (Antigravity).",
     "antigravity_oauth_url_label": "URL авторизации:",
     "antigravity_open_link": "Открыть ссылку",
     "antigravity_copy_link": "Скопировать ссылку",
@@ -796,7 +805,7 @@
     "antigravity_oauth_polling_error": "Не удалось проверить статус аутентификации:",
     "meta_oauth_title": "Muse (Meta) OAuth",
     "meta_oauth_button": "Войти через Muse",
-    "meta_oauth_hint": "Откройте ссылку авторизации и введите код устройства, если потребуется. Файлы авторизации будут сохранены автоматически.",
+    "meta_oauth_hint": "Вход по кодом устройства; файл сохраняется автоматически.",
     "meta_oauth_url_label": "URL авторизации:",
     "meta_open_link": "Открыть ссылку",
     "meta_copy_link": "Скопировать ссылку",
@@ -807,9 +816,9 @@
     "meta_oauth_polling_error": "Не удалось проверить статус аутентификации:",
     "device_code_label": "Код устройства:",
     "device_code_copy": "Скопировать код устройства",
-    "kimi_ai_oauth_title": "Kimi — международный сайт (kimi.ai)",
+    "kimi_ai_oauth_title": "Kimi International (kimi.ai)",
     "kimi_ai_oauth_button": "Войти в Kimi International",
-    "kimi_ai_oauth_hint": "Войдите в международный аккаунт kimi.ai через авторизацию устройства. Отдельный файл kimi-ai сохраняется автоматически. Аккаунты китайского и международного сайтов не взаимозаменяемы.",
+    "kimi_ai_oauth_hint": "Вход по коду устройства для kimi.ai (международный).",
     "kimi_ai_oauth_url_label": "Ссылка авторизации:",
     "kimi_ai_open_link": "Открыть ссылку",
     "kimi_ai_copy_link": "Копировать ссылку",
@@ -818,10 +827,9 @@
     "kimi_ai_oauth_status_error": "Ошибка авторизации:",
     "kimi_ai_oauth_start_error": "Не удалось начать вход в Kimi International:",
     "kimi_ai_oauth_polling_error": "Не удалось проверить статус авторизации:",
-    "kimi_oauth_title": "Kimi — китайский сайт (kimi.com)",
+    "kimi_oauth_title": "Kimi Китай (kimi.com)",
     "kimi_oauth_button": "Войти в Kimi China",
-    "kimi_sign_up_button": "Зарегистрироваться сейчас",
-    "kimi_oauth_hint": "Войдите в китайский аккаунт kimi.com через авторизацию устройства. Файлы сохраняются автоматически. Для международных аккаунтов используйте отдельный вход kimi.ai.",
+    "kimi_oauth_hint": "Вход по коду устройства для kimi.com (Китай).",
     "kimi_oauth_url_label": "URL авторизации:",
     "kimi_open_link": "Открыть ссылку",
     "kimi_copy_link": "Скопировать ссылку",
@@ -832,7 +840,7 @@
     "kimi_oauth_polling_error": "Не удалось проверить статус аутентификации:",
     "xai_oauth_title": "xAI OAuth",
     "xai_oauth_button": "Начать вход xAI",
-    "xai_oauth_hint": "Выполните вход в xAI Grok через OAuth и автоматически получите/сохраните файлы авторизации.",
+    "xai_oauth_hint": "OAuth в браузере для xAI Grok; сохраняется автоматически.",
     "xai_oauth_url_label": "URL авторизации:",
     "xai_open_link": "Открыть ссылку",
     "xai_copy_link": "Скопировать ссылку",
@@ -880,7 +888,10 @@
     "iflow_oauth_status_error": "Ошибка аутентификации:",
     "iflow_oauth_start_error": "Не удалось запустить iFlow OAuth:",
     "iflow_oauth_polling_error": "Не удалось проверить статус аутентификации:",
-    "remote_access_disabled": "Этот способ входа недоступен при удалённом доступе. Подключитесь с localhost."
+    "remote_access_disabled": "Этот способ входа недоступен при удалённом доступе. Подключитесь с localhost.",
+    "page_title": "Подключить аккаунт",
+    "page_description": "Войдите у провайдера, чтобы добавить аккаунт в пул.",
+    "back_to_accounts": "К аккаунтам"
   },
   "stats": {
     "success": "Успех",
@@ -1199,20 +1210,16 @@
       },
       "sections": {
         "common": {
-          "title": "Основные",
-          "description": "Самые востребованные настройки — те же данные, что и в полных разделах"
+          "title": "Основные"
         },
         "connectivity": {
-          "title": "Доступ и аутентификация",
-          "description": "Адрес сервера, порт, каталог аутентификации и ключи API"
+          "title": "Доступ и аутентификация"
         },
         "logging": {
-          "title": "Логи и диагностика",
-          "description": "Отладка, вывод логов и статистика использования"
+          "title": "Логи и диагностика"
         },
         "advanced": {
           "title": "Дополнительно и эксперименты",
-          "description": "Подмена заголовков, кэш подписей, источники плагинов и другие редко изменяемые настройки",
           "plugins_title": "Плагины",
           "antigravity_title": "Antigravity",
           "devin_title": "Devin",
@@ -1244,7 +1251,7 @@
           "panel_repo": "Репозиторий панели"
         },
         "auth": {
-          "auth_dir": "Каталог OAuth (oauth.auth-dir)",
+          "auth_dir": "Каталог OAuth",
           "auth_dir_hint": "Путь к каталогу с файлами аутентификации (поддерживает ~)"
         },
         "system": {
@@ -1258,7 +1265,7 @@
           "plugins_enabled_desc": "Включает загрузку стандартных dynamic-library плагинов; отдельные экземпляры управляются на странице плагинов",
           "plugin_store_sources": "Сторонние источники плагинов",
           "plugin_store_sources_desc": "Добавляет registry-источники магазина плагинов; встроенный официальный источник всегда сохраняется",
-          "plugin_store_sources_label": "URL registry источника плагинов (plugins.store-sources)",
+          "plugin_store_sources_label": "URL registry источника плагинов",
           "plugin_store_sources_placeholder": "https://example.com/cliproxy-plugins/registry.json",
           "plugin_store_sources_hint": "Один URL registry.json в строке. Пустые строки отфильтровываются при сохранении",
           "plugin_store_auth": "Правила авторизации магазина плагинов",
@@ -1293,12 +1300,12 @@
           "redis_usage_retention_hint": "Время хранения вывода RESP LPOP/RPOP в памяти, максимум 3600 секунд",
           "antigravity_sensitive_words": "Обфускация стоп-слов",
           "antigravity_sensitive_words_desc": "Вставляет символы нулевой ширины в совпадающие слова системных инструкций Antigravity, затрудняя точное распознавание ключевых слов на стороне сервиса",
-          "antigravity_sensitive_words_label": "Стоп-слова OAuth (oauth.providers.antigravity.sensitive-words)",
+          "antigravity_sensitive_words_label": "Стоп-слова OAuth",
           "antigravity_sensitive_words_placeholder": "proxy",
           "antigravity_sensitive_words_hint": "Одно слово или фраза в строке. Регистр не учитывается; пустые значения удаляются, а значения короче 2 символов игнорируются backend",
           "devin_sensitive_words": "Стоп-слова системного промпта Devin",
           "devin_sensitive_words_desc": "Обрабатываются только системные промпты Devin: строка с настроенным словом удаляется целиком, затем оставшийся промпт обфусцируется. Обычные сообщения и аргументы инструментов не изменяются",
-          "devin_sensitive_words_label": "Стоп-слова OAuth (oauth.providers.devin.sensitive-words)",
+          "devin_sensitive_words_label": "Стоп-слова OAuth",
           "devin_sensitive_words_placeholder": "чувствительная фраза",
           "devin_sensitive_words_hint": "Одно слово или фраза в строке. Настраивайте осторожно: при совпадении вся строка системного промпта удаляется; пустые значения удаляются при сохранении",
           "antigravity_signature_cache": "Включить кэш подписей Antigravity",
@@ -1323,7 +1330,6 @@
         },
         "network": {
           "title": "Сетевые настройки",
-          "description": "Параметры прокси, повторов и маршрутизации",
           "proxy_url": "URL прокси",
           "proxy_url_sponsor_hint": "Нет подходящего прокси?",
           "request_retry": "Количество повторов запросов",
@@ -1355,11 +1361,10 @@
           "disable_cooling_desc": "Глобально отключить окна охлаждения auth/model после ошибок",
           "session_affinity": "Маршрутизация с привязкой к сессии",
           "ws_auth": "Аутентификация WebSocket",
-          "ws_auth_desc": "Аутентификация WebSocket AI Studio (oauth.providers.aistudio.ws-auth)"
+          "ws_auth_desc": "Аутентификация WebSocket AI Studio"
         },
         "quota": {
           "title": "Резерв по квоте",
-          "description": "Стратегия при превышении квоты",
           "switch_project": "Переключить проект",
           "switch_project_desc": "Автоматически переходить на другой проект при превышении квоты",
           "switch_preview_model": "Переключить на preview-модель",
@@ -1368,7 +1373,6 @@
         },
         "streaming": {
           "title": "Настройки стриминга",
-          "description": "Параметры keepalive и повторов запуска",
           "keepalive_seconds": "Период keepalive (сек)",
           "keepalive_hint": "Установите 0, отрицательное целое число или оставьте поле пустым, чтобы отключить keepalive",
           "bootstrap_retries": "Повторы запуска",
@@ -1379,7 +1383,6 @@
         },
         "payload": {
           "title": "Настройки полезной нагрузки",
-          "description": "Значения по умолчанию, raw JSON-правила, правила переопределения и фильтрации",
           "default_rules": "Правила по умолчанию",
           "default_rules_desc": "Использовать эти значения, если параметр не указан в запросе",
           "default_raw_rules": "Raw-правила по умолчанию",
@@ -1393,11 +1396,10 @@
         }
       },
       "api_keys": {
-        "label": "Клиентские API-ключи (access.api-keys)",
+        "label": "Клиентские API-ключи",
         "add": "Добавить API-ключ",
         "generate": "Сгенерировать",
         "empty": "API-ключи отсутствуют",
-        "hint": "Каждая запись — это API-ключ (в том же стиле, что и на странице управления API-ключами)",
         "edit_title": "Редактирование API-ключа",
         "add_title": "Добавление API-ключа",
         "input_label": "API-ключ",
@@ -1495,6 +1497,16 @@
         "update": "Обновить",
         "add": "Добавить"
       }
+    },
+    "tabs_short": {
+      "common": "Общее",
+      "connectivity": "Доступ",
+      "network": "Сеть",
+      "logging": "Логи",
+      "quota": "Резерв квоты",
+      "streaming": "Стриминг",
+      "advanced": "Дополнительно",
+      "payload": "Payload"
     }
   },
   "quota_management": {
@@ -1505,10 +1517,10 @@
     "search_clear": "Очистить поиск",
     "title": "Квота",
     "description": "Следите за статусом квот OAuth для учётных данных Antigravity, Codex, Claude, Kimi и xAI.",
-    "refresh_all_credentials": "Обновить все учётные данные",
+    "refresh_all_credentials": "Обновить",
     "sort_label": "Сортировка",
     "sort_default": "По умолчанию",
-    "sort_soonest": "Сначала ближайшее восстановление",
+    "sort_soonest": "Ближайший сброс",
     "meta_loaded": "{{count}} загружено",
     "meta_attention": "{{count}} требуют внимания",
     "empty_title": "Нет учётных данных с квотами",
@@ -1567,11 +1579,11 @@
     "meta_credentials_one": "{{count}} аккаунт",
     "meta_credentials_few": "{{count}} аккаунта",
     "meta_credentials_many": "{{count}} аккаунтов",
-    "meta_credentials_other": "{{count}} аккаунтов"
+    "meta_credentials_other": "{{count}} аккаунтов",
+    "refresh_quota_tooltip": "Обновить квоту"
   },
   "plugin_management": {
     "title": "Управление плагинами",
-    "description": "Просматривайте найденные и зарегистрированные плагины, управляйте переключателями экземпляров, полями конфигурации и ссылками на ресурсы.",
     "refresh": "Обновить",
     "load_failed": "Не удалось загрузить плагины",
     "config_load_failed": "Не удалось прочитать конфигурацию плагина",
@@ -1889,9 +1901,7 @@
     },
     "header": {
       "title": "AI Провайдеры",
-      "activeResources": "{{active}}/{{total}} активных",
-      "providerFamilies": "{{count}} семейств",
-      "updatedAt": "Обновлено {{time}}"
+      "description": "Ключи API и совместимые эндпоинты провайдеров."
     },
     "actions": {
       "refresh": "Обновить",
@@ -1904,13 +1914,10 @@
       "save": "Сохранить",
       "create": "Создать",
       "enable": "Включить",
-      "disable": "Отключить"
+      "disable": "Отключить",
+      "add_key": "Добавить ключ"
     },
-    "categories": {
-      "title": "Провайдеры",
-      "quickFill": "Быстрое заполнение",
-      "activeCount": "{{active}}/{{total}} активных"
-    },
+    "categories": {},
     "providerNames": {
       "meta": "Muse (Meta)",
       "gemini": "Gemini",
@@ -2208,7 +2215,7 @@
     "affinity_off": "закрепление выкл",
     "affinity_off_warning": "Закрепление сессий выключено — промпт-кэш может промахиваться между аккаунтами.",
     "settings_aria": "Настройки маршрутизации",
-    "settings_title": "Настройки",
+    "settings_title": "Привязка",
     "affinity_label": "Закрепление сессий",
     "affinity_hint": "Закрепляет каждый диалог за одним аккаунтом, чтобы промпт-кэш оставался тёплым.",
     "subagents_label": "Закрепление субагентов",
@@ -2252,6 +2259,11 @@
     "kind_bind": "новая привязка",
     "kind_rebind": "перепривязка",
     "activity_source": "По последним {{count}} событиям закрепления · с {{since}}",
-    "activity_source_none": "Сканирование последних {{limit}} строк лога"
+    "activity_source_none": "Сканирование последних {{limit}} строк лога",
+    "strategy_short_round_robin": "Round robin",
+    "strategy_short_weighted_round_robin": "Взвешенный",
+    "strategy_short_fill_first": "Первый заполненный",
+    "sessions_show_all": "Показать все ({{count}})",
+    "sessions_show_less": "Скрыть"
   }
 }

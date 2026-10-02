@@ -41,3 +41,21 @@
     gap: 16px;
   }
 }
+
+.metaWarning {
+  color: var(--warning-color);
+}
+
+.metaError {
+  color: var(--error-color);
+}
+
+.spinning {
+  animation: config-spin 0.9s linear infinite;
+}
+
+@keyframes config-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

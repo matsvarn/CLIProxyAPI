@@ -462,3 +462,11 @@
     transition: none;
   }
 }
+
+.yamlKey {
+  margin-left: 8px;
+  font-family: $font-mono;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+}

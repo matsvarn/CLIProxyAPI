@@ -206,9 +206,9 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
             disabled={claudeReset.blocked}
             onClick={claudeReset.confirm}
             title={t(`claude_reset.${claudeReset.buttonLabel}`)}
+            aria-label={t(`claude_reset.${claudeReset.buttonLabel}`)}
           >
             <IconRefreshCw size={13} className={claudeReset.busy ? styles.spinning : undefined} />
-            {t(`claude_reset.${claudeReset.buttonLabel}`)}
           </button>
         )}
         {showReset && (
@@ -218,9 +218,9 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
             onClick={onReset}
             disabled={!canRefresh || loading || resetting}
             title={t('codex_quota.reset_button')}
+            aria-label={t('codex_quota.reset_button')}
           >
             <IconRefreshCw size={13} className={resetting ? styles.spinning : undefined} />
-            {t('codex_quota.reset_button')}
           </button>
         )}
         <button
@@ -228,10 +228,10 @@ export function QuotaLedgerRow(props: QuotaLedgerRowProps) {
           className={styles.actionGhost}
           onClick={onRefresh}
           disabled={!canRefresh || loading || resetting || claudeReset.busy}
-          title={t('auth_files.quota_refresh_hint')}
+          title={t('quota_management.refresh_quota_tooltip')}
+          aria-label={t('quota_management.refresh_quota_tooltip')}
         >
           <IconRefreshCw size={13} className={loading ? styles.spinning : undefined} />
-          {t('auth_files.quota_refresh_single')}
         </button>
       </div>
     </div>

@@ -35,3 +35,13 @@
     gap: 16px;
   }
 }
+
+.spinning {
+  animation: workbench-spin 0.9s linear infinite;
+}
+
+@keyframes workbench-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

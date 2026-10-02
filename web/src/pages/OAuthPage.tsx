@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui/Card';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { IconPlug } from '@/components/ui/icons';
@@ -12,10 +12,6 @@ import { copyToClipboard } from '@/utils/clipboard';
 import { getErrorMessage, isRecord } from '@/utils/helpers';
 import { notifyAuthFilesChanged } from '@/features/authFiles/authFilesEvents';
 import { getPluginTitle, resolvePluginAssetURL } from '@/features/plugins/pluginResources';
-import {
-  KIMI_CHINESE_AFFILIATE_URL,
-  KIMI_INTERNATIONAL_AFFILIATE_URL,
-} from '@/features/providers/kimi';
 import type { PluginListEntry } from '@/types';
 import { createOAuthAttempts, type OAuthAttempt } from './oauthAttempts';
 import { validateDevinCallback } from './devinOAuth';
@@ -55,6 +51,7 @@ interface VertexImportResult {
 }
 
 interface VertexImportState {
+  open?: boolean;
   file?: File;
   fileName: string;
   location: string;
@@ -661,10 +658,8 @@ export function OAuthPage() {
     }
   };
 
-  const renderOAuthProviderCard = (provider: OAuthProviderCard, featured = false) => {
+  const renderOAuthProviderRow = (provider: OAuthProviderCard) => {
     const state = states[provider.id] || {};
-    const showKimiSignUp =
-      featured && provider.kind === 'builtin' && ['kimi', 'kimi-ai'].includes(provider.id);
     const canSubmitCallback =
       (provider.kind === 'plugin' || CALLBACK_SUPPORTED.has(provider.id)) && Boolean(state.url);
     const loginButtonLabel =
@@ -678,52 +673,28 @@ export function OAuthPage() {
     ]
       .filter(Boolean)
       .join(' ');
+    const expanded =
+      Boolean(state.url) || canSubmitCallback || Boolean(state.status && state.status !== 'idle');
 
     return (
-      <Card
-        key={provider.id}
-        className={featured ? styles.featuredCard : undefined}
-        title={
-          <span className={styles.cardTitle}>
-            <OAuthProviderIcon provider={provider} theme={resolvedTheme} />
-            <span>{getProviderTitleText(provider)}</span>
-          </span>
-        }
-        extra={
-          showKimiSignUp ? (
-            <div className={styles.featuredActions}>
-              <Button
-                onClick={() =>
-                  window.open(
-                    provider.id === 'kimi-ai'
-                      ? KIMI_INTERNATIONAL_AFFILIATE_URL
-                      : KIMI_CHINESE_AFFILIATE_URL,
-                    '_blank',
-                    'noopener,noreferrer'
-                  )
-                }
-              >
-                {t('auth_login.kimi_sign_up_button')}
-              </Button>
-              <Button onClick={() => startAuth(provider.id)} loading={state.polling}>
-                {loginButtonLabel}
-              </Button>
-            </div>
-          ) : (
-            <Button
-              onClick={() => startAuth(provider.id)}
-              loading={state.polling}
-              disabled={provider.id === 'devin' && Boolean(state.state)}
-            >
-              {loginButtonLabel}
-            </Button>
-          )
-        }
-      >
-        <div className={styles.cardContent}>
-          <div className={featured ? styles.featuredHint : styles.cardHint}>
-            {getProviderText(provider, 'oauth_hint')}
+      <div key={provider.id} className={styles.providerRow}>
+        <div className={styles.rowMain}>
+          <OAuthProviderIcon provider={provider} theme={resolvedTheme} />
+          <div className={styles.rowText}>
+            <span className={styles.rowTitle}>{getProviderTitleText(provider)}</span>
+            <span className={styles.rowHint}>{getProviderText(provider, 'oauth_hint')}</span>
           </div>
+          <Button
+            variant="secondary"
+            onClick={() => startAuth(provider.id)}
+            loading={state.polling}
+            disabled={provider.id === 'devin' && Boolean(state.state)}
+          >
+            {loginButtonLabel}
+          </Button>
+        </div>
+        {expanded && (
+        <div className={styles.cardContent}>
           {state.url && (
             <div className={styles.authUrlBox}>
               <div className={styles.authUrlLabel}>
@@ -849,52 +820,44 @@ export function OAuthPage() {
             </div>
           )}
         </div>
-      </Card>
+        )}
+      </div>
     );
   };
 
-  const featuredProviders = providerCards.filter((provider) =>
-    ['kimi', 'kimi-ai'].includes(provider.id)
-  );
-  const otherOAuthProviders = providerCards.filter(
-    (provider) => !['kimi', 'kimi-ai'].includes(provider.id)
-  );
-
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>{t('nav.oauth', { defaultValue: 'OAuth' })}</h1>
+      <PageHeader
+        title={t('auth_login.page_title')}
+        description={t('auth_login.page_description')}
+        actions={
+          <Button variant="ghost" size="sm" onClick={() => navigate('/auth-files')}>
+            {t('auth_login.back_to_accounts')}
+          </Button>
+        }
+      />
 
       <div className={styles.content}>
         <section className={styles.providerSection}>
-          <div className={styles.providerList}>
-            {featuredProviders.map((provider) => renderOAuthProviderCard(provider, true))}
-          </div>
-        </section>
-
-        <section className={styles.providerSection}>
-          <div className={styles.providerList}>
-            {otherOAuthProviders.map((provider) => renderOAuthProviderCard(provider))}
-          </div>
-        </section>
-
-        {/* Vertex JSON 登录 */}
-        <section className={styles.providerSection}>
-          <h2 className={styles.sectionTitle}>{t('auth_login.other_login_methods')}</h2>
-          <Card
-            title={
-              <span className={styles.cardTitle}>
+          <div className={styles.providerPanel}>
+            {providerCards.map((provider) => renderOAuthProviderRow(provider))}
+            <div className={styles.providerRow}>
+              <div className={styles.rowMain}>
                 <img src={iconVertex} alt="" className={styles.cardTitleIcon} />
-                {t('vertex_import.title')}
-              </span>
-            }
-            extra={
-              <Button onClick={handleVertexImport} loading={vertexState.loading}>
-                {t('vertex_import.import_button')}
-              </Button>
-            }
-          >
-            <div className={styles.cardContent}>
-              <div className={styles.cardHint}>{t('vertex_import.description')}</div>
+                <div className={styles.rowText}>
+                  <span className={styles.rowTitle}>{t('vertex_import.title')}</span>
+                  <span className={styles.rowHint}>{t('vertex_import.description')}</span>
+                </div>
+                <Button
+                  variant="secondary"
+                  onClick={() => setVertexState((prev) => ({ ...prev, open: !prev.open }))}
+                  aria-expanded={vertexState.open === true}
+                >
+                  {t('vertex_import.import_button')}
+                </Button>
+              </div>
+              {vertexState.open === true && (
+              <div className={styles.cardContent}>
               <Input
                 label={t('vertex_import.location_label')}
                 hint={t('vertex_import.location_hint')}
@@ -922,6 +885,15 @@ export function OAuthPage() {
                   </div>
                 </div>
                 <div className={styles.cardHintSecondary}>{t('vertex_import.file_hint')}</div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleVertexImport}
+                  loading={vertexState.loading}
+                  disabled={!vertexState.file}
+                >
+                  {t('vertex_import.import_button')}
+                </Button>
                 <input
                   ref={vertexFileInputRef}
                   type="file"
@@ -968,8 +940,10 @@ export function OAuthPage() {
                   </div>
                 </div>
               )}
+              </div>
+              )}
             </div>
-          </Card>
+          </div>
         </section>
       </div>
     </div>

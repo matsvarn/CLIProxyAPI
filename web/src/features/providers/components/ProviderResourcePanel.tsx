@@ -202,7 +202,7 @@ export function ProviderResourcePanel({
             ) : (
               <button type="button" className={styles.emptyActionButton} onClick={onCreate}>
                 <IconPlus size={16} />
-                <span>{t('providersPage.actions.new')}</span>
+                <span>{t('providersPage.actions.add_key')}</span>
               </button>
             )}
           </div>

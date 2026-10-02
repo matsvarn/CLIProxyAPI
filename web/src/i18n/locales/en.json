@@ -57,7 +57,6 @@
     "unsaved_changes_message": "You have unsaved changes. Leaving now will discard them. Do you want to leave?"
   },
   "title": {
-    "login": "CLI Proxy API Management Center",
     "abbr": "CPAMC",
     "brand": "CLIProxyAPI"
   },
@@ -66,17 +65,14 @@
     "subtitle": "Management Center"
   },
   "login": {
-    "subtitle": "Connect to CLI Proxy API v8 or later",
     "connection_current": "Current URL",
-    "connection_auto_hint": "The system will automatically use the current URL for connection",
-    "custom_connection_label": "Custom Connection URL:",
-    "custom_connection_placeholder": "Eg: https://example.com:8317",
-    "custom_connection_hint": "By default the current URL is used. Override it here if needed.",
-    "remember_password_label": "Remember password",
-    "management_key_label": "Management Key:",
+    "custom_connection_label": "Connection URL",
+    "custom_connection_placeholder": "https://example.com:8317",
+    "remember_password_label": "Remember on this device",
+    "management_key_label": "Management key",
     "management_key_placeholder": "Enter the management key",
-    "submit_button": "Login",
-    "submitting": "Connecting...",
+    "submit_button": "Connect",
+    "submitting": "Connecting…",
     "error_backend_detail": "Backend response",
     "error_required": "Please fill in complete connection information",
     "error_invalid": "Connection failed, please check the server address, Management API, and management key",
@@ -88,7 +84,8 @@
     "error_legacy_backend": "This backend accepts v0 Management API but does not provide v8. Upgrade CLIProxyAPI to v8 or later to use this management page.",
     "error_server": "Backend failed while handling the management request, check the server logs",
     "error_cors": "Cross-origin request blocked, please check server configuration",
-    "error_ssl": "SSL/TLS certificate verification failed"
+    "error_ssl": "SSL/TLS certificate verification failed",
+    "brand_title": "CLIProxyAPI"
   },
   "header": {
     "refresh_all": "Refresh All",
@@ -156,7 +153,9 @@
     "runtime_disabled": "Off",
     "col_provider": "Provider",
     "col_accounts": "Accounts",
-    "col_requests": "Requests"
+    "col_requests": "Requests",
+    "stat_accounts_unavailable_one": "{{count}} unavailable",
+    "stat_accounts_unavailable_other": "{{count}} unavailable"
   },
   "basic_settings": {
     "debug_enable": "Enable Debug Mode",
@@ -172,19 +171,14 @@
     "routing_strategy_fill_first": "fill-first (prioritize)"
   },
   "auth_files": {
-    "title": "Auth Files Management",
-    "meta_total": "{{count}} credentials",
-    "meta_active": "{{count}} active",
-    "meta_problem": "{{count}} problem",
+    "title": "Accounts",
     "empty_title": "No credentials yet",
-    "empty_desc": "Upload an auth file or connect a provider with OAuth to get started.",
     "empty_oauth_link": "Connect via OAuth",
     "no_results_clear": "Clear filters",
     "title_section": "Auth Files",
     "upload_button": "Upload File",
     "delete_all_button": "Delete All",
     "search_empty_title": "No matching files",
-    "search_empty_desc": "Try changing the filters or clearing the search box.",
     "file_size": "Size",
     "file_modified": "Modified",
     "card_select": "Select credential {{name}}",
@@ -280,7 +274,6 @@
     "problem_filter_problem": "Problem",
     "problem_filter_disabled": "Disabled",
     "display_options_label": "Display options",
-    "compact_mode_label": "Compact mode",
     "sort_label": "Sort",
     "sort_default": "Default",
     "sort_az": "A-Z Name",
@@ -388,7 +381,17 @@
     "quota_refresh_single": "Refresh quota",
     "quota_refresh_hint": "Refresh quota only for this credential",
     "quota_refresh_success": "Quota refreshed for \"{{name}}\"",
-    "quota_refresh_failed": "Failed to refresh quota for \"{{name}}\": {{message}}"
+    "quota_refresh_failed": "Failed to refresh quota for \"{{name}}\": {{message}}",
+    "meta_accounts_one": "{{count}} account",
+    "refresh_status": "Refresh status",
+    "connect_account": "Connect account",
+    "row_status_active": "Active",
+    "row_status_problem": "Needs attention",
+    "row_status_disabled": "Disabled",
+    "meta_accounts_other": "{{count}} accounts",
+    "advanced_section": "Advanced",
+    "meta_problem_one": "{{count}} needs attention",
+    "meta_problem_other": "{{count}} need attention"
   },
   "antigravity_subscription": {
     "plan_unknown": "Unknown",
@@ -741,7 +744,7 @@
     "devin_oauth_retry_hint": "The server may still be waiting for authorization. Cancel this login before starting again.",
     "devin_oauth_title": "Devin OAuth",
     "devin_oauth_button": "Start Devin Login",
-    "devin_oauth_hint": "Sign in to Devin / Cognition through browser OAuth to save an authentication file. Requires CLI Proxy API v7.3.1 or later; complete authorization within five minutes.",
+    "devin_oauth_hint": "Browser OAuth for Devin (requires v7.3.1+); finish within five minutes.",
     "devin_oauth_url_label": "Authorization URL:",
     "devin_copy_link": "Copy Link",
     "devin_open_link": "Open Link",
@@ -749,7 +752,7 @@
     "devin_oauth_status_success": "Devin authentication successful!",
     "devin_oauth_status_error": "Devin authentication failed:",
     "devin_oauth_start_error": "Failed to start Devin OAuth:",
-    "devin_callback_hint": "Remote server: copy the complete final URL ending in /devin/callback?… from the browser address bar, even if the loopback page cannot be reached. Keep its port, http/https, code and state unchanged. Submit the URL here, then wait for authentication to finish.",
+    "devin_callback_hint": "If it redirects to /devin/callback, paste the full URL here.",
     "devin_callback_placeholder": "http://127.0.0.1:<server-port>/devin/callback?code=...&state=...",
     "devin_callback_invalid": "Paste the complete http/https callback URL containing state and an authorization code or error.",
     "devin_callback_state_mismatch": "This callback does not belong to the current Devin login. Use the final URL from this attempt; do not reuse an old callback.",
@@ -759,7 +762,7 @@
     "other_login_methods": "Other login methods",
     "codex_oauth_title": "Codex OAuth",
     "codex_oauth_button": "Start Codex Login",
-    "codex_oauth_hint": "Login to Codex service through OAuth flow, automatically obtain and save authentication files.",
+    "codex_oauth_hint": "Browser OAuth for Codex; the credential saves automatically.",
     "codex_oauth_url_label": "Authorization URL:",
     "codex_open_link": "Open Link",
     "codex_copy_link": "Copy Link",
@@ -770,7 +773,7 @@
     "codex_oauth_polling_error": "Failed to check authentication status:",
     "anthropic_oauth_title": "Anthropic OAuth",
     "anthropic_oauth_button": "Start Anthropic Login",
-    "anthropic_oauth_hint": "Login to Anthropic (Claude) service through OAuth flow, automatically obtain and save authentication files.",
+    "anthropic_oauth_hint": "Browser OAuth for Anthropic (Claude); saves automatically.",
     "anthropic_oauth_url_label": "Authorization URL:",
     "anthropic_open_link": "Open Link",
     "anthropic_copy_link": "Copy Link",
@@ -781,7 +784,7 @@
     "anthropic_oauth_polling_error": "Failed to check authentication status:",
     "antigravity_oauth_title": "Antigravity OAuth",
     "antigravity_oauth_button": "Start Antigravity Login",
-    "antigravity_oauth_hint": "Login to Antigravity service (Google account) through OAuth flow, automatically obtain and save authentication files.",
+    "antigravity_oauth_hint": "Browser OAuth with a Google (Antigravity) account.",
     "antigravity_oauth_url_label": "Authorization URL:",
     "antigravity_open_link": "Open Link",
     "antigravity_copy_link": "Copy Link",
@@ -792,7 +795,7 @@
     "antigravity_oauth_polling_error": "Failed to check authentication status:",
     "meta_oauth_title": "Muse (Meta) OAuth",
     "meta_oauth_button": "Log in with Muse",
-    "meta_oauth_hint": "Open the authorization link and enter the device code if requested. Authentication files are saved automatically after authorization.",
+    "meta_oauth_hint": "Device-login link; the credential saves automatically.",
     "meta_oauth_url_label": "Authorization URL:",
     "meta_open_link": "Open Link",
     "meta_copy_link": "Copy Link",
@@ -805,7 +808,7 @@
     "device_code_copy": "Copy device code",
     "kimi_ai_oauth_title": "Kimi International (kimi.ai)",
     "kimi_ai_oauth_button": "Log in to Kimi International",
-    "kimi_ai_oauth_hint": "Authorize your kimi.ai international account via device login. A separate kimi-ai authentication file is saved automatically. China and international accounts are not interchangeable.",
+    "kimi_ai_oauth_hint": "Device login for kimi.ai international accounts.",
     "kimi_ai_oauth_url_label": "Authorization URL:",
     "kimi_ai_open_link": "Open link",
     "kimi_ai_copy_link": "Copy link",
@@ -816,8 +819,7 @@
     "kimi_ai_oauth_polling_error": "Failed to check authentication status:",
     "kimi_oauth_title": "Kimi China (kimi.com)",
     "kimi_oauth_button": "Log in to Kimi China",
-    "kimi_sign_up_button": "Sign Up Now",
-    "kimi_oauth_hint": "Authorize your kimi.com China account via device login. Authentication files are saved automatically. International accounts must use the separate kimi.ai login.",
+    "kimi_oauth_hint": "Device login for kimi.com China accounts.",
     "kimi_oauth_url_label": "Authorization URL:",
     "kimi_open_link": "Open Link",
     "kimi_copy_link": "Copy Link",
@@ -828,7 +830,7 @@
     "kimi_oauth_polling_error": "Failed to check authentication status:",
     "xai_oauth_title": "xAI OAuth",
     "xai_oauth_button": "Start xAI Login",
-    "xai_oauth_hint": "Login to xAI Grok through OAuth flow, automatically obtain and save authentication files.",
+    "xai_oauth_hint": "Browser OAuth for xAI Grok; saves automatically.",
     "xai_oauth_url_label": "Authorization URL:",
     "xai_open_link": "Open Link",
     "xai_copy_link": "Copy Link",
@@ -876,7 +878,10 @@
     "iflow_oauth_status_error": "Authentication failed:",
     "iflow_oauth_start_error": "Failed to start iFlow OAuth:",
     "iflow_oauth_polling_error": "Failed to check authentication status:",
-    "remote_access_disabled": "This login method is not available for remote access. Please access from localhost."
+    "remote_access_disabled": "This login method is not available for remote access. Please access from localhost.",
+    "page_title": "Connect account",
+    "page_description": "Sign in to a provider to add its account to the pool.",
+    "back_to_accounts": "Back to accounts"
   },
   "stats": {
     "success": "Success",
@@ -1195,20 +1200,16 @@
       },
       "sections": {
         "common": {
-          "title": "Common",
-          "description": "The most-used settings, backed by the same data as the full sections"
+          "title": "Common"
         },
         "connectivity": {
-          "title": "Access & Authentication",
-          "description": "Server address, port, auth directory, and API keys"
+          "title": "Access & Authentication"
         },
         "logging": {
-          "title": "Logging & Diagnostics",
-          "description": "Debug, log output, and usage statistics"
+          "title": "Logging & Diagnostics"
         },
         "advanced": {
           "title": "Advanced & Experimental",
-          "description": "Header spoofing, signature cache, plugin sources, and other rarely changed settings",
           "plugins_title": "Plugins",
           "antigravity_title": "Antigravity",
           "devin_title": "Devin",
@@ -1240,7 +1241,7 @@
           "panel_repo": "Panel Repository"
         },
         "auth": {
-          "auth_dir": "OAuth Credential Directory (oauth.auth-dir)",
+          "auth_dir": "OAuth Credential Directory",
           "auth_dir_hint": "Directory path for authentication files (supports ~)"
         },
         "system": {
@@ -1254,7 +1255,7 @@
           "plugins_enabled_desc": "Enable standard dynamic-library plugin loading; individual plugin instances are still managed on the Plugins page",
           "plugin_store_sources": "Third-party Plugin Sources",
           "plugin_store_sources_desc": "Append plugin-store registry sources; the built-in official source is always kept",
-          "plugin_store_sources_label": "Plugin source registry URL (plugins.store-sources)",
+          "plugin_store_sources_label": "Plugin source registry URL",
           "plugin_store_sources_placeholder": "https://example.com/cliproxy-plugins/registry.json",
           "plugin_store_sources_hint": "One registry.json URL per row. Empty rows are filtered on save",
           "plugin_store_auth": "Plugin Store Auth Rules",
@@ -1289,12 +1290,12 @@
           "redis_usage_retention_hint": "In-memory retention for RESP LPOP/RPOP usage output, max 3600 seconds",
           "antigravity_sensitive_words": "Sensitive Word Obfuscation",
           "antigravity_sensitive_words_desc": "Insert zero-width characters into matching words in Antigravity system instructions to reduce exact keyword matching upstream",
-          "antigravity_sensitive_words_label": "OAuth sensitive words (oauth.providers.antigravity.sensitive-words)",
+          "antigravity_sensitive_words_label": "OAuth sensitive words",
           "antigravity_sensitive_words_placeholder": "proxy",
           "antigravity_sensitive_words_hint": "One word or phrase per row. Matching is case-insensitive; empty entries are removed and entries shorter than 2 characters are ignored by the backend",
           "devin_sensitive_words": "Devin System Prompt Sensitive Words",
           "devin_sensitive_words_desc": "In Devin system prompts only, a line containing a configured word is removed in full; the remaining system prompt is then obfuscated. Regular messages and tool arguments are not changed",
-          "devin_sensitive_words_label": "OAuth sensitive words (oauth.providers.devin.sensitive-words)",
+          "devin_sensitive_words_label": "OAuth sensitive words",
           "devin_sensitive_words_placeholder": "sensitive phrase",
           "devin_sensitive_words_hint": "One word or phrase per row. Configure carefully: matching content causes the entire system-prompt line to be deleted; empty entries are removed when saved",
           "antigravity_signature_cache": "Enable Antigravity Signature Cache",
@@ -1319,7 +1320,6 @@
         },
         "network": {
           "title": "Network Configuration",
-          "description": "Proxy, retry, and routing settings",
           "proxy_url": "Proxy URL",
           "proxy_url_sponsor_hint": "No suitable proxy?",
           "request_retry": "Request Retry Count",
@@ -1351,11 +1351,10 @@
           "disable_cooling_desc": "Globally disable auth/model cooldown windows after failures",
           "session_affinity": "Session Affinity Routing",
           "ws_auth": "WebSocket Authentication",
-          "ws_auth_desc": "Require authentication for AI Studio WebSocket connections (oauth.providers.aistudio.ws-auth)"
+          "ws_auth_desc": "Require authentication for AI Studio WebSocket connections"
         },
         "quota": {
           "title": "Quota Fallback",
-          "description": "Fallback strategy when quota is exceeded",
           "switch_project": "Switch Project",
           "switch_project_desc": "Automatically switch to another project when quota is exceeded",
           "switch_preview_model": "Switch to Preview Model",
@@ -1364,7 +1363,6 @@
         },
         "streaming": {
           "title": "Streaming Configuration",
-          "description": "Keepalive and bootstrap retry settings",
           "keepalive_seconds": "Keepalive Seconds",
           "keepalive_hint": "Set to 0, a negative integer, or leave empty to disable keepalive",
           "bootstrap_retries": "Bootstrap Retries",
@@ -1375,7 +1373,6 @@
         },
         "payload": {
           "title": "Payload Configuration",
-          "description": "Default values, raw JSON rules, override rules, and filter rules",
           "default_rules": "Default Rules",
           "default_rules_desc": "Use these default values when parameters are not specified in the request",
           "default_raw_rules": "Default Raw Rules",
@@ -1389,11 +1386,10 @@
         }
       },
       "api_keys": {
-        "label": "Client API Keys (access.api-keys)",
+        "label": "Client API keys",
         "add": "Add API Key",
         "generate": "Generate",
         "empty": "No API keys",
-        "hint": "Each entry represents an API key (consistent with 'API Key Management' page style)",
         "edit_title": "Edit API Key",
         "add_title": "Add API Key",
         "input_label": "API Key",
@@ -1491,6 +1487,16 @@
         "update": "Update",
         "add": "Add"
       }
+    },
+    "tabs_short": {
+      "common": "Common",
+      "connectivity": "Access",
+      "network": "Network",
+      "logging": "Logging",
+      "quota": "Quota fallback",
+      "streaming": "Streaming",
+      "advanced": "Advanced",
+      "payload": "Payload"
     }
   },
   "quota_management": {
@@ -1501,10 +1507,10 @@
     "search_clear": "Clear search",
     "title": "Quota",
     "description": "Monitor OAuth quota status for Antigravity, Codex, Claude, Kimi, and xAI credentials.",
-    "refresh_all_credentials": "Refresh all credentials",
+    "refresh_all_credentials": "Refresh",
     "sort_label": "Sort",
-    "sort_default": "Default",
-    "sort_soonest": "Soonest recovery",
+    "sort_default": "Default order",
+    "sort_soonest": "Soonest reset",
     "meta_loaded": "{{count}} loaded",
     "meta_attention": "{{count}} need attention",
     "empty_title": "No quota-capable credentials",
@@ -1557,11 +1563,11 @@
     "ledger_more_one": "+{{count}} more",
     "ledger_more_other": "+{{count}} more",
     "meta_credentials_one": "{{count}} account",
-    "meta_credentials_other": "{{count}} accounts"
+    "meta_credentials_other": "{{count}} accounts",
+    "refresh_quota_tooltip": "Refresh quota"
   },
   "plugin_management": {
     "title": "Plugin Management",
-    "description": "Review discovered and registered plugins, then manage instance toggles, config fields, and resource links.",
     "refresh": "Refresh",
     "load_failed": "Failed to load plugins",
     "config_load_failed": "Failed to read plugin config",
@@ -1888,9 +1894,7 @@
     },
     "header": {
       "title": "AI Providers",
-      "activeResources": "{{active}}/{{total}} active resources",
-      "providerFamilies": "{{count}} provider families",
-      "updatedAt": "Updated {{time}}"
+      "description": "Upstream API keys and compatible endpoints."
     },
     "actions": {
       "refresh": "Refresh",
@@ -1903,13 +1907,10 @@
       "save": "Save",
       "create": "Create",
       "enable": "Enable",
-      "disable": "Disable"
+      "disable": "Disable",
+      "add_key": "Add key"
     },
-    "categories": {
-      "title": "Providers",
-      "quickFill": "Quick Fill",
-      "activeCount": "{{active}}/{{total}} active"
-    },
+    "categories": {},
     "providerNames": {
       "meta": "Muse (Meta)",
       "gemini": "Gemini",
@@ -2207,7 +2208,7 @@
     "affinity_off": "affinity off",
     "affinity_off_warning": "Session affinity is off — prompt caches can miss across accounts.",
     "settings_aria": "Routing settings",
-    "settings_title": "Settings",
+    "settings_title": "Affinity",
     "affinity_label": "Session affinity",
     "affinity_hint": "Keeps each conversation on the same upstream account so prompt caches stay warm.",
     "subagents_label": "Subagent affinity",
@@ -2251,6 +2252,11 @@
     "kind_bind": "new binding",
     "kind_rebind": "rebound",
     "activity_source": "From the last {{count}} affinity events · since {{since}}",
-    "activity_source_none": "Scanning the last {{limit}} log lines"
+    "activity_source_none": "Scanning the last {{limit}} log lines",
+    "strategy_short_round_robin": "Round robin",
+    "strategy_short_weighted_round_robin": "Weighted",
+    "strategy_short_fill_first": "Fill first",
+    "sessions_show_all": "Show all ({{count}})",
+    "sessions_show_less": "Show less"
   }
 }

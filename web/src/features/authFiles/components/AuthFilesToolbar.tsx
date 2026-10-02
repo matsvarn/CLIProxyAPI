@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
 import { IconSearch, IconSlidersHorizontal, IconTrash2 } from '@/components/ui/icons';
 import {
   MAX_CARD_PAGE_SIZE,
@@ -27,8 +26,6 @@ export type AuthFilesToolbarProps = {
   pageSizeInput: string;
   onPageSizeInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onPageSizeCommit: (rawValue: string) => void;
-  compactMode: boolean;
-  onCompactModeChange: (value: boolean) => void;
   deleteLabel: string;
   deleteDisabled: boolean;
   deleteLoading: boolean;
@@ -52,8 +49,6 @@ export function AuthFilesToolbar(props: AuthFilesToolbarProps) {
     pageSizeInput,
     onPageSizeInputChange,
     onPageSizeCommit,
-    compactMode,
-    onCompactModeChange,
     deleteLabel,
     deleteDisabled,
     deleteLoading,
@@ -165,27 +160,20 @@ export function AuthFilesToolbar(props: AuthFilesToolbarProps) {
                 }}
               />
             </div>
-            <div className={styles.popoverRow}>
-              <span>{t('auth_files.compact_mode_label')}</span>
-              <ToggleSwitch
-                checked={compactMode}
-                onChange={onCompactModeChange}
-                ariaLabel={t('auth_files.compact_mode_label')}
-              />
+            <div className={`${styles.popoverRow} ${styles.popoverDanger}`}>
+              <button
+                type="button"
+                className={styles.deleteAction}
+                onClick={onDelete}
+                disabled={deleteDisabled}
+              >
+                {deleteLoading ? <LoadingSpinner size={13} /> : <IconTrash2 size={14} />}
+                {deleteLabel}
+              </button>
             </div>
           </div>
         )}
       </div>
-
-      <button
-        type="button"
-        className={styles.deleteAction}
-        onClick={onDelete}
-        disabled={deleteDisabled}
-      >
-        {deleteLoading ? <LoadingSpinner size={13} /> : <IconTrash2 size={14} />}
-        {deleteLabel}
-      </button>
     </div>
   );
 }

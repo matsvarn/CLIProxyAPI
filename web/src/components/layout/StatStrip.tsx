@@ -6,6 +6,8 @@ export interface StatCell {
   value: ReactNode;
   /** Explanation lives in the label tooltip instead of taking up layout. */
   hint?: string;
+  /** Optional right-aligned content on the label row (e.g. a warning count). */
+  labelTrailing?: ReactNode;
   danger?: boolean;
 }
 
@@ -20,6 +22,9 @@ export function StatStrip({ cells }: { cells: StatCell[] }) {
         <div key={index} className={styles.cell}>
           <span className={styles.label} title={cell.hint}>
             {cell.label}
+            {cell.labelTrailing && (
+              <span className={styles.labelTrailing}>{cell.labelTrailing}</span>
+            )}
           </span>
           <span className={`${styles.value} ${cell.danger ? styles.valueDanger : ''}`}>
             {cell.value}

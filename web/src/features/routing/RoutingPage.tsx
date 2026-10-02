@@ -136,6 +136,7 @@ export function RoutingPage() {
   }, [connectionStatus, loggingToFile, loadEvents]);
 
   const summary = summarizeAffinity(events, nowMs, ttlMs);
+  const [showAllSessions, setShowAllSessions] = useState(false);
   const oldestEventMs = events.length
     ? events.reduce((min, event) => Math.min(min, event.atMs), events[0].atMs)
     : null;
@@ -261,7 +262,7 @@ export function RoutingPage() {
                 disabled={saving !== null}
                 onClick={() => void save('strategy', () => configApi.updateRoutingStrategy(option))}
               >
-                {t(`basic_settings.routing_strategy_${option.replace(/-/g, '_')}`)}
+                {t(`routing.strategy_short_${option.replace(/-/g, '_')}`)}
               </button>
             ))}
           </div>
@@ -374,7 +375,7 @@ export function RoutingPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {summary.sessions.map((session) => (
+                    {(showAllSessions ? summary.sessions : summary.sessions.slice(0, 10)).map((session) => (
                       <tr key={`${session.auth}${session.session}`}>
                         <td className={styles.mono}>{session.session}</td>
                         <td className={styles.mono} title={displayAuth(session.auth)}>
@@ -392,6 +393,17 @@ export function RoutingPage() {
                     ))}
                   </tbody>
                 </table>
+                {summary.sessions.length > 10 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAllSessions((v) => !v)}
+                  >
+                    {showAllSessions
+                      ? t('routing.sessions_show_less')
+                      : t('routing.sessions_show_all', { count: summary.sessions.length })}
+                  </Button>
+                )}
               </div>
             </>
           )}

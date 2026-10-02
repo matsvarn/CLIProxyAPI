@@ -299,13 +299,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px 20px;
-  padding: 7px 12px;
-  border-top: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  font-size: 11px;
+  padding: 7px 0;
+  color: var(--text-tertiary);
+  font-size: 12px;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
-  background: var(--bg-secondary);
 }
 .readStatus {
   display: flex;

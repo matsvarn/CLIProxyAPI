@@ -335,17 +335,21 @@
 .actionGhost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 5px 10px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
   border: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   font-size: 12px;
   cursor: pointer;
   white-space: nowrap;
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled),
+  &:focus-visible {
     background: var(--bg-tertiary);
     color: var(--text-primary);
   }
