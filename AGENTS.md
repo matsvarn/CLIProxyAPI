@@ -64,6 +64,6 @@ go build -o test-output ./cmd/server && rm test-output # Verify compile (REQUIRE
 ## Local custom build (this fork)
 
 - `scripts/install-local.sh` builds `web/` (`bun install --frozen-lockfile && bun run build`), embeds `web/dist/index.html` as `internal/managementasset/panel/management.html` (gitignored, `//go:embed`), builds `~/.local/bin/cliproxyapi` with version ldflags, installs launchd agent `dev.local.cliproxyapi` (`CPA_TRUST_LOCAL_PANEL=1`), stops the Homebrew service, and waits for port 8317.
-- Update flow: `git fetch upstream && git rebase upstream/main`, `git subtree pull --prefix web upstream-ui main`, rerun `scripts/install-local.sh`.
+- Update flow: `git fetch upstream && git merge upstream/main`, `git subtree pull --prefix web upstream-ui main`, rerun `scripts/install-local.sh`.
 - Rollback: `launchctl bootout gui/$(id -u)/dev.local.cliproxyapi && brew services start cliproxyapi`.
 - `CPA_TRUST_LOCAL_PANEL=1` enables keyless management API only for same-origin loopback requests (`internal/api/handlers/management/local_panel_trust.go`); the management key still works everywhere.

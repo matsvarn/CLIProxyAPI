@@ -334,7 +334,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Update flow:
 
 ```bash
-git fetch upstream && git rebase upstream/main
+git fetch upstream && git merge upstream/main
 git subtree pull --prefix web upstream-ui main
 ./scripts/install-local.sh
 ```

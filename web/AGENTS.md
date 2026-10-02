@@ -71,7 +71,7 @@ Maintain shared repository guidance in `AGENTS.md`. When updating it, synchroniz
 ## Local fork (custom-ui branch)
 
 - Remote `upstream` = router-for-me/Cli-Proxy-API-Management-Center; work lives on `custom-ui`.
-- Sync: `git fetch upstream && git rebase upstream/main`, then `bun run verify`.
+- Sync (from the fork root, never rebase: the branch contains a subtree merge): `git fetch upstream-ui && git subtree pull --prefix web upstream-ui main`, then `cd web && bun run verify`.
 - Install into the Homebrew CLIProxyAPI: `bun run build && cp dist/index.html /opt/homebrew/etc/static/management.html` (served at http://127.0.0.1:8317/management.html, no restart needed).
 - `management.disable-auto-update-panel: true` is set in `/opt/homebrew/etc/cliproxyapi.conf` so the backend never overwrites the custom panel. Upstream original is kept at `/opt/homebrew/etc/static/management.html.upstream-v1.25.2`.
 - Management key: `~/.cli-proxy-api/management-key.txt`.
