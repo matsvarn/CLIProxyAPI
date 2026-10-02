@@ -79,12 +79,14 @@ describe('log workspace layout contract', () => {
   test('toolbar controls share one sizing rule rather than mixing small variants', () => {
     expect(page).toContain('className={styles.levelSelect}');
     expect(styles).toMatch(
-      /\.searchInput:global\(\.input\),\s*\.levelSelect > button,\s*\.filterPanelToggle:global\(\.btn\),\s*\.actionButton:global\(\.btn\) \{[^}]*height: var\(--log-control-height\)/
+      /\.searchInput:global\(\.input\),\s*\.levelSelect > button,\s*\.filterPanelToggle:global\(\.btn\) \{[^}]*height: var\(--log-control-height\)/
     );
     expect(styles).toContain('--log-control-height: 40px');
     expect(styles).toContain('--log-control-height: 36px');
     expect(styles).toContain('width: var(--log-control-height)');
     expect(styles).not.toContain('height: 32px');
+    // Header icon controls are 30px borderless ghosts (shared spec button size).
+    expect(styles).toMatch(/\.actionButton:global\(\.btn\) \{[^}]*height: 30px/);
   });
 
   test('all supported locales describe both filtering and display settings', () => {

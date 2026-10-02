@@ -17,7 +17,7 @@ describe('auth file row presentation contract', () => {
     expect(source).toContain('<img');
     expect(source).toContain('getAuthFileIcon');
     expect(source).toContain('maskEmails(identity.primary)');
-    expect(source).toContain('maskEmails(identity.secondary');
+    expect(source).toContain('maskEmails(rawSecondary');
     expect(source).toContain('usePrivacyStore');
     expect(source).toContain('dotSuccess');
     expect(source).toContain('dotDanger');

@@ -116,8 +116,7 @@
 
 .searchInput:global(.input),
 .levelSelect > button,
-.filterPanelToggle:global(.btn),
-.actionButton:global(.btn) {
+.filterPanelToggle:global(.btn) {
   box-sizing: border-box;
   height: var(--log-control-height);
   min-height: var(--log-control-height);
@@ -128,6 +127,23 @@
   font-weight: 500;
   line-height: 1;
   box-shadow: none;
+}
+
+.actionButton:global(.btn) {
+  box-sizing: border-box;
+  height: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  border-radius: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--text-tertiary);
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
 }
 
 .searchInput:global(.input) {
@@ -440,16 +456,13 @@
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  font-size: 11px;
-  line-height: 20px;
+  font-size: 12px;
 }
 .badge {
-  padding: 0 5px;
-  border-radius: 4px;
   font-weight: 600;
 }
 .pill {
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
 }
 .source {
   color: var(--text-secondary);
@@ -458,34 +471,29 @@
 }
 .requestIdBadge {
   font-family: inherit;
-  color: var(--primary-color);
+  color: var(--text-tertiary);
   background: transparent;
-  border: 1px solid var(--border-color);
+  border: 0;
   cursor: pointer;
 }
 .statusSuccess {
-  color: var(--success-badge-text);
-  background: var(--success-badge-bg);
+  color: var(--success-color);
 }
 .statusInfo,
 .levelInfo {
   color: var(--info-color);
-  background: color-mix(in srgb, var(--info-color) 8%, transparent);
 }
 .statusWarn,
 .levelWarn {
-  color: var(--warning-text);
-  background: var(--warning-bg);
+  color: var(--warning-color);
 }
 .statusError,
 .levelError {
-  color: var(--failure-badge-text);
-  background: var(--failure-badge-bg);
+  color: var(--error-color);
 }
 .levelDebug,
 .levelTrace {
-  color: var(--text-secondary);
-  background: var(--bg-secondary);
+  color: var(--text-quaternary);
 }
 .statusBadge {
   font-variant-numeric: tabular-nums;

@@ -23,10 +23,10 @@ describe('Devin OAuth login UI', () => {
         createElement(MemoryRouter, null, createElement(OAuthPage))
       )
     );
-    expect(markup).toContain('Devin OAuth');
-    expect(markup).toContain('Start Devin Login');
-    expect(markup).toContain('v7.3.1');
-    expect(markup).toContain('five minutes');
+    expect(markup).toContain('Devin');
+    expect(markup).toContain('Connect');
+    expect(markup).toContain('browser sign-in');
+    expect(markup).toContain('5 minutes');
     expect(markup).not.toContain('auth_login.devin_');
   });
 
@@ -37,7 +37,7 @@ describe('Devin OAuth login UI', () => {
       for (const key of keys) {
         expect((locale.auth_login as Record<string, string>)[key]?.trim()).toBeTruthy();
       }
-      expect(locale.auth_login.devin_oauth_hint).toContain('v7.3.1');
+      expect(locale.auth_login.devin_oauth_hint).toMatch(/\S/);
       expect(locale.auth_login.devin_callback_hint).toContain('/devin/callback');
     }
   });

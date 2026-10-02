@@ -510,42 +510,46 @@ textarea {
 .item-list {
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
 }
 
 .item-row {
-  border: 1px solid var(--border-color);
-  border-radius: $radius-md;
-  padding: $spacing-md;
-  background: var(--bg-primary);
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $spacing-md;
   flex-wrap: wrap;
 
+  &:last-child {
+    border-bottom: 0;
+  }
+
   .item-meta {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 2px;
+    min-width: 0;
   }
 
   .item-title {
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--text-primary);
   }
 
   .item-subtitle {
-    color: var(--text-secondary);
-    font-family:
-      ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-      'Courier New', monospace;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: $font-mono;
     word-break: break-all;
   }
 
   .item-actions {
     display: flex;
-    gap: $spacing-sm;
+    gap: $spacing-xs;
   }
 }
 

@@ -48,10 +48,21 @@
 .cardContent {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: 14px;
+  padding: 12px 0 14px 44px;
 
   :global(.form-group) {
     margin-bottom: 0;
+
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+  }
+
+  :global(.btn) {
+    align-self: flex-start;
   }
 
   :global(.status-badge) {
@@ -136,8 +147,9 @@
 
 .formItemLabel {
   margin: 0;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .filePicker {

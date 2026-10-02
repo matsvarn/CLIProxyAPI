@@ -53,8 +53,9 @@ describe('Kimi regional login', () => {
         if (key.startsWith('kimi_ai_') || key === 'kimi_sign_up_button') continue;
         expect(messages[key.replace('kimi_', 'kimi_ai_')]).toBeTruthy();
       }
-      expect(messages.kimi_oauth_title).toContain('kimi.com');
-      expect(messages.kimi_ai_oauth_title).toContain('kimi.ai');
+      expect(messages.kimi_oauth_hint).toContain('kimi.com');
+      expect(messages.kimi_ai_oauth_hint).toContain('kimi.ai');
+      expect(messages.kimi_ai_oauth_hint.length).toBeGreaterThan(10);
     });
   }
 });

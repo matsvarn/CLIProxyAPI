@@ -85,7 +85,8 @@ export function AuthFileRow(props: AuthFileRowProps) {
 
   const identity = deriveAuthFileIdentity(file);
   const primary = showEmails ? identity.primary : maskEmails(identity.primary);
-  const secondary = showEmails ? identity.secondary : maskEmails(identity.secondary ?? '');
+  const rawSecondary = identity.secondary ?? (identity.primary !== file.name ? file.name : '');
+  const secondary = showEmails ? rawSecondary : maskEmails(rawSecondary);
   const statusMessage = getAuthFileStatusMessage(file);
   const statusWord = file.disabled
     ? t('auth_files.row_status_disabled')
@@ -148,7 +149,7 @@ export function AuthFileRow(props: AuthFileRowProps) {
       </span>
 
       <div className={styles.actions}>
-        {showModelsButton && (
+        {showModelsButton ? (
           <button
             type="button"
             className={styles.iconAction}
@@ -159,10 +160,12 @@ export function AuthFileRow(props: AuthFileRowProps) {
           >
             <IconModelCluster size={15} />
           </button>
+        ) : (
+          <span className={styles.actionSlot} aria-hidden="true" />
         )}
         {!isRuntimeOnly && (
           <>
-            {showManualRefreshButton && (
+            {showManualRefreshButton ? (
               <button
                 type="button"
                 className={styles.iconAction}
@@ -178,6 +181,8 @@ export function AuthFileRow(props: AuthFileRowProps) {
               >
                 {isManualRefreshing ? <LoadingSpinner size={14} /> : <IconRefreshCw size={15} />}
               </button>
+            ) : (
+              <span className={styles.actionSlot} aria-hidden="true" />
             )}
             <button
               type="button"

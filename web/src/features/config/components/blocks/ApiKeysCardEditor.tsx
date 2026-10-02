@@ -153,7 +153,7 @@ function ScopedApiKeysCardEditor({
           {t('config_management.visual.api_keys.label')}
           <code className={styles.yamlKey}>api-keys</code>
         </label>
-        <Button size="sm" onClick={openAddModal} disabled={disabled}>
+        <Button variant="secondary" size="sm" onClick={openAddModal} disabled={disabled}>
           {t('config_management.visual.api_keys.add')}
         </Button>
       </div>
@@ -165,10 +165,9 @@ function ScopedApiKeysCardEditor({
           {apiKeys.map((key, index) => (
             <div key={renderApiKeyIds[index] ?? `${key}-${index}`} className="item-row">
               <div className="item-meta">
-                <div className="item-title">
-                  {names[nameFingerprints[index]] ??
-                    t('config_management.visual.api_keys.input_label')}
-                </div>
+                {names[nameFingerprints[index]] ? (
+                  <div className="item-title">{names[nameFingerprints[index]]}</div>
+                ) : null}
                 <div className="item-subtitle">{maskApiKey(String(key || ''))}</div>
               </div>
               <div className="item-actions">

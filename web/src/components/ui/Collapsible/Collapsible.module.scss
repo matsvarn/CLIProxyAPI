@@ -2,16 +2,16 @@
 @use '../../../styles/variables' as *;
 
 .root {
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background: var(--bg-primary);
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  background: transparent;
   overflow: hidden;
 }
 
 .summary {
   list-style: none;
   cursor: pointer;
-  padding: 10px 14px;
+  padding: 12px 0;
   font-size: 13px;
   font-weight: 500;
   color: var(--text-primary);
@@ -26,7 +26,7 @@
   }
 
   &:hover {
-    background: color-mix(in srgb, var(--accent-bg) 35%, transparent);
+    color: var(--text-primary);
   }
 
   &:focus-visible {
@@ -62,13 +62,11 @@
 }
 
 .content {
-  padding: 14px;
-  border-top: 1px solid var(--border-color);
+  padding: 0 0 14px;
 }
 
 .contentFlush {
   padding: 0;
-  border-top: 1px solid var(--border-color);
 }
 
 /* 展开时内容 160ms 淡入。只做透明度、不做高度动画 ——

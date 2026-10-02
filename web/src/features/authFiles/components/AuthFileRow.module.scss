@@ -173,3 +173,10 @@
   overflow: hidden;
   clip: rect(0 0 0 0);
 }
+
+.actionSlot {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
