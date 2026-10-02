@@ -11,20 +11,20 @@ describe('quota toolbar presentation contracts', () => {
     expect(source).toContain('{search && (');
     expect(source).toContain("aria-label={t('quota_management.search_clear')}");
     expect(source).toContain(
-      "handleSearchChange('');\n                  searchInputRef.current?.focus();"
+      "handleSearchChange('');\n                    searchInputRef.current?.focus();"
     );
     expect(source).toContain('<IconX size={14} aria-hidden="true" />');
     expect(styles).toMatch(/&::-webkit-search-cancel-button,[\s\S]*?appearance: none;/);
   });
 
-  test('groups search and sorting separately from provider navigation', () => {
-    const toolbarStart = source.indexOf('<div className={styles.toolbar}>');
+  test('groups search, sorting and the view switch beside provider navigation', () => {
+    const toolsStart = source.indexOf('<div className={styles.tabsTools}>');
     const searchStart = source.indexOf('<div className={styles.search}>');
     const sortStart = source.indexOf('<div className={styles.sort}>');
-    expect(toolbarStart).toBeGreaterThan(source.indexOf('<ProviderTabs'));
-    expect(searchStart).toBeGreaterThan(toolbarStart);
+    expect(toolsStart).toBeGreaterThan(source.indexOf('<ProviderTabs'));
+    expect(searchStart).toBeGreaterThan(toolsStart);
     expect(sortStart).toBeGreaterThan(searchStart);
-    expect(styles).toMatch(/\.toolbar\s*\{[^}]*flex-wrap: wrap;/);
+    expect(styles).toMatch(/\.tabsTools\s*\{[^}]*display: flex;/);
     expect(styles).toContain('&:focus-within');
     expect(styles).toContain('&:focus-visible');
     expect(styles).toContain('@media (prefers-reduced-motion: reduce)');

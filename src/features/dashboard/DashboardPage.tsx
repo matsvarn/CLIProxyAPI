@@ -12,6 +12,7 @@ import {
 import { useAuthStore } from '@/stores';
 import { useHeaderRefresh } from '@/hooks/useHeaderRefresh';
 import { formatCompactNumber, formatDateValue, formatPercent } from '@/utils/format';
+import { isRecord } from '@/utils/helpers';
 import { useDashboardOverview } from './hooks/useDashboardOverview';
 import { LiveWire } from './components/LiveWire';
 import { Meter } from './components/Meter';
@@ -171,6 +172,16 @@ export function DashboardPage() {
     },
     { label: t('dashboard.runtime_proxy'), value: config?.proxyUrl?.trim() || DASH, mono: true },
   ];
+
+  const routingSection = isRecord(config?.raw?.routing)
+    ? (config.raw.routing as Record<string, unknown>)
+    : {};
+  const affinityOn = routingSection['session-affinity'] === true;
+  const affinityTtl =
+    typeof routingSection['session-affinity-ttl'] === 'string' &&
+    routingSection['session-affinity-ttl']
+      ? routingSection['session-affinity-ttl']
+      : '1h';
 
   const runtimeToggles = config
     ? [
@@ -507,6 +518,19 @@ export function DashboardPage() {
                 </li>
               ))}
             </ul>
+          )}
+          {config && (
+            <Link
+              to="/routing"
+              className={`${styles.affinityChip} ${affinityOn ? '' : styles.affinityChipWarn}`}
+            >
+              {affinityOn
+                ? t('dashboard.affinity_chip_on', { ttl: affinityTtl })
+                : t('dashboard.affinity_chip_off')}
+              <span className={styles.linkArrow} aria-hidden="true">
+                →
+              </span>
+            </Link>
           )}
           <Link to="/config" className={styles.panelLink}>
             {t('dashboard.runtime_link')}{' '}

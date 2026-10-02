@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { IconRefreshCw } from '@/components/ui/icons';
+import { IconEye, IconEyeOff, IconRefreshCw } from '@/components/ui/icons';
 import { useCountUp } from '@/hooks/motion';
+import { usePrivacyStore } from '@/stores';
 import styles from './QuotaHeader.module.scss';
 
 export type QuotaHeaderProps = {
@@ -23,6 +24,8 @@ export function QuotaHeader(props: QuotaHeaderProps) {
   const { totalCount, loadedCount, attentionCount, refreshing, disableControls, onRefreshAll } =
     props;
   const { t } = useTranslation();
+  const showEmails = usePrivacyStore((state) => state.showEmails);
+  const toggleShowEmails = usePrivacyStore((state) => state.toggleShowEmails);
   // 批量结果陆续落地时，「已加载」是页面上唯一滚动的数字
   const displayLoadedCount = useCountUp(loadedCount);
 
@@ -55,6 +58,16 @@ export function QuotaHeader(props: QuotaHeaderProps) {
         </p>
       </div>
       <div className={styles.actions} data-reveal>
+        <button
+          type="button"
+          className={styles.ghostAction}
+          onClick={toggleShowEmails}
+          aria-pressed={showEmails}
+          title={t('quota_management.show_emails_hint')}
+        >
+          {showEmails ? <IconEyeOff size={14} /> : <IconEye size={14} />}
+          {t(showEmails ? 'quota_management.hide_emails' : 'quota_management.show_emails')}
+        </button>
         <button
           type="button"
           className={styles.primaryAction}

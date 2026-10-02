@@ -123,6 +123,41 @@
   }
 }
 
+/* 幽灵次按钮（Show emails 一类的页级开关） */
+.ghostAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: $radius-full;
+  padding: 9px 14px;
+  font-size: 13px;
+  line-height: 1;
+  transition:
+    background-color var(--dur-hover, 200ms) ease,
+    color var(--dur-hover, 200ms) ease;
+
+  &[aria-pressed='true'] {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ghostAction:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+}
+
 .spinning {
   animation: quota-spin 0.8s linear infinite;
 }

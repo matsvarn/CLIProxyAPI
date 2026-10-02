@@ -27,6 +27,28 @@ interface BatchFetchResult {
   errorStatus?: number;
 }
 
+/** 每个 provider 分组内的上游并发上限：刷新全部（账本视图可超百条）不打爆配额接口。 */
+const PROVIDER_FETCH_CONCURRENCY = 4;
+
+/** Run `task` over `items` with at most `limit` in flight, preserving result order. */
+async function mapWithConcurrency<T, R>(
+  items: readonly T[],
+  limit: number,
+  task: (item: T) => Promise<R>
+): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await task(items[index]);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
 export function useQuotaBatchLoader() {
   const { t } = useTranslation();
   const [batchLoading, setBatchLoading] = useState(false);
@@ -65,8 +87,10 @@ export function useQuotaBatchLoader() {
               });
             });
 
-            const results = await Promise.all(
-              entries.map(async ({ file }): Promise<BatchFetchResult> => {
+            const results = await mapWithConcurrency(
+              entries,
+              PROVIDER_FETCH_CONCURRENCY,
+              async ({ file }): Promise<BatchFetchResult> => {
                 const cacheKey = getQuotaCacheKey(file);
                 try {
                   const data = await adapter.fetchQuota(file, t);
@@ -81,7 +105,7 @@ export function useQuotaBatchLoader() {
                     errorStatus: getStatusFromError(err),
                   };
                 }
-              })
+              }
             );
 
             if (requestId !== requestIdRef.current) return;

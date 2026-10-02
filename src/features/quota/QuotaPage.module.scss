@@ -33,7 +33,23 @@
   > :first-child {
     flex: 1 1 auto;
     min-width: 0;
+    /* 超出时横向滚动而非裁剪（隐藏滚动条，滚轮/触屏可用）。 */
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
+}
+
+/* tabs 行右侧工具组：紧凑搜索 + 排序 + 视图切换。 */
+.tabsTools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .toolbar {
@@ -49,7 +65,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  flex: 0 1 340px;
+  flex: 0 1 200px;
+  width: 200px;
   min-width: 0;
   height: 36px;
   border: 1px solid transparent;
