@@ -329,6 +329,36 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Local custom build
 
+### Source worktree setup
+
+On macOS or Linux, install Go 1.26+ and the frontend's pinned Bun 1.3.14.
+Then run `bash scripts/setup.sh` from a fresh checkout of this fork's `custom`
+branch. It downloads Go modules, verifies their checksums, installs frozen Bun
+dependencies, builds and embeds the custom panel, and builds `./cli-proxy-api`.
+Generated output is ignored by Git. Repeating setup leaves tracked source files
+alone. Setup does not install a service or copy credentials.
+
+Import the actions from `t3.json` into each T3 project and environment. Setup runs
+when T3 creates a worktree and waits before the agent starts. Check runs
+`bun run verify` in `web`, `go test -mod=readonly -p 2 ./...`, and a Go build.
+A checked-in action still needs importing before it runs automatically.
+
+Independent tasks use separate branches and worktrees. Each checkout owns its
+`web/node_modules`, `web/dist`, embedded panel, and binary. Do not run
+`scripts/install-local.sh` as worktree setup; it replaces the Mac's installed
+binary and restarts a service.
+
+For a development proxy, create a private, ignored config from
+`config.example.yaml` with `server.host: "127.0.0.1"`, an unused `server.port`,
+and a separate `oauth.auth-dir`.
+Provider login callbacks also need unused ports; the CLI supports
+`--oauth-callback-port`. Use `bun run dev -- --port <unused-port> --strictPort`
+in `web` for a separate frontend. Never attach a test worktree to the production
+proxy's config, account store, database, or Docker Compose project. Keep the
+codingbox service and its existing port 8317 out of development runs.
+
+### Service installation
+
 `scripts/install-local.sh` builds the bundled `web/` management UI, embeds it into the Go binary, and installs a launchd agent (`dev.local.cliproxyapi`) that runs the local build with `CPA_TRUST_LOCAL_PANEL=1`, which lets the panel served by this binary use the management API without a key from the same loopback origin. It stops the Homebrew `cliproxyapi` service first (the formula is left installed).
 
 Update flow:
