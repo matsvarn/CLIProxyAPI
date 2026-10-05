@@ -338,8 +338,13 @@ dependencies, builds and embeds the custom panel, and builds `./cli-proxy-api`.
 Generated output is ignored by Git. Repeating setup leaves tracked source files
 alone. Setup does not install a service or copy credentials.
 
+The commands use Bun 1.3.14 from PATH, or the machine's dedicated
+`~/.local/share/codingbox/toolchains/bun/1.3.14/bin/bun`. Override that selection
+with `BUN_BIN=/absolute/path/to/bun`. They leave other projects' Bun versions
+alone. Go must be on PATH or installed at `~/.local/bin/go`.
+
 Import the actions from `t3.json` into each T3 project and environment. Setup runs
-when T3 creates a worktree and waits before the agent starts. Check runs
+when T3 creates a worktree and waits before the agent starts. `bash scripts/check.sh` runs
 `bun run verify` in `web`, `go test -mod=readonly -p 2 ./...`, and a Go build.
 A checked-in action still needs importing before it runs automatically.
 

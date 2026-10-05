@@ -11,7 +11,7 @@
     },
     {
       "name": "Check",
-      "command": "(cd web && bun run verify) && go test -mod=readonly -p 2 ./... && go build -mod=readonly -p 2 -o cli-proxy-api ./cmd/server",
+      "command": "bash scripts/check.sh",
       "icon": "test",
       "runOnWorktreeCreate": false,
       "async": false
