@@ -1,6 +1,6 @@
 .section {
   border-block: 1px solid var(--border-color);
-  color: var(--warning-text);
+  color: var(--text-primary);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -51,7 +51,7 @@
 
 .chevron {
   flex-shrink: 0;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .section[open] .chevron {
@@ -105,7 +105,7 @@
 .observed,
 .note,
 .unknown {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   font-size: 11px;
   line-height: 1.5;
   overflow-wrap: anywhere;

@@ -121,6 +121,8 @@ export function AuthFilesPage() {
     deletingAll,
     statusUpdating,
     manualRefreshing,
+    cooldownResetting,
+    handleCooldownReset,
     refreshingAllCredentials,
     refreshResults,
     closeRefreshResults,
@@ -143,7 +145,6 @@ export function AuthFilesPage() {
     batchSetStatus,
     batchDelete,
   } = useAuthFilesData({ onFilesMutated: invalidateDerivedCaches });
-
 
   const {
     excluded,
@@ -267,12 +268,9 @@ export function AuthFilesPage() {
     setPageSizeInput(String(pageSize));
   }, [pageSize]);
 
-  const setCurrentModePageSize = useCallback(
-    (next: number) => {
-      setPageSizeByMode((current) => ({ ...current, regular: next }));
-    },
-    []
-  );
+  const setCurrentModePageSize = useCallback((next: number) => {
+    setPageSizeByMode((current) => ({ ...current, regular: next }));
+  }, []);
 
   const commitPageSizeInput = useCallback(
     (rawValue: string) => {
@@ -597,17 +595,16 @@ export function AuthFilesPage() {
         onChange={handleFileChange}
       />
 
-
       <section className={styles.workbench} aria-label={t('auth_files.title_section')}>
         <div className={styles.tabsWrap}>
           <ProviderTabs
             types={existingTypes}
-          counts={typeCounts}
-          active={normalizedFilter}
-          resolvedTheme={resolvedTheme}
-          onChange={(type) => {
-            setFilter(type);
-            setPage(1);
+            counts={typeCounts}
+            active={normalizedFilter}
+            resolvedTheme={resolvedTheme}
+            onChange={(type) => {
+              setFilter(type);
+              setPage(1);
             }}
           />
         </div>
@@ -696,6 +693,8 @@ export function AuthFilesPage() {
                 deleting={deleting}
                 statusUpdating={statusUpdating}
                 manualRefreshing={manualRefreshing}
+                cooldownResetting={cooldownResetting}
+                onCooldownReset={handleCooldownReset}
                 onShowModels={showModels}
                 onDownload={handleDownload}
                 onManualRefresh={handleManualRefresh}
@@ -737,39 +736,36 @@ export function AuthFilesPage() {
         )}
       </section>
 
-      <Collapsible
-        className={styles.advanced}
-        label={t('auth_files.advanced_section')}
-      >
-      <div className={styles.configGrid} ref={oauthSectionRef}>
-        <OAuthExcludedCard
-          disableControls={disableControls}
-          excludedError={excludedError}
-          excluded={excluded}
-          onRetry={loadExcluded}
-          onAdd={() => openExcludedEditor()}
-          onEdit={openExcludedEditor}
-          onDelete={deleteExcluded}
-        />
+      <Collapsible className={styles.advanced} label={t('auth_files.advanced_section')}>
+        <div className={styles.configGrid} ref={oauthSectionRef}>
+          <OAuthExcludedCard
+            disableControls={disableControls}
+            excludedError={excludedError}
+            excluded={excluded}
+            onRetry={loadExcluded}
+            onAdd={() => openExcludedEditor()}
+            onEdit={openExcludedEditor}
+            onDelete={deleteExcluded}
+          />
 
-        <OAuthModelAliasCard
-          disableControls={disableControls}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onRetry={loadModelAlias}
-          onAdd={() => openModelAliasEditor()}
-          onEditProvider={openModelAliasEditor}
-          onDeleteProvider={deleteModelAlias}
-          modelAliasError={modelAliasError}
-          modelAlias={modelAlias}
-          allProviderModels={allProviderModels}
-          onUpdate={handleMappingUpdate}
-          onDeleteLink={handleDeleteLink}
-          onToggleFork={handleToggleFork}
-          onRenameAlias={handleRenameAlias}
-          onDeleteAlias={handleDeleteAlias}
-        />
-      </div>
+          <OAuthModelAliasCard
+            disableControls={disableControls}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            onRetry={loadModelAlias}
+            onAdd={() => openModelAliasEditor()}
+            onEditProvider={openModelAliasEditor}
+            onDeleteProvider={deleteModelAlias}
+            modelAliasError={modelAliasError}
+            modelAlias={modelAlias}
+            allProviderModels={allProviderModels}
+            onUpdate={handleMappingUpdate}
+            onDeleteLink={handleDeleteLink}
+            onToggleFork={handleToggleFork}
+            onRenameAlias={handleRenameAlias}
+            onDeleteAlias={handleDeleteAlias}
+          />
+        </div>
       </Collapsible>
 
       <AuthFileModelsModal

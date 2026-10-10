@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/Button';
+import { AuthFileCooldownSection } from './AuthFileCooldownSection';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { SelectionCheckbox } from '@/components/ui/SelectionCheckbox';
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch';
@@ -36,6 +38,8 @@ export type AuthFileRowProps = {
   deleting: string | null;
   statusUpdating: Record<string, boolean>;
   manualRefreshing: Record<string, boolean>;
+  cooldownResetting: Record<string, boolean>;
+  onCooldownReset: (file: AuthFileItem) => void;
   onShowModels: (file: AuthFileItem) => void;
   onDownload: (name: string) => void;
   onManualRefresh: (file: AuthFileItem) => void;
@@ -66,6 +70,8 @@ export function AuthFileRow(props: AuthFileRowProps) {
     deleting,
     statusUpdating,
     manualRefreshing,
+    cooldownResetting,
+    onCooldownReset,
     onShowModels,
     onDownload,
     onManualRefresh,
@@ -81,6 +87,9 @@ export function AuthFileRow(props: AuthFileRowProps) {
   const showModelsButton = !isRuntimeOnly || isAistudio;
   const showManualRefreshButton = !isRuntimeOnly && supportsAuthFileManualRefresh(providerKey);
   const isManualRefreshing = manualRefreshing[getAuthFileRefreshKey(file)] === true;
+  const authIndex = String(file.authIndex ?? '').trim();
+  const canResetCooldown = Boolean(authIndex && file.cooldownSnapshot?.records?.length);
+  const isCooldownResetting = cooldownResetting[authIndex] === true;
   const iconSrc = getAuthFileIcon(providerKey, resolvedTheme);
 
   const identity = deriveAuthFileIdentity(file);
@@ -105,129 +114,151 @@ export function AuthFileRow(props: AuthFileRowProps) {
   const modMs = modifiedMs(file);
 
   return (
-    <div className={`${styles.row} ${selected ? styles.rowSelected : ''}`}>
-      {!isRuntimeOnly && (
-        <SelectionCheckbox
-          checked={selected}
-          onChange={() => onToggleSelect(file.name)}
-          className={styles.selection}
-          ariaLabel={t('auth_files.card_select', { name: file.name })}
-          title={t('auth_files.card_select', { name: file.name })}
-        />
-      )}
-
-      {iconSrc ? (
-        <img src={iconSrc} alt="" className={styles.providerIcon} />
-      ) : (
-        <span className={styles.providerIconFallback} aria-hidden="true" />
-      )}
-
-      <div className={styles.identity}>
-        <span className={styles.primary} title={primary}>
-          {primary}
-        </span>
-        {secondary ? (
-          <span className={styles.fileName} title={secondary}>
-            {secondary}
-          </span>
-        ) : null}
-      </div>
-
-      <span className={styles.status} title={statusMessage || undefined}>
-        <i className={`${styles.dot} ${statusTone}`} aria-hidden="true" />
-        {statusWord}
-      </span>
-
-      <span className={styles.counts} title={`${t('stats.success')} / ${t('stats.failure')}`}>
-        <span className={styles.countOk}>{successCount.toLocaleString()}</span>
-        <span className={styles.countDivider}>/</span>
-        <span className={styles.countFail}>{failureCount.toLocaleString()}</span>
-      </span>
-
-      <span className={styles.modified}>
-        {modMs ? formatRelativeInstant(modMs, nowMs) : '—'}
-      </span>
-
-      <div className={styles.actions}>
-        {showModelsButton ? (
-          <button
-            type="button"
-            className={styles.iconAction}
-            onClick={() => onShowModels(file)}
-            title={t('auth_files.models_button')}
-            aria-label={t('auth_files.models_button')}
-            disabled={disableControls}
-          >
-            <IconModelCluster size={15} />
-          </button>
-        ) : (
-          <span className={styles.actionSlot} aria-hidden="true" />
-        )}
+    <div className={styles.account}>
+      <div className={`${styles.row} ${selected ? styles.rowSelected : ''}`}>
         {!isRuntimeOnly && (
-          <>
-            {showManualRefreshButton ? (
+          <SelectionCheckbox
+            checked={selected}
+            onChange={() => onToggleSelect(file.name)}
+            className={styles.selection}
+            ariaLabel={t('auth_files.card_select', { name: file.name })}
+            title={t('auth_files.card_select', { name: file.name })}
+          />
+        )}
+
+        {iconSrc ? (
+          <img src={iconSrc} alt="" className={styles.providerIcon} />
+        ) : (
+          <span className={styles.providerIconFallback} aria-hidden="true" />
+        )}
+
+        <div className={styles.identity}>
+          <span className={styles.primary} title={primary}>
+            {primary}
+          </span>
+          {secondary ? (
+            <span className={styles.fileName} title={secondary}>
+              {secondary}
+            </span>
+          ) : null}
+        </div>
+
+        <span className={styles.status} title={statusMessage || undefined}>
+          <i className={`${styles.dot} ${statusTone}`} aria-hidden="true" />
+          {statusWord}
+        </span>
+
+        <span className={styles.counts} title={`${t('stats.success')} / ${t('stats.failure')}`}>
+          <span className={styles.countOk}>{successCount.toLocaleString()}</span>
+          <span className={styles.countDivider}>/</span>
+          <span className={styles.countFail}>{failureCount.toLocaleString()}</span>
+        </span>
+
+        <span className={styles.modified}>{modMs ? formatRelativeInstant(modMs, nowMs) : '—'}</span>
+
+        <div className={styles.actions}>
+          {canResetCooldown && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => onCooldownReset(file)}
+              loading={isCooldownResetting}
+              disabled={
+                disableControls ||
+                file.disabled ||
+                isManualRefreshing ||
+                statusUpdating[getAuthFileRefreshKey(file)] === true
+              }
+              title={t('auth_files.cooldown_reset_hint')}
+            >
+              {t('auth_files.cooldown_reset_button')}
+            </Button>
+          )}
+          {showModelsButton ? (
+            <button
+              type="button"
+              className={styles.iconAction}
+              onClick={() => onShowModels(file)}
+              title={t('auth_files.models_button')}
+              aria-label={t('auth_files.models_button')}
+              disabled={disableControls}
+            >
+              <IconModelCluster size={15} />
+            </button>
+          ) : (
+            <span className={styles.actionSlot} aria-hidden="true" />
+          )}
+          {!isRuntimeOnly && (
+            <>
+              {showManualRefreshButton ? (
+                <button
+                  type="button"
+                  className={styles.iconAction}
+                  onClick={() => onManualRefresh(file)}
+                  title={t('auth_files.manual_refresh_button')}
+                  aria-label={t('auth_files.manual_refresh_button')}
+                  disabled={
+                    disableControls ||
+                    file.disabled ||
+                    statusUpdating[getAuthFileRefreshKey(file)] === true ||
+                    isManualRefreshing
+                  }
+                >
+                  {isManualRefreshing ? <LoadingSpinner size={14} /> : <IconRefreshCw size={15} />}
+                </button>
+              ) : (
+                <span className={styles.actionSlot} aria-hidden="true" />
+              )}
               <button
                 type="button"
                 className={styles.iconAction}
-                onClick={() => onManualRefresh(file)}
-                title={t('auth_files.manual_refresh_button')}
-                aria-label={t('auth_files.manual_refresh_button')}
+                onClick={() => onDownload(file.name)}
+                title={t('auth_files.download_button')}
+                aria-label={t('auth_files.download_button')}
+                disabled={disableControls}
+              >
+                <IconDownload size={15} />
+              </button>
+              <button
+                type="button"
+                className={styles.iconAction}
+                onClick={() => onOpenPrefixProxyEditor(file)}
+                title={t('auth_files.prefix_proxy_button')}
+                aria-label={t('auth_files.prefix_proxy_button')}
+                disabled={disableControls || isManualRefreshing}
+              >
+                <IconSettings size={15} />
+              </button>
+              <button
+                type="button"
+                className={`${styles.iconAction} ${styles.iconDanger}`}
+                onClick={() => onDelete(file.name)}
+                title={t('auth_files.delete_button')}
+                aria-label={t('auth_files.delete_button')}
+                disabled={disableControls || deleting === file.name || isManualRefreshing}
+              >
+                {deleting === file.name ? <LoadingSpinner size={14} /> : <IconTrash2 size={15} />}
+              </button>
+              <ToggleSwitch
+                ariaLabel={t('auth_files.card_toggle', { name: file.name })}
+                checked={!file.disabled}
                 disabled={
                   disableControls ||
-                  file.disabled ||
                   statusUpdating[getAuthFileRefreshKey(file)] === true ||
                   isManualRefreshing
                 }
-              >
-                {isManualRefreshing ? <LoadingSpinner size={14} /> : <IconRefreshCw size={15} />}
-              </button>
-            ) : (
-              <span className={styles.actionSlot} aria-hidden="true" />
-            )}
-            <button
-              type="button"
-              className={styles.iconAction}
-              onClick={() => onDownload(file.name)}
-              title={t('auth_files.download_button')}
-              aria-label={t('auth_files.download_button')}
-              disabled={disableControls}
-            >
-              <IconDownload size={15} />
-            </button>
-            <button
-              type="button"
-              className={styles.iconAction}
-              onClick={() => onOpenPrefixProxyEditor(file)}
-              title={t('auth_files.prefix_proxy_button')}
-              aria-label={t('auth_files.prefix_proxy_button')}
-              disabled={disableControls || isManualRefreshing}
-            >
-              <IconSettings size={15} />
-            </button>
-            <button
-              type="button"
-              className={`${styles.iconAction} ${styles.iconDanger}`}
-              onClick={() => onDelete(file.name)}
-              title={t('auth_files.delete_button')}
-              aria-label={t('auth_files.delete_button')}
-              disabled={disableControls || deleting === file.name || isManualRefreshing}
-            >
-              {deleting === file.name ? <LoadingSpinner size={14} /> : <IconTrash2 size={15} />}
-            </button>
-            <ToggleSwitch
-              ariaLabel={t('auth_files.card_toggle', { name: file.name })}
-              checked={!file.disabled}
-              disabled={
-                disableControls ||
-                statusUpdating[getAuthFileRefreshKey(file)] === true ||
-                isManualRefreshing
-              }
-              onChange={(value) => onToggleStatus(file, value)}
-            />
-          </>
-        )}
+                onChange={(value) => onToggleStatus(file, value)}
+              />
+            </>
+          )}
+        </div>
+        <span className={styles.srOnly}>{getQuotaCacheKey(file)}</span>
       </div>
-      <span className={styles.srOnly}>{getQuotaCacheKey(file)}</span>
+      {file.cooldownSnapshot?.records?.length !== 0 && file.cooldownSnapshot && (
+        <div className={styles.cooldown}>
+          <AuthFileCooldownSection snapshot={file.cooldownSnapshot} />
+        </div>
+      )}
     </div>
   );
 }

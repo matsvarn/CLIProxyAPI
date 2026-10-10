@@ -1,15 +1,22 @@
+.account {
+  border-bottom: 1px solid var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cooldown {
+  padding: 0 16px 10px 54px;
+}
+
 .row {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
   min-height: 48px;
-  border-bottom: 1px solid var(--border-color);
   transition: background $transition-fast;
-
-  &:last-child {
-    border-bottom: none;
-  }
 
   &:hover {
     background: var(--bg-tertiary);
@@ -59,7 +66,7 @@
 .fileName {
   font-family: $font-mono;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -98,7 +105,7 @@
   flex-shrink: 0;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   display: inline-flex;
   gap: 3px;
 }
@@ -118,7 +125,7 @@
 .modified {
   flex-shrink: 0;
   font-size: 12px;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   min-width: 88px;
   text-align: right;
 }
@@ -140,7 +147,7 @@
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   cursor: pointer;
   transition:
     color $transition-fast,
@@ -179,4 +186,40 @@
   width: 30px;
   height: 30px;
   flex: none;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .identity {
+    flex-basis: calc(100% - 76px);
+  }
+
+  .status {
+    min-width: 0;
+  }
+
+  .modified {
+    margin-left: auto;
+  }
+
+  .actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .iconAction {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cooldown {
+    padding: 0 12px 12px;
+  }
 }

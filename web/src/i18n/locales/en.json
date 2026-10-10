@@ -456,7 +456,8 @@
     "plan_max": "Max",
     "plan_max5": "Max 5x",
     "plan_max20": "Max 20x",
-    "plan_team": "Team"
+    "plan_team": "Team",
+    "cloud_session_credits": "Cloud session credits"
   },
   "codex_quota": {
     "title": "Codex Quota",
@@ -498,9 +499,11 @@
     "plan_plus": "Plus",
     "plan_team": "Team",
     "plan_free": "Free",
-    "plan_pro": "Pro 20x",
-    "plan_prolite": "Pro 5x",
-    "plan_business_premium": "Business Premium"
+    "plan_pro": "Pro 200",
+    "plan_prolite": "Pro 100",
+    "plan_business_premium": "Business Premium",
+    "reset_not_confirmed": "Quota reset was not confirmed. Refresh the quota before trying again.",
+    "reset_cooldown_failed": "Quota was reset, but the gateway cooldown could not be cleared. On the original connection, use Clear cooldown on the credential page; do not redeem another reset."
   },
   "devin_quota": {
     "daily": "Daily remaining",
@@ -590,7 +593,8 @@
     "paid_health": "Paid API chat is available. xAI does not expose quota totals for this OAuth credential.",
     "pay_as_you_go_label": "Pay as you go",
     "pay_as_you_go_enabled": "Enabled, cap {{cap}}",
-    "pay_as_you_go_disabled": "Disabled"
+    "pay_as_you_go_disabled": "Disabled",
+    "usage_breakdown": "Usage breakdown (shared quota)"
   },
   "vertex_import": {
     "title": "Vertex",
@@ -600,7 +604,6 @@
     "location_hint": "Leave empty to use the default region us-central1.",
     "file_label": "Service account key JSON",
     "file_hint": "Only Google Cloud service account key JSON files are accepted.",
-    "file_placeholder": "No file selected",
     "choose_file": "Choose File",
     "import_button": "Import",
     "file_required": "Select a .json credential file first",
@@ -609,7 +612,9 @@
     "result_project": "Project ID",
     "result_email": "Service account",
     "result_location": "Region",
-    "result_file": "Persisted file"
+    "result_file": "Persisted file",
+    "drop_hint": "Choose or drop a JSON file",
+    "import_another": "Import another"
   },
   "oauth_excluded": {
     "editor_description": "Choose which models a provider exposes using individual selections or wildcard rules.",
@@ -745,7 +750,6 @@
     "devin_oauth_title": "Devin",
     "devin_oauth_button": "Connect",
     "devin_oauth_hint": "Devin account via browser sign-in. Finish within 5 minutes.",
-    "devin_oauth_url_label": "Authorization URL:",
     "devin_copy_link": "Copy Link",
     "devin_open_link": "Open Link",
     "devin_oauth_status_waiting": "Waiting for Devin authentication...",
@@ -763,7 +767,6 @@
     "codex_oauth_title": "Codex",
     "codex_oauth_button": "Connect",
     "codex_oauth_hint": "ChatGPT account via browser sign-in.",
-    "codex_oauth_url_label": "Authorization URL:",
     "codex_open_link": "Open Link",
     "codex_copy_link": "Copy Link",
     "codex_oauth_status_waiting": "Waiting for authentication...",
@@ -774,7 +777,6 @@
     "anthropic_oauth_title": "Anthropic",
     "anthropic_oauth_button": "Connect",
     "anthropic_oauth_hint": "Claude Pro or Max via browser sign-in.",
-    "anthropic_oauth_url_label": "Authorization URL:",
     "anthropic_open_link": "Open Link",
     "anthropic_copy_link": "Copy Link",
     "anthropic_oauth_status_waiting": "Waiting for authentication...",
@@ -785,7 +787,6 @@
     "antigravity_oauth_title": "Antigravity",
     "antigravity_oauth_button": "Connect",
     "antigravity_oauth_hint": "Google account via browser sign-in.",
-    "antigravity_oauth_url_label": "Authorization URL:",
     "antigravity_open_link": "Open Link",
     "antigravity_copy_link": "Copy Link",
     "antigravity_oauth_status_waiting": "Waiting for authentication...",
@@ -796,7 +797,6 @@
     "meta_oauth_title": "Muse (Meta)",
     "meta_oauth_button": "Connect",
     "meta_oauth_hint": "Meta account via device code.",
-    "meta_oauth_url_label": "Authorization URL:",
     "meta_open_link": "Open Link",
     "meta_copy_link": "Copy Link",
     "meta_oauth_status_waiting": "Waiting for authentication...",
@@ -809,7 +809,6 @@
     "kimi_ai_oauth_title": "Kimi International",
     "kimi_ai_oauth_button": "Connect",
     "kimi_ai_oauth_hint": "kimi.ai account via device code. Separate from China.",
-    "kimi_ai_oauth_url_label": "Authorization URL:",
     "kimi_ai_open_link": "Open link",
     "kimi_ai_copy_link": "Copy link",
     "kimi_ai_oauth_status_waiting": "Waiting for authentication...",
@@ -820,7 +819,6 @@
     "kimi_oauth_title": "Kimi China",
     "kimi_oauth_button": "Connect",
     "kimi_oauth_hint": "kimi.com account via device code.",
-    "kimi_oauth_url_label": "Authorization URL:",
     "kimi_open_link": "Open Link",
     "kimi_copy_link": "Copy Link",
     "kimi_oauth_status_waiting": "Waiting for authentication...",
@@ -831,7 +829,6 @@
     "xai_oauth_title": "xAI",
     "xai_oauth_button": "Connect",
     "xai_oauth_hint": "Grok account via browser sign-in.",
-    "xai_oauth_url_label": "Authorization URL:",
     "xai_open_link": "Open Link",
     "xai_copy_link": "Copy Link",
     "xai_oauth_status_waiting": "Waiting for authentication...",
@@ -842,7 +839,6 @@
     "plugin_oauth_title": "{{name}}",
     "plugin_oauth_button": "Connect",
     "plugin_oauth_hint": "{{name}} account via the plugin sign-in flow.",
-    "plugin_oauth_url_label": "Authorization URL:",
     "plugin_open_link": "Open Link",
     "plugin_copy_link": "Copy Link",
     "plugin_oauth_status_waiting": "Waiting for authentication...",
@@ -881,7 +877,27 @@
     "remote_access_disabled": "This login method is not available for remote access. Please access from localhost.",
     "page_title": "Connect account",
     "page_description": "Sign in to a provider to add its account to the pool.",
-    "back_to_accounts": "Back to accounts"
+    "back_to_accounts": "Back to accounts",
+    "kimi_oauth_name": "Kimi China",
+    "kimi_ai_oauth_name": "Kimi International",
+    "method_device": "Device code",
+    "method_browser": "Browser sign-in",
+    "method_plugin": "Plugin",
+    "tile_waiting": "Awaiting authorization",
+    "tile_success": "Credential added",
+    "tile_error": "Authorization failed",
+    "meta_providers": "{{count}} providers",
+    "meta_waiting": "{{count}} awaiting authorization",
+    "meta_added": "{{count}} added this session",
+    "step_open_auth_page": "Open the sign-in page and authorize",
+    "step_enter_device_code": "Enter this code on the sign-in page",
+    "optional_step": "Optional",
+    "generating_link": "Generating sign-in link…",
+    "waiting_background_hint": "Closing this window won't stop sign-in",
+    "restart_login": "Start over",
+    "success_saved_hint": "The credential is saved — manage it in Auth Files.",
+    "sign_up_prompt": "No account yet?",
+    "copied": "Copied"
   },
   "stats": {
     "success": "Success",
@@ -1213,11 +1229,14 @@
           "plugins_title": "Plugins",
           "antigravity_title": "Antigravity",
           "devin_title": "Devin",
-          "signature_title": "Signature Validation"
+          "signature_title": "Signature Validation",
+          "antigravity_credits": "Use Antigravity Credits"
         },
         "server": {
           "host": "Host Address",
-          "port": "Port"
+          "port": "Port",
+          "github_token": "Global GitHub Token",
+          "github_token_hint": "Used for server-side GitHub requests, such as panel updates and plugin downloads. Takes precedence over GITHUB_TOKEN; leave empty to use environment credentials, or unauthenticated requests if none are set. Matching plugin store authentication rules take precedence."
         },
         "tls": {
           "title": "TLS/SSL Configuration",
@@ -1352,14 +1371,6 @@
           "session_affinity": "Session Affinity Routing",
           "ws_auth": "WebSocket Authentication",
           "ws_auth_desc": "Require authentication for AI Studio WebSocket connections"
-        },
-        "quota": {
-          "title": "Quota Fallback",
-          "switch_project": "Switch Project",
-          "switch_project_desc": "Automatically switch to another project when quota is exceeded",
-          "switch_preview_model": "Switch to Preview Model",
-          "switch_preview_model_desc": "Switch to preview model version when quota is exceeded",
-          "antigravity_credits": "Use Antigravity Credits"
         },
         "streaming": {
           "title": "Streaming Configuration",
@@ -1787,7 +1798,9 @@
     "chinese": "中文",
     "chinese_tw": "Traditional Chinese (Taiwan)",
     "english": "English",
-    "russian": "Русский"
+    "russian": "Русский",
+    "vietnamese": "Tiếng Việt",
+    "korean": "한국어"
   },
   "theme": {
     "switch": "Theme",
@@ -2059,7 +2072,6 @@
       "disabledHint": "Disabled entries won't be used by the gateway",
       "websockets": "Enable WebSockets",
       "testModel": "Test model",
-      "testModelClaudeHint": "Used for connectivity testing only; not saved",
       "testModelAutoWith": "Auto · {{name}}",
       "testModelAutoEmpty": "Auto (no models added yet)",
       "testModelCustom": "{{name}} (custom)",
@@ -2111,7 +2123,8 @@
         "baseUrlRequired": "Base URL is required",
         "weightInteger": "Scheduling weight must be an integer",
         "weightMax": "Scheduling weight cannot exceed {{max}}"
-      }
+      },
+      "testModelHint": "Used for connectivity testing only; not saved"
     },
     "delete": {
       "title": "Delete resource",
@@ -2201,7 +2214,10 @@
     "ineligible": "This account is not eligible.",
     "unavailable": "Resets are currently unavailable.",
     "rate_limited": "Request rate limited.",
-    "auth_error": "Authorization was refused."
+    "auth_error": "Authorization was refused.",
+    "expiry_title": "Manual reset expiry ({{timezone}})",
+    "grant_number": "Grant {{index}}",
+    "expiry_unknown": "Expiry unknown"
   },
   "routing": {
     "title": "Routing",
@@ -2260,5 +2276,18 @@
     "strategy_short_fill_first": "Fill first",
     "sessions_show_all": "Show all ({{count}})",
     "sessions_show_less": "Show less"
+  },
+  "plugin_quota": {
+    "empty_title": "No Plugin Auth Files",
+    "empty_desc": "Connect a plugin account to view its remaining quota.",
+    "idle": "Click here to refresh quota",
+    "loading": "Loading quota...",
+    "load_failed": "Failed to load quota: {{message}}",
+    "missing_auth_index": "Auth file missing auth_index",
+    "probe_unsupported": "Declarative quota probes are not available through the v8 management API",
+    "plugin_not_found": "No enabled plugin provides quota for {{provider}}",
+    "empty_data": "No quota data available",
+    "plan_label": "Plan",
+    "remaining_percent": "{{percent}}% remaining"
   }
 }

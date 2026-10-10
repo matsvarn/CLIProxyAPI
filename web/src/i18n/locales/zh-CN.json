@@ -392,7 +392,7 @@
   },
   "antigravity_subscription": {
     "plan_unknown": "未知",
-    "plan_free": "免费版",
+    "plan_free": "Free",
     "plan_pro": "Pro",
     "plan_ultra": "Ultra",
     "plan_ultra_lite": "Ultra Lite"
@@ -448,12 +448,13 @@
     "extra_usage_label": "额外用量",
     "plan_label": "套餐",
     "plan_unknown": "未知",
-    "plan_free": "免费版",
-    "plan_pro": "专业版",
+    "plan_free": "Free",
+    "plan_pro": "Pro",
     "plan_max": "Max",
     "plan_max5": "Max 5x",
     "plan_max20": "Max 20x",
-    "plan_team": "团队版"
+    "plan_team": "Team",
+    "cloud_session_credits": "云端会话额度"
   },
   "codex_quota": {
     "title": "Codex 额度",
@@ -495,9 +496,11 @@
     "plan_plus": "Plus",
     "plan_team": "Team",
     "plan_free": "Free",
-    "plan_pro": "Pro 20x",
-    "plan_prolite": "Pro 5x",
-    "plan_business_premium": "Business Premium"
+    "plan_pro": "Pro 200",
+    "plan_prolite": "Pro 100",
+    "plan_business_premium": "Business Premium",
+    "reset_not_confirmed": "未确认额度重置成功，请刷新额度后再决定是否重试。",
+    "reset_cooldown_failed": "额度已重置，但代理冷却清除失败。请在原连接的认证文件页面使用“清除冷却”，不要再次消耗重置卡。"
   },
   "devin_quota": {
     "daily": "每日剩余额度",
@@ -587,7 +590,8 @@
     "paid_health": "付费 API 对话可用。xAI 暂不为此 OAuth 凭证提供额度总量数据。",
     "pay_as_you_go_label": "按量付费",
     "pay_as_you_go_enabled": "已启用，封顶 {{cap}}",
-    "pay_as_you_go_disabled": "未启用"
+    "pay_as_you_go_disabled": "未启用",
+    "usage_breakdown": "用量明细（共享配额）"
   },
   "vertex_import": {
     "title": "Vertex",
@@ -597,7 +601,6 @@
     "location_hint": "留空表示使用默认区域 us-central1。",
     "file_label": "服务账号密钥 JSON",
     "file_hint": "仅支持 Google Cloud service account key JSON 文件，私钥会自动规范化。",
-    "file_placeholder": "尚未选择文件",
     "choose_file": "选择文件",
     "import_button": "导入",
     "file_required": "请先选择 .json 凭证文件",
@@ -606,7 +609,9 @@
     "result_project": "项目 ID",
     "result_email": "服务账号",
     "result_location": "区域",
-    "result_file": "存储文件"
+    "result_file": "存储文件",
+    "drop_hint": "选择或拖入 JSON 文件",
+    "import_another": "再导入一个"
   },
   "oauth_excluded": {
     "editor_description": "为提供商设置不对外展示的模型，支持精确选择和通配符规则。",
@@ -742,7 +747,6 @@
     "devin_oauth_title": "Devin",
     "devin_oauth_button": "连接",
     "devin_oauth_hint": "Devin 账户浏览器登录，五分钟内完成。",
-    "devin_oauth_url_label": "授权链接：",
     "devin_copy_link": "复制链接",
     "devin_open_link": "打开链接",
     "devin_oauth_status_waiting": "等待 Devin 认证中...",
@@ -760,7 +764,6 @@
     "codex_oauth_title": "Codex",
     "codex_oauth_button": "连接",
     "codex_oauth_hint": "ChatGPT 账户浏览器登录。",
-    "codex_oauth_url_label": "授权链接:",
     "codex_open_link": "打开链接",
     "codex_copy_link": "复制链接",
     "codex_oauth_status_waiting": "等待认证中...",
@@ -771,7 +774,6 @@
     "anthropic_oauth_title": "Anthropic",
     "anthropic_oauth_button": "连接",
     "anthropic_oauth_hint": "Claude Pro 或 Max 浏览器登录。",
-    "anthropic_oauth_url_label": "授权链接:",
     "anthropic_open_link": "打开链接",
     "anthropic_copy_link": "复制链接",
     "anthropic_oauth_status_waiting": "等待认证中...",
@@ -782,7 +784,6 @@
     "antigravity_oauth_title": "Antigravity",
     "antigravity_oauth_button": "连接",
     "antigravity_oauth_hint": "Google 账户浏览器登录。",
-    "antigravity_oauth_url_label": "授权链接:",
     "antigravity_open_link": "打开链接",
     "antigravity_copy_link": "复制链接",
     "antigravity_oauth_status_waiting": "等待认证中...",
@@ -793,7 +794,6 @@
     "meta_oauth_title": "Muse (Meta)",
     "meta_oauth_button": "连接",
     "meta_oauth_hint": "Meta 账户设备码登录。",
-    "meta_oauth_url_label": "授权链接:",
     "meta_open_link": "打开链接",
     "meta_copy_link": "复制链接",
     "meta_oauth_status_waiting": "等待认证中...",
@@ -806,7 +806,6 @@
     "kimi_ai_oauth_title": "Kimi 国际站",
     "kimi_ai_oauth_button": "连接",
     "kimi_ai_oauth_hint": "kimi.ai 账户设备码登录，与中国站独立。",
-    "kimi_ai_oauth_url_label": "授权链接:",
     "kimi_ai_open_link": "打开链接",
     "kimi_ai_copy_link": "复制链接",
     "kimi_ai_oauth_status_waiting": "等待认证中...",
@@ -817,7 +816,6 @@
     "kimi_oauth_title": "Kimi 中国站",
     "kimi_oauth_button": "连接",
     "kimi_oauth_hint": "kimi.com 账户设备码登录。",
-    "kimi_oauth_url_label": "授权链接:",
     "kimi_open_link": "打开链接",
     "kimi_copy_link": "复制链接",
     "kimi_oauth_status_waiting": "等待认证中...",
@@ -828,7 +826,6 @@
     "xai_oauth_title": "xAI",
     "xai_oauth_button": "连接",
     "xai_oauth_hint": "Grok 账户浏览器登录。",
-    "xai_oauth_url_label": "授权链接:",
     "xai_open_link": "打开链接",
     "xai_copy_link": "复制链接",
     "xai_oauth_status_waiting": "等待认证中...",
@@ -839,7 +836,6 @@
     "plugin_oauth_title": "{{name}}",
     "plugin_oauth_button": "连接",
     "plugin_oauth_hint": "通过插件流程登录 {{name}} 账户。",
-    "plugin_oauth_url_label": "授权链接:",
     "plugin_open_link": "打开链接",
     "plugin_copy_link": "复制链接",
     "plugin_oauth_status_waiting": "等待认证中...",
@@ -878,7 +874,27 @@
     "remote_access_disabled": "远程访问不支持此登录方式，请从本地 (localhost) 访问",
     "page_title": "连接账户",
     "page_description": "登录服务商并将其账户加入配额池。",
-    "back_to_accounts": "返回账户"
+    "back_to_accounts": "返回账户",
+    "kimi_oauth_name": "Kimi 国内站",
+    "kimi_ai_oauth_name": "Kimi 国际站",
+    "method_device": "设备码",
+    "method_browser": "浏览器授权",
+    "method_plugin": "插件",
+    "tile_waiting": "等待授权",
+    "tile_success": "已添加凭证",
+    "tile_error": "授权失败",
+    "meta_providers": "{{count}} 个提供商",
+    "meta_waiting": "{{count}} 个等待授权",
+    "meta_added": "本次新增 {{count}} 个凭证",
+    "step_open_auth_page": "打开授权页并完成登录",
+    "step_enter_device_code": "在授权页输入设备码",
+    "optional_step": "可选",
+    "generating_link": "正在生成授权链接…",
+    "waiting_background_hint": "关闭窗口不会中断授权",
+    "restart_login": "重新开始",
+    "success_saved_hint": "凭证已保存，可在认证文件页管理。",
+    "sign_up_prompt": "还没有账号？",
+    "copied": "已复制"
   },
   "stats": {
     "success": "成功",
@@ -1210,11 +1226,14 @@
           "plugins_title": "插件",
           "antigravity_title": "Antigravity",
           "devin_title": "Devin",
-          "signature_title": "签名校验"
+          "signature_title": "签名校验",
+          "antigravity_credits": "使用Antigravity Credits"
         },
         "server": {
           "host": "主机地址",
-          "port": "端口"
+          "port": "端口",
+          "github_token": "全局 GitHub 令牌",
+          "github_token_hint": "用于面板更新、插件下载等服务端 GitHub 请求。优先于 GITHUB_TOKEN；留空时使用环境变量凭据，未设置凭据则匿名请求。插件商店匹配的认证规则优先。"
         },
         "tls": {
           "title": "TLS/SSL 配置",
@@ -1349,14 +1368,6 @@
           "session_affinity": "会话粘性路由",
           "ws_auth": "WebSocket 认证",
           "ws_auth_desc": "启用 AI Studio WebSocket 连接认证"
-        },
-        "quota": {
-          "title": "配额回退",
-          "switch_project": "切换项目",
-          "switch_project_desc": "配额耗尽时自动切换到其他项目",
-          "switch_preview_model": "切换预览模型",
-          "switch_preview_model_desc": "配额耗尽时切换到预览版本模型",
-          "antigravity_credits": "使用Antigravity Credits"
         },
         "streaming": {
           "title": "流式传输配置",
@@ -1782,7 +1793,9 @@
     "chinese": "中文",
     "chinese_tw": "繁體中文（台灣）",
     "english": "English",
-    "russian": "Русский"
+    "russian": "Русский",
+    "vietnamese": "Tiếng Việt",
+    "korean": "한국어"
   },
   "theme": {
     "switch": "主题",
@@ -2054,7 +2067,6 @@
       "disabledHint": "停用后不会被网关使用",
       "websockets": "启用 WebSockets",
       "testModel": "测试模型",
-      "testModelClaudeHint": "仅用于连通性测试,不会被保存",
       "testModelAutoWith": "自动 · {{name}}",
       "testModelAutoEmpty": "自动(尚未添加模型)",
       "testModelCustom": "{{name}}(自定义)",
@@ -2106,7 +2118,8 @@
         "baseUrlRequired": "服务地址必填",
         "weightInteger": "调度权重必须是整数",
         "weightMax": "调度权重不能超过 {{max}}"
-      }
+      },
+      "testModelHint": "仅用于连通性测试,不会被保存"
     },
     "delete": {
       "title": "删除资源",
@@ -2196,7 +2209,10 @@
     "ineligible": "此账户不符合资格。",
     "unavailable": "重置暂不可用。",
     "rate_limited": "请求过于频繁。",
-    "auth_error": "授权被拒绝。"
+    "auth_error": "授权被拒绝。",
+    "expiry_title": "主动重置过期时间（{{timezone}}）",
+    "grant_number": "第 {{index}} 批",
+    "expiry_unknown": "到期时间未知"
   },
   "routing": {
     "title": "路由",
@@ -2255,5 +2271,18 @@
     "strategy_short_fill_first": "填满优先",
     "sessions_show_all": "显示全部（{{count}}）",
     "sessions_show_less": "收起"
+  },
+  "plugin_quota": {
+    "empty_title": "暂无插件凭证",
+    "empty_desc": "连接插件账户后查看剩余额度。",
+    "idle": "点击此处刷新额度",
+    "loading": "正在加载额度…",
+    "load_failed": "额度加载失败：{{message}}",
+    "missing_auth_index": "认证文件缺少 auth_index",
+    "probe_unsupported": "v8 管理接口暂不支持声明式额度探测（quota_probe）",
+    "plugin_not_found": "未找到为 {{provider}} 提供额度查询的已启用插件",
+    "empty_data": "暂无可用额度数据",
+    "plan_label": "方案",
+    "remaining_percent": "剩余 {{percent}}%"
   }
 }

@@ -45,7 +45,6 @@ import { SectionConnectivity } from './components/sections/SectionConnectivity';
 import { SectionLogging } from './components/sections/SectionLogging';
 import { SectionNetwork } from './components/sections/SectionNetwork';
 import { SectionPayload } from './components/sections/SectionPayload';
-import { SectionQuota } from './components/sections/SectionQuota';
 import { SectionStreaming } from './components/sections/SectionStreaming';
 import styles from './ConfigPage.module.scss';
 
@@ -285,8 +284,6 @@ export function ConfigPage() {
         return <SectionNetwork {...sectionProps} />;
       case 'logging':
         return <SectionLogging {...sectionProps} />;
-      case 'quota':
-        return <SectionQuota {...sectionProps} />;
       case 'streaming':
         return <SectionStreaming {...sectionProps} />;
       case 'advanced':
