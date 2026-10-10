@@ -21,8 +21,13 @@ jobs:
           files: |
             internal/translator/**
       - name: Fail when restricted paths change
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' && (github.repository == 'router-for-me/CLIProxyAPI' || github.base_ref != 'custom')
         run: |
           echo "Changes under internal/translator are not allowed in pull requests."
           echo "You need to create an issue for our maintenance team to make the necessary changes."
           exit 1
+      - name: Verify fork sync uses unchanged upstream translators
+        if: steps.changed-files.outputs.any_changed == 'true' && github.repository != 'router-for-me/CLIProxyAPI' && github.base_ref == 'custom'
+        run: |
+          git fetch https://github.com/router-for-me/CLIProxyAPI.git main
+          git diff --exit-code FETCH_HEAD HEAD -- internal/translator
