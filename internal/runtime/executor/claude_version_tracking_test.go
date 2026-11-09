@@ -111,3 +111,41 @@ func TestClaudeVersionTrackingOutbound(t *testing.T) {
 		}
 	}
 }
+
+func TestClaudeVersionTrackingCountTokens(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "claude-code-version")
+	cfg := &config.Config{}
+	cfg.ClaudeHeaderDefaults.VersionFile = path
+	executor := NewClaudeExecutor(cfg)
+	auth := &cliproxyauth.Auth{Attributes: map[string]string{"api_key": "sk-ant-oat-version-count"}}
+	for _, native := range []bool{false, true} {
+		for _, installed := range []string{"2.1.321", "2.2.1"} {
+			if err := os.WriteFile(path, []byte(installed+"\n"), 0600); err != nil {
+				t.Fatal(err)
+			}
+			want := installed
+			headers := http.Header{}
+			if native {
+				want = "3.0.1"
+				headers.Set("User-Agent", "claude-cli/3.0.1 (external, cli)")
+				headers.Set("X-App", "cli")
+				headers.Set("Anthropic-Beta", "claude-code-20250219,oauth-2025-04-20")
+			}
+			transport := roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+				if req.URL.Path != "/v1/messages/count_tokens" {
+					t.Fatalf("unexpected path: %s", req.URL.Path)
+				}
+				if got := req.UserAgent(); got != "claude-cli/"+want+" (external, cli)" {
+					t.Errorf("count_tokens UA = %q, want version %s", got, want)
+				}
+				return &http.Response{StatusCode: http.StatusOK, Header: http.Header{}, Body: io.NopCloser(strings.NewReader(`{"input_tokens":7}`)), Request: req}, nil
+			})
+			ctx := context.WithValue(context.Background(), "cliproxy.roundtripper", http.RoundTripper(transport))
+			payload := []byte(`{"model":"claude-sonnet-5","messages":[{"role":"user","content":"hello"}],"tools":[]}`)
+			_, err := executor.CountTokens(ctx, auth, cliproxyexecutor.Request{Model: "claude-sonnet-5", Payload: payload}, cliproxyexecutor.Options{SourceFormat: sdktranslator.FormatClaude, Headers: headers})
+			if err != nil {
+				t.Fatal(err)
+			}
+		}
+	}
+}
