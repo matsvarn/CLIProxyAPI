@@ -1448,6 +1448,11 @@ func applyClaudeHeadersWithNativeProfile(
 	} else {
 		helps.ApplyClaudeLegacyDeviceHeaders(r, incomingHeaders, cfg, confirmedClaudeCode)
 	}
+	// Stabilization pins SDK/platform fields, but a confirmed caller's version
+	// belongs to this request rather than the credential's cached profile.
+	if confirmedClaudeCode {
+		helps.ApplyClaudeNativeUserAgent(r, incomingHeaders, cfg)
+	}
 	var attrs map[string]string
 	if auth != nil {
 		attrs = auth.Attributes

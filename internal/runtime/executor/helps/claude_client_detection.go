@@ -501,10 +501,10 @@ func plausibleClaudeCodeUserAgent(userAgent string, cfg *config.Config) bool {
 	if !claudeCodeUserAgentPattern.MatchString(userAgent) || !claudeCodeNativeUserAgentPattern.MatchString(userAgent) {
 		return false
 	}
-	candidate, okCandidate := parseClaudeCLIVersion(userAgent)
-	baseline, okBaseline := parseClaudeCLIVersion(defaultClaudeDeviceProfile(cfg).UserAgent)
-	// Patch releases (>= baseline.patch) within the release line preserve native passthrough.
-	return okCandidate && okBaseline && plausibleClaudeCLIVersion(candidate, baseline)
+	// Version syntax is only one signal. Confirmation also requires the native
+	// entrypoint, X-App, beta profile, and metadata (except count_tokens).
+	_, ok := parseClaudeCLIVersion(userAgent)
+	return ok
 }
 
 func parseClaudeCodeUserAgentDetails(userAgent string) (entrypoint, agentSDKVersion string) {

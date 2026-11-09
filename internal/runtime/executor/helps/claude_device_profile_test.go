@@ -116,7 +116,7 @@ func claudeDeviceHeaders(userAgent string) http.Header {
 func TestResolveClaudeDeviceProfileLocalUsesBaselineForInvalidSignals(t *testing.T) {
 	ResetClaudeDeviceProfileCache()
 	auth := &cliproxyauth.Auth{ID: "auth-invalid-signals"}
-	headers := claudeDeviceHeaders("claude-cli/999.0.0 (external, cli)")
+	headers := claudeDeviceHeaders("claude-cli/not-a-version (external, cli)")
 	headers.Set("X-Stainless-Package-Version", "999.0.0")
 	headers.Set("X-Stainless-Runtime-Version", "v999.0.0")
 
@@ -144,7 +144,7 @@ func TestApplyClaudeLegacyDeviceHeadersReplacesInvalidNativeSoftwareSignals(t *t
 	if errRequest != nil {
 		t.Fatal(errRequest)
 	}
-	incoming := claudeDeviceHeaders("claude-cli/999.0.0 (external, cli)")
+	incoming := claudeDeviceHeaders("claude-cli/not-a-version (external, cli)")
 	incoming.Set("X-Stainless-Package-Version", "999.0.0")
 	incoming.Set("X-Stainless-Runtime-Version", "v999.0.0")
 
