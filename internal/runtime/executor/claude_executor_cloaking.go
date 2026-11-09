@@ -278,7 +278,7 @@ func claudeBillingFingerprintMessageText(payload []byte) string {
 	return ""
 }
 
-func claudeCCHFallbackBillingHeader(ctx context.Context, cfg *config.Config, payload []byte, entrypoint string) string {
+func claudeCCHFallbackBillingHeader(ctx context.Context, cfg *config.Config, payload []byte, entrypoint string, confirmedClaudeCode bool) string {
 	isProbeOrHelper := helps.IsClaudeProbeOrHelperRequest(payload)
 	prevReq, promptID := helps.ExtractClaudeBillingTags(payload)
 	if !isProbeOrHelper {
@@ -294,7 +294,7 @@ func claudeCCHFallbackBillingHeader(ctx context.Context, cfg *config.Config, pay
 	isSubagent := helps.IsClaudeSubagentRequest(incomingHeaders, payload)
 	return generateBillingHeader(
 		true,
-		helps.DefaultClaudeVersion(cfg),
+		helps.ClaudeRequestVersion(cfg, incomingHeaders, confirmedClaudeCode),
 		claudeBillingFingerprintMessageText(payload),
 		entrypoint,
 		getWorkloadFromContext(ctx),

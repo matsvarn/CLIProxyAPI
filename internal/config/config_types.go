@@ -118,12 +118,12 @@ type ClaudeConfig struct {
 	ModelLevelCooling bool `yaml:"model-level-cooling" json:"model-level-cooling"`
 }
 
-// ClaudeHeaderDefaults configures the measured Claude Code software baseline.
-// Verified native requests preserve their entrypoint and software shape only when their
-// Claude Code, package, and runtime versions exactly match this baseline; unmeasured
-// versions use the configured values. Timeout remains a fallback. Stabilized profiles
-// also pin OS and Arch and never learn newer software versions automatically.
+// ClaudeHeaderDefaults configures the fallback Claude Code software profile.
+// VersionFile optionally follows the verified installed Claude Code version.
+// Confirmed native requests retain their actual Claude Code version; stabilized
+// profiles still pin the remaining SDK and platform fields to the baseline.
 type ClaudeHeaderDefaults struct {
+	VersionFile            string `yaml:"version-file,omitempty" json:"version-file,omitempty"`
 	UserAgent              string `yaml:"user-agent" json:"user-agent"`
 	PackageVersion         string `yaml:"package-version" json:"package-version"`
 	RuntimeVersion         string `yaml:"runtime-version" json:"runtime-version"`
