@@ -409,17 +409,17 @@ upstream:
     # anything else is dropped so the outgoing set stays one a real client could produce.
     # Other Anthropic-compatible upstreams still forward caller betas verbatim.
     #
-    # Shared Claude CLI fingerprint defaults. Update only after measuring a new Claude Code release.
-    # Unconfirmed clients use this CLI baseline. Verified native Claude Code CLI, sdk-cli,
-    # and VSCode requests preserve their measured entrypoint when the Claude Code version is a
-    # patch release in the configured major/minor line at or above this baseline. Older versions
-    # and newer major/minor lines fall back to the baseline until measured. In legacy mode,
-    # timeout is a fallback and
-    # verified native OS/arch values remain client-supplied. When stabilize-device-profile is
-    # enabled, OS/arch are pinned to the values below and cached profiles remain constrained to
-    # the same exact software baseline rather than learning newer client versions.
+    # Verified native Claude Code requests keep their own CLI version and entrypoint.
+    # Other clients use the configured CLI baseline. An optional version-file overrides
+    # the baseline version with an installed X.Y.Z version, read once per request.
+    # Missing, unreadable, or invalid files retain the configured or builtin baseline.
+    # Update SDK/runtime defaults only after measuring a new Claude Code release.
+    # In legacy mode, timeout is a fallback and verified native OS/arch stay client-supplied.
+    # Stabilization pins SDK/runtime and OS/arch fields, but native callers still keep
+    # their own CLI version in the User-Agent and billing metadata.
     # header-defaults:
     #   user-agent: "claude-cli/2.1.280 (external, cli)"
+    #   version-file: "/config/claude-code-version"  # optional installed version, refreshed without a restart
     #   package-version: "0.112.1"
     #   runtime-version: "v26.3.0"
     #   os: "MacOS"

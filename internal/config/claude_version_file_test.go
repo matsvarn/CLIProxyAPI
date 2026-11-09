@@ -50,3 +50,13 @@ func TestClaudeVersionFileV8RoundTrip(t *testing.T) {
 		}
 	}
 }
+
+func TestClaudeVersionFileLegacyV8Alias(t *testing.T) {
+	cfg, err := ParseConfigBytes([]byte("config-version: 8\noauth:\n  providers:\n    claude:\n      header-defaults:\n        version-file: /config/claude-code-version\n"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.ClaudeHeaderDefaults.VersionFile != "/config/claude-code-version" {
+		t.Fatalf("legacy version-file lost: %q", cfg.ClaudeHeaderDefaults.VersionFile)
+	}
+}
